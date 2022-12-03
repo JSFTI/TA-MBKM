@@ -298,6 +298,22 @@ switch (ENVIRONMENT)
 
 	define('VIEWPATH', $view_folder.DIRECTORY_SEPARATOR);
 
+/**
+ * Manually autoload composer packages. This is done because some packages
+ * are used before CI3's composer autoload line.
+ * 
+ * CI3's COMPOSER AUTOLOAD MUST BE SET TO FALSE
+ */
+
+require_once "./vendor/autoload.php";
+
+/**
+ * Setup env package
+ */
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE
