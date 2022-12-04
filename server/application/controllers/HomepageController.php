@@ -1,7 +1,10 @@
 <?php
+
+use App\Models\User;
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Homepage extends CI_Controller {
+class HomepageController extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -19,6 +22,6 @@ class Homepage extends CI_Controller {
 	 * @see https://codeigniter.com/userguide3/general/urls.html
 	 */
 	public function index(){
-		$this->load->view('index');
+		$this->template->load('index');
 	}
 }

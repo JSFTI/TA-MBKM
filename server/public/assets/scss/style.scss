@@ -1,0 +1,127 @@
+@import 'theme.scss';
+
+*{
+  box-sizing: border-box;
+}
+
+body{
+  font-family: "Public Sans", sans-serif;
+}
+
+.user-select-none{
+  user-select: none;
+}
+
+.a-form-control{
+  padding: 0.5rem 1rem;
+  border-radius: 3px;
+  transition: 100ms linear all;
+  background-color: rgb(235, 235, 235);
+
+  &:focus{
+    outline: none;
+    box-shadow: 0px 0px 5px 0px $infoColor !important;
+  }
+
+  &::placeholder{
+    color: rgba(120,120,120,120.75);
+  }
+}
+
+.a-form-group{
+  .a-form-label{
+    font-weight: 700;
+  }
+
+  .a-form-control{
+    display: block;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .invalid-feedback{
+    display: none;
+    margin-top: 0.25rem;
+    padding: 0rem 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: $dangerColor;
+  }
+
+  &.invalid{
+    .a-form-control{
+      box-shadow: 0px 0px 2px 1px $dangerColor;
+    }
+
+    .invalid-feedback{
+      display: block;
+    }
+  }
+
+  &.a-form-checkbox{
+    user-select: none;
+
+    .a-form-checkbox-label{
+      padding-left: 1.5rem;
+      position: relative;
+
+      &:hover{
+        cursor: pointer;
+      }
+
+      &::before{
+        position: absolute;
+        content: ' ';
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0.95rem;
+        height: 0.95rem;
+        display: inline-grid;
+        place-items: center;
+        border: 1px solid gray;
+        line-height: 0.9rem;
+        color: white;
+        border-radius: 3px;
+      }
+    }
+    
+    .a-form-control-checkbox{
+      width: 0;
+      height: 0;
+      visibility: hidden;
+      margin: 0;
+      padding: 0;
+      border: none;
+
+      &:checked + .a-form-checkbox-label::before{
+        content: '✓';
+        background-color: red;
+      }
+    }
+  }
+}
+
+.navbar-grid{
+  display: flex;
+  align-items: center;
+  
+  @media screen and (max-width: 992px) {
+    display: grid;
+    grid-template-areas: "a c c"
+                         "b b b";
+    
+    .logo{
+      grid-area: a;
+    }
+
+    .search{
+      grid-area: b;
+    }
+
+    .buttons{
+      grid-area: c;
+      justify-self: flex-end;
+    }
+  }
+}

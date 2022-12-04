@@ -57,13 +57,18 @@ importers:
 
   server:
     specifiers:
+      '@iconify-json/ic': ^1.1.10
       '@unocss/cli': ^0.47.5
+      '@unocss/preset-icons': ^0.47.5
       unocss: ^0.47.5
       vite: ^3.2.4
     dependencies:
       '@unocss/cli': 0.47.5
       unocss: 0.47.5_vite@3.2.4
       vite: 3.2.4
+    devDependencies:
+      '@iconify-json/ic': 1.1.10
+      '@unocss/preset-icons': 0.47.5
 
 packages:
 
