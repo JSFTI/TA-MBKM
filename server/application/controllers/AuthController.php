@@ -40,7 +40,7 @@ class AuthController extends CI_Controller {
       if($this->form_validation->run() === FALSE){
         $this->session->set_flashdata('validation_errors', $this->form_validation->error_array());
         $this->session->set_flashdata('old_values', $_POST);
-        redirect('/login?back_url=' . urlencode($_GET['back_url']));
+        redirect(base_url('/login?back_url=' . urlencode($_GET['back_url'])));
         return;
       }
 
@@ -51,7 +51,7 @@ class AuthController extends CI_Controller {
 
         $this->session->set_flashdata('validation_errors', $invalidFeedbacks);
         $this->session->set_flashdata('old_values', $_POST);
-        redirect('/login?back_url=' . urlencode($_GET['back_url']));
+        redirect(base_url('/login?back_url=' . urlencode($_GET['back_url'])));
         return;
       }
 
@@ -60,7 +60,7 @@ class AuthController extends CI_Controller {
 
         $this->session->set_flashdata('validation_errors', $invalidFeedbacks);
         $this->session->set_flashdata('old_values', $_POST);
-        redirect('/login?back_url=' . urlencode($_GET['back_url']));
+        redirect(base_url('/login?back_url=' . urlencode($_GET['back_url'])));
         return;
       }
 
@@ -77,4 +77,9 @@ class AuthController extends CI_Controller {
       redirect($backUrl);
     }
 	}
+
+  public function logout(){
+    $this->session->unset_userdata('user');
+    redirect(base_url('/login'));
+  }
 }

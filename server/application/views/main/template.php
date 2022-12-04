@@ -19,6 +19,14 @@
 
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+
+  <script>
+    document.addEventListener('alpine:init', () => {
+      Alpine.store('user', {
+        data: JSON.parse(`<?= json_encode($user) ?>`)
+      })
+    });
+  </script>
 </head>
 <body>
   <?php $withNavbar ? $this->component->load('navbar') : '' ?>

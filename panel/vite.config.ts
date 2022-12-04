@@ -27,7 +27,7 @@ export default defineConfig({
     strictPort: true,
     port: 3333,
   },
-  base: '/admin/',
+  base: '/panel/',
   resolve: {
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,

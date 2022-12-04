@@ -1,4 +1,7 @@
 <?php
+
+use App\Models\User;
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Template{
@@ -9,6 +12,7 @@ class Template{
     $ci = &get_instance();
 
     $ci->load->view("main/template", [
+      'user' => $ci->session->userdata('user'),
       'page' => $page,
       'title' => $title,
       'withNavbar' => $withNavbar,

@@ -1,5 +1,5 @@
 {
-  "name": "admin",
+  "name": "panel",
   "private": true,
   "packageManager": "pnpm@7.12.0",
   "scripts": {
