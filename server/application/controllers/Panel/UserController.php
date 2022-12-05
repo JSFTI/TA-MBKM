@@ -4,18 +4,37 @@ use App\Models\User;
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class ProfileController extends CI_Controller{
+class UserController extends CI_Controller{
+  private array $validationRules;
+  // TODO: Create dynamic validation rules
+  public function __invoke(){
+
+  }
+
   public function edit(int $user_id){
-    $user = User::select('id')->find($user_id);
+    $user = User::find($user_id);
     if(!$user){
       response_json(['message' => 'Not Found'], 404);
       return;
     }
 
-    $post = collect($_POST);
+    $unprocessedPost = get_input_json(true);
 
-    // User::where('id', $user_id)->update($_POST);
+    $allowedKeys = ['email', 'name'];
 
-    response_json($post);
+    $post = [];
+    foreach($unprocessedPost as $key => $value){
+      if(in_array($key, $allowedKeys)){
+        $post[$key] = $value;
+
+      }
+    }
+
+    $this->form_validation->set_data($post);
+
+    $user->fill($post);
+    $user->save();
+
+    return response_json($user);
   }
 }

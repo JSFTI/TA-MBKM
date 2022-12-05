@@ -61,4 +61,29 @@ if(!function_exists('response_file')){
     }
   }
 }
+
+if(!function_exists('get_input_json')){
+  /**
+   * Get request body as JSON, if content type is form data, convert form data to stdObject or associative array
+   * 
+   * @param bool $associative
+   * 
+   * @return stdClass|array
+   */
+  function get_input_json($associative = FALSE){
+    if($_SERVER['REQUEST_METHOD'] === 'PUT' || $_SERVER['REQUEST_METHOD'] === 'PATCH'){
+      return json_decode(file_get_contents("php://input"), $associative);
+    }
+
+    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_SERVER['CONTENT_TYPE'] === 'application/json'){
+      return json_decode(file_get_contents("php://input"), $associative);
+    }
+
+    if($associative){
+      return $_POST;
+    }
+
+    return (object) $_POST;
+  }
+}
 ?>

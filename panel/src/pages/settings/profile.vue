@@ -55,7 +55,7 @@ function handleSubmitForm() {
   loading.form = true;
   axios.patch(`users/${originalProfile.value?.id}`, profile)
     .then((res) => {
-      user.name = profile.name;
+      user.name = res.data.name;
     });
 }
 
