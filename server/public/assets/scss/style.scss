@@ -28,6 +28,34 @@ body{
   }
 }
 
+.a-form-checkbox{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .a-form-checkbox-input{
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid rgba(0,0,0,0.25);
+    border-radius: .25rem;
+    transition: linear 200ms all;
+
+    &:focus{
+      outline: none;
+      box-shadow: 0px 0px 2px 1px $infoColor;
+    }
+
+    &:checked[type=checkbox]{
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");      
+    }
+
+    &:checked{
+      background-color: $infoColor;
+    }
+  }
+}
+
 .a-form-group{
   .a-form-label{
     font-weight: 700;
@@ -55,49 +83,6 @@ body{
 
     .invalid-feedback{
       display: block;
-    }
-  }
-
-  &.a-form-checkbox{
-    user-select: none;
-
-    .a-form-checkbox-label{
-      padding-left: 1.5rem;
-      position: relative;
-
-      &:hover{
-        cursor: pointer;
-      }
-
-      &::before{
-        position: absolute;
-        content: ' ';
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 0.95rem;
-        height: 0.95rem;
-        display: inline-grid;
-        place-items: center;
-        border: 1px solid gray;
-        line-height: 0.9rem;
-        color: white;
-        border-radius: 3px;
-      }
-    }
-    
-    .a-form-control-checkbox{
-      width: 0;
-      height: 0;
-      visibility: hidden;
-      margin: 0;
-      padding: 0;
-      border: none;
-
-      &:checked + .a-form-checkbox-label::before{
-        content: '✓';
-        background-color: red;
-      }
     }
   }
 }

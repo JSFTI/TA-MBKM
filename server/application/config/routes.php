@@ -56,4 +56,14 @@ $route['translate_uri_dashes'] = FALSE;
 $route['login'] = 'AuthController/login';
 $route['logout'] = 'AuthController/logout';
 
-$route['panel'] = 'PanelController';
+// Catch all panel route
+$route['panel(.*)'] = 'PanelController';
+
+// Panel API
+$route['api/profile']['get'] = 'Panel/ProfileController';
+
+$route['api/users/(:num)']['patch'] = 'Panel/UserController/edit/$1';
+
+$route['api/users/(:num)/profile-picture']['get'] = 'Panel/User/ProfilePictureController/index/$1';
+$route['api/users/(:num)/profile-picture']['post'] = 'Panel/User/ProfilePictureController/update/$1';
+$route['api/users/(:num)/profile-picture']['delete'] = 'Panel/User/ProfilePictureController/destroy/$1';

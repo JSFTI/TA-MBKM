@@ -1,11 +1,7 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
   <div>
     <h1 class="text-3xl text-themeable">
-      Dashboard
+      Applications
     </h1>
     <VDivider class="my-4" />
   </div>

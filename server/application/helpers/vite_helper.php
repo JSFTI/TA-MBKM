@@ -53,7 +53,7 @@ function jsTag(string $entry): string
     $url = isDev($entry)
         ? VITE_HOST . '/' . $entry
         : assetUrl($entry);
-
+    
     if (!$url) {
         return '';
     }
@@ -90,6 +90,7 @@ function cssTag(string $entry): string
             . $url
             . '">';
     }
+
     return $tags;
 }
 
@@ -98,7 +99,8 @@ function cssTag(string $entry): string
 
 function getManifest(): array
 {
-    $content = file_get_contents(__DIR__ . '/dist/manifest.json');
+    $path = realpath(__DIR__ . '/../../public/panel/manifest.json');
+    $content = file_get_contents($path);
     return json_decode($content, true);
 }
 
@@ -107,7 +109,7 @@ function assetUrl(string $entry): string
     $manifest = getManifest();
 
     return isset($manifest[$entry])
-        ? '/dist/' . $manifest[$entry]['file']
+        ? '/public/panel/' . $manifest[$entry]['file']
         : '';
 }
 
@@ -118,9 +120,10 @@ function importsUrls(string $entry): array
 
     if (!empty($manifest[$entry]['imports'])) {
         foreach ($manifest[$entry]['imports'] as $imports) {
-            $urls[] = '/dist/' . $manifest[$imports]['file'];
+            $urls[] = '/public/panel/' . $manifest[$imports]['file'];
         }
     }
+
     return $urls;
 }
 
@@ -131,9 +134,18 @@ function cssUrls(string $entry): array
 
     if (!empty($manifest[$entry]['css'])) {
         foreach ($manifest[$entry]['css'] as $file) {
-            $urls[] = '/dist/' . $file;
+            $urls[] = '/public/panel/' . $file;
         }
     }
+
+    if (!empty($manifest[$entry]['imports'])) {
+        foreach ($manifest[$entry]['imports'] as $imports) {
+            foreach($manifest[$imports]['css'] as $file){
+                $urls[] = '/public/panel/' . $file;
+            }
+        }
+    }
+
     return $urls;
 }
 ?>

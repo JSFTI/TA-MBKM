@@ -3,7 +3,7 @@
     validationErrors: <?= alpine_json($this->session->flashdata('validation_errors')) ?>,
 }">
   <a href="<?= base_url() ?>" rel="nofollow">
-    <h1 class="flex flex-col items-center text-primary">
+    <h1 class="inline-flex flex-col items-center text-primary">
       <div class="i-ic:twotone-store-mall-directory text-9xl"></div>
       <div class="text-5xl font-bold">Arkastore</div>
     </h1>
@@ -36,8 +36,8 @@
       />
       <strong class="invalid-feedback" x-text="validationErrors?.password"></strong>
     </div>
-    <div class="a-form-group a-form-checkbox mt-4">
-      <input type="checkbox" class="a-form-control-checkbox" id="show-password" x-model="showPassword" />
+    <div class="a-form-checkbox mt-4">
+      <input type="checkbox" class="a-form-checkbox-input" id="show-password" x-model="showPassword" />
       <label class="a-form-checkbox-label" for="show-password">
         Show password
       </label>

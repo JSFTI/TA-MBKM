@@ -1,0 +1,26 @@
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html.dark {
+  background: #121212;
+}
+
+html{
+  overflow-y: auto !important;
+}
+
+*::-webkit-scrollbar{
+  width: 12px;
+  background: none;
+}
+
+*::-webkit-scrollbar-thumb{
+  border: 3px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+  @apply bg-gray dark:bg-light rounded-full;
+}

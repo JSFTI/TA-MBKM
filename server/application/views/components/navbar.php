@@ -28,16 +28,13 @@
           x-data="{imageError: false}"
         >
           <template x-if="!imageError">
-            <img src="https://example.com" class="rounded-1/2 w-full h-full" @error="imageError = true" />
+            <img src="https://randomuser.me/api/portraits/men/85.jpg" class="rounded-1/2 w-full h-full" @error="imageError = true" />
           </template>
           <template x-if="imageError">
             <div class="rounded-1/2 bg-gray w-full h-full p-1 text-neutral border-2 border-secondary">
               <div class="i-ic:baseline-person?mask h-full w-full"></div>
             </div>
           </template>
-        </a>
-        <a href="<?= base_url('/logout') ?>" class="a-btn a-btn-red-gray font-semibold">
-          Logout
         </a>
       </div>
     </template>

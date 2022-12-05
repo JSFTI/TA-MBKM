@@ -7,24 +7,23 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    AppNavigation: typeof import('./src/components/AppNavigation.vue')['default']
+    ProfilePictureUpdater: typeof import('./src/components/ProfilePictureUpdater.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TheCounter: typeof import('./src/components/TheCounter.vue')['default']
-    TheFooter: typeof import('./src/components/TheFooter.vue')['default']
-    TheInput: typeof import('./src/components/TheInput.vue')['default']
     VApp: typeof import('vuetify/components')['VApp']
     VAppBar: typeof import('vuetify/components')['VAppBar']
     VAppBarNavIcon: typeof import('vuetify/components')['VAppBarNavIcon']
-    VAppBarTitle: typeof import('vuetify/components')['VAppBarTitle']
     VBtn: typeof import('vuetify/components')['VBtn']
     VCard: typeof import('vuetify/components')['VCard']
     VDivider: typeof import('vuetify/components')['VDivider']
+    VForm: typeof import('vuetify/components')['VForm']
     VLayout: typeof import('vuetify/components')['VLayout']
     VList: typeof import('vuetify/components')['VList']
+    VListGroup: typeof import('vuetify/components')['VListGroup']
     VListItem: typeof import('vuetify/components')['VListItem']
     VMain: typeof import('vuetify/components')['VMain']
     VNavigationDrawer: typeof import('vuetify/components')['VNavigationDrawer']
+    VTextField: typeof import('vuetify/components')['VTextField']
     VThemeProvider: typeof import('vuetify/components')['VThemeProvider']
   }
 }

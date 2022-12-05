@@ -13,7 +13,7 @@ import { Vuetify3Resolver } from 'unplugin-vue-components/resolvers'
 export default defineConfig({
   build: {
     sourcemap: true,
-    outDir: '../../server/public/admin',
+    outDir: '../server/public/panel',
     emptyOutDir: true,
     manifest: true,
     rollupOptions: {
@@ -27,7 +27,7 @@ export default defineConfig({
     strictPort: true,
     port: 3333,
   },
-  base: '/panel/',
+  base: '/public/panel/',
   resolve: {
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,

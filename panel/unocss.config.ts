@@ -4,11 +4,27 @@ import {
   presetIcons,
   presetUno,
   presetWebFonts,
-  // transformerDirectives,
-  // transformerVariantGroup,
+  transformerDirectives,
+  transformerVariantGroup,
 } from 'unocss'
 
 export default defineConfig({
+  theme: {
+    colors: {
+      primary: '#FF0000',
+      secondary: '#FFBBB8',
+      success: '#39FF14',
+      danger: '#ff4141',
+      info: '#4589D6',
+      warning: '#F2B702',
+      neutral: '#F7F8E8',
+    },
+  },
+  shortcuts: [
+    {
+      'text-themeable': 'text-dark dark:text-light',
+    },
+  ],
   presets: [
     presetUno(),
     presetAttributify(),
@@ -17,6 +33,7 @@ export default defineConfig({
       warn: true,
       collections: {
         ic: () => import('@iconify-json/ic/icons.json').then(i => i.default as any),
+        mdi: () => import('@iconify-json/mdi/icons.json').then(i => i.default as any),
       },
     }),
     presetWebFonts({
@@ -27,8 +44,8 @@ export default defineConfig({
       },
     }),
   ],
-  // transformers: [
-  //   transformerDirectives(),
-  //   transformerVariantGroup(),
-  // ],
+  transformers: [
+    transformerDirectives(),
+    transformerVariantGroup(),
+  ],
 })

@@ -36,6 +36,27 @@
  * @filesource
  */
 
+/**
+ * Manually autoload composer packages. This is done because some packages
+ * are used before CI3's composer autoload line.
+ * 
+ * CI3's COMPOSER AUTOLOAD MUST BE SET TO FALSE
+ */
+
+require_once "./vendor/autoload.php";
+
+/**
+ * Setup env package
+ */
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+/**
+ * Define Storage Path
+ */
+define('STORAGE_PATH', realpath(__DIR__ . '/../storage'));
+
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
@@ -53,7 +74,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+define('ENVIRONMENT', isset($_ENV['APP_MODE']) ? $_ENV['APP_MODE'] : 'development');
 
 /*
  *---------------------------------------------------------------
@@ -297,22 +318,6 @@ switch (ENVIRONMENT)
 	}
 
 	define('VIEWPATH', $view_folder.DIRECTORY_SEPARATOR);
-
-/**
- * Manually autoload composer packages. This is done because some packages
- * are used before CI3's composer autoload line.
- * 
- * CI3's COMPOSER AUTOLOAD MUST BE SET TO FALSE
- */
-
-require_once "./vendor/autoload.php";
-
-/**
- * Setup env package
- */
-
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
 
 /*
  * --------------------------------------------------------------------

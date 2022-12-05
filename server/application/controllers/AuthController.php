@@ -12,7 +12,7 @@ class AuthController extends CI_Controller {
       ]);
 
     } else if($this->input->method(true) === 'POST') {
-      $user = User::select('id', 'role_id', 'name', 'email', 'password')
+      $user = User::select('id', 'role_id', 'profile_picture', 'name', 'email', 'password')
         ->where('email', $this->input->post('email'))
         ->with('role')
         ->first();
