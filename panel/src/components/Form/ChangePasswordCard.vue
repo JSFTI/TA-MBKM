@@ -39,7 +39,7 @@ function handleSubmit() {
 </script>
 
 <template>
-  <VCard title="Change Password" class="w-125 p-5">
+  <VCard title="Change Password" class="p-5">
     <VForm @submit.prevent="handleSubmit">
       <div class="flex flex-col gap-4">
         <VTextField

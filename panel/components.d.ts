@@ -9,6 +9,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ChangePasswordCard: typeof import('./src/components/Form/ChangePasswordCard.vue')['default']
     FormProfileCard: typeof import('./src/components/Form/FormProfileCard.vue')['default']
+    ProfilePictureCard: typeof import('./src/components/Form/ProfilePictureCard.vue')['default']
     ProfilePictureUpdater: typeof import('./src/components/ProfilePictureUpdater.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

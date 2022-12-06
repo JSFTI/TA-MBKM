@@ -3,6 +3,9 @@
     Profile Settings
   </h1>
   <VDivider class="my-4" />
-  <FormProfileCard class="mb-5" />
-  <ChangePasswordCard />
+  <div class="flex flex-col lg:flex-row gap-5">
+    <FormProfileCard class="flex-grow-1" />
+    <ProfilePictureCard class="flex-grow-1" />
+  </div>
+  <ChangePasswordCard class="w-full md:w-md" />
 </template>
