@@ -39,7 +39,7 @@ function handleSubmit() {
 </script>
 
 <template>
-  <VCard title="Change Password" class="p-5">
+  <VCard title="Change Password" class="!p-5">
     <VForm @submit.prevent="handleSubmit">
       <div class="flex flex-col gap-4">
         <VTextField
@@ -76,7 +76,7 @@ function handleSubmit() {
         />
       </div>
       <VBtn
-        color="danger" class="text-white dark:text-dark mt-4"
+        class="!bg-danger text-white dark:text-dark mt-4"
         type="submit" :loading="loading"
       >
         Change Password

@@ -50,5 +50,6 @@ export default defineConfig({
   ],
   safelist: [
     '!bg-primary', '!bg-secondary', '!bg-success', '!bg-danger',
+    'bg-primary', 'bg-secondary', 'bg-success', 'bg-danger',
   ],
 })

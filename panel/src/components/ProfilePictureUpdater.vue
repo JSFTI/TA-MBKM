@@ -153,10 +153,10 @@ watch(() => props.value, () => {
       </template>
       <template v-if="!values.temp && values.cropped">
         <VBtn color="primary" icon="i-ic:baseline-save" @click="handleSave" />
-        <VBtn color="danger" class="text-white dark:text-dark" icon="i-ic:baseline-cancel" @click="handleCancel" />
+        <VBtn class="!bg-danger text-white dark:text-dark" icon="i-ic:baseline-cancel" @click="handleCancel" />
       </template>
       <template v-if="(!values.temp && !values.cropped)">
-        <VBtn color="danger" class="text-white dark:text-dark" icon="i-mdi:trash-can" @click="emit('update:value', null)" />
+        <VBtn class="!bg-danger text-white dark:text-dark" icon="i-mdi:trash-can" @click="emit('update:value', null)" />
       </template>
       <slot v-if="!values.temp" :dirty="!values.temp" name="extra"></slot>
     </div>

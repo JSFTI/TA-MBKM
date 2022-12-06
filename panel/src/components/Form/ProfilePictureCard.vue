@@ -31,7 +31,7 @@ function handleSaveImage(file: File | null) {
 </script>
 
 <template>
-  <VCard class="p-5" title="Profile Picture">
+  <VCard class="!p-5" title="Profile Picture">
     <div class="flex-grow-1 flex items-center flex-col">
       <ProfilePictureUpdater :value="picture" @update:value="handleSaveImage" />
     </div>

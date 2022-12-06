@@ -44,7 +44,7 @@ function handleSubmitForm() {
 </script>
 
 <template>
-  <VCard class="p-5" title="Profile">
+  <VCard class="!p-5" title="Profile">
     <VForm class="flex-grow-2 lg:flex-grow-1" @submit.prevent="handleSubmitForm">
       <div class="flex flex-col gap-3">
         <VTextField

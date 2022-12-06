@@ -79,7 +79,7 @@ const user = useUser();
             </VListGroup>
           </VList>
         </VNavigationDrawer>
-        <VMain tag="main" scrollable class="bg-light dark:bg-dark">
+        <VMain tag="main" scrollable class="bg-light dark:bg-black">
           <div class="m-5">
             <RouterView />
           </div>
