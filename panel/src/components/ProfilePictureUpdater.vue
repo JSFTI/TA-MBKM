@@ -30,8 +30,6 @@ function confirmCrop() {
   if (cropper) {
     const dataType = values.temp?.match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/)?.[0];
     values.cropped = cropper.getCroppedCanvas().toDataURL(dataType);
-    console.log(values.cropped);
-
     values.temp = null;
     cropper?.destroy();
     cropper = null;

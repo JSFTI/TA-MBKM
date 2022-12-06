@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-themeable">
     Not Found
   </div>
 </template>

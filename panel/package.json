@@ -12,6 +12,8 @@
     "up": "taze major -I"
   },
   "dependencies": {
+    "@tanstack/vue-table": "^8.7.1",
+    "@vitejs/plugin-vue-jsx": "^2.1.1",
     "@vueuse/core": "^9.6.0",
     "axios": "^1.2.1",
     "cropperjs": "^1.5.13",

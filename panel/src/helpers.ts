@@ -1,4 +1,4 @@
-export function baseUrl(url: string) {
+export function baseUrlApi(url: string) {
   if (url[0] === '/')
     url = url.substring(1)
 

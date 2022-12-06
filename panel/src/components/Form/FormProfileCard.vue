@@ -3,7 +3,7 @@ import type { AxiosError } from 'axios';
 import { pick } from 'lodash';
 import { useUser } from '~/stores/useUser';
 
-const initialInvalidForm = {
+const initInvalidFeedbacks = {
   name: '',
   email: '',
 }
@@ -15,27 +15,24 @@ const profile = reactive({
   name: '',
   email: '',
 });
-const invalidFeedbacks = reactive({
-  image: null,
-  form: { ...initialInvalidForm },
-});
+const invalidFeedbacks = reactive({ ...initInvalidFeedbacks });
 const loading = ref(false);
 
-axios.get<UserSession>('profile')
+axios.get<User>('profile')
   .then((res) => {
     Object.assign(profile, pick(res.data, ['id', 'name', 'email']));
   });
 
 function handleSubmitForm() {
   loading.value = true;
-  Object.assign(invalidFeedbacks.form, initialInvalidForm);
+  Object.assign(invalidFeedbacks, initInvalidFeedbacks);
   axios.patch(`users/${profile.id}`, profile)
     .then((res) => {
       user.name = res.data.name;
       toast.success('Profile updated');
     })
     .catch((res: AxiosError<ApiInvalidFeedback>) => {
-      Object.assign(invalidFeedbacks.form, res.response!.data.errors);
+      Object.assign(invalidFeedbacks, res.response!.data.errors);
     })
     .finally(() => {
       loading.value = false;
@@ -49,13 +46,13 @@ function handleSubmitForm() {
       <div class="flex flex-col gap-3">
         <VTextField
           v-model="profile.name" label="Name"
-          :error="!!invalidFeedbacks.form.name"
-          :error-messages="invalidFeedbacks.form.name"
+          :error="!!invalidFeedbacks.name"
+          :error-messages="invalidFeedbacks.name"
         />
         <VTextField
           v-model="profile.email" label="Email"
-          :error="!!invalidFeedbacks.form.email"
-          :error-messages="invalidFeedbacks.form.email"
+          :error="!!invalidFeedbacks.email"
+          :error-messages="invalidFeedbacks.email"
         />
       </div>
       <VBtn class="mt-4" type="submit" color="primary" :loading="loading">

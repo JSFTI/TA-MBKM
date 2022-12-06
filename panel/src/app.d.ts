@@ -6,7 +6,7 @@ interface Role{
   updated_at?: string | null
 }
 
-interface UserSession{
+interface User{
   email?: string
   id?: number
   name?: string

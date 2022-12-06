@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { isDark, toggleDark } from './composables'
 import { useUser } from './stores/useUser';
-import { baseUrl } from '~/helpers'
+import { baseUrlApi } from '~/helpers'
 
 const showNavigation = ref(true)
 const open = ref<string[]>([]);
@@ -19,14 +19,14 @@ const user = useUser();
           </template>
           <div class="flex gap-3 mr-5">
             <VBtn :icon="isDark ? 'i-ic:baseline-dark-mode' : 'i-ic:baseline-light-mode'" @click="toggleDark(!isDark)" />
-            <VBtn :href="baseUrl('/logout')" icon="i-ic:round-log-out" @click="toggleDark(!isDark)" />
+            <VBtn :href="baseUrlApi('/logout')" icon="i-ic:round-log-out" @click="toggleDark(!isDark)" />
           </div>
         </VAppBar>
         <VNavigationDrawer v-model="showNavigation" class="pt-3" elevation="10">
           <VList v-model:opened="open">
             <VListItem
               :key="(user.profile_picture ?? 'nothing')"
-              :prepend-avatar="baseUrl(`/api/users/${user.id}/profile-picture`)"
+              :prepend-avatar="baseUrlApi(`/api/users/${user.id}/profile-picture`)"
               :subtitle="user.role?.display_name"
               nav
             >
@@ -58,6 +58,23 @@ const user = useUser();
               />
             </VListGroup>
             <VListItem prepend-icon="i-ic:baseline-receipt" to="/orders" nav title="Orders" />
+            <VListGroup value="Users" collapse-icon="i-ic:round-keyboard-arrow-up" expand-icon="i-ic:round-keyboard-arrow-down">
+              <template #activator="{ props }">
+                <VListItem
+                  v-bind="props"
+                  prepend-icon="i-ic:baseline-people" nav
+                  title="Users"
+                />
+              </template>
+              <VListItem
+                nav title="Staffs"
+                to="/users/staffs"
+              />
+              <VListItem
+                nav title="Clients"
+                to="/users/clients"
+              />
+            </VListGroup>
             <VListGroup value="Settings" fluid collapse-icon="i-ic:round-keyboard-arrow-up" expand-icon="i-ic:round-keyboard-arrow-down">
               <template #activator="{ props }">
                 <VListItem

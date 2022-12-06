@@ -63,6 +63,12 @@ $route['panel(.*)'] = 'PanelController';
 $route['api/profile']['get'] = 'Panel/ProfileController';
 $route['api/profile/password']['post'] = 'Panel/ProfileController/changePassword';
 
+$route['api/roles']['get'] = 'Panel/RoleController';
+
+$route['api/users']['get'] = 'Panel/UserController';
+$route['api/users']['post'] = 'Panel/UserController/create';
+$route['api/users/(:num)']['get'] = 'Panel/UserController/show/$1';
+$route['api/users/(:num)']['put'] = 'Panel/UserController/update/$1';
 $route['api/users/(:num)']['patch'] = 'Panel/UserController/edit/$1';
 
 $route['api/users/(:num)/profile-picture']['get'] = 'Panel/User/ProfilePictureController/index/$1';
