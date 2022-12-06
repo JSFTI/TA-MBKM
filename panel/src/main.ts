@@ -6,11 +6,12 @@ import { createPinia } from 'pinia'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import axios from 'axios';
+import Toast from 'vue-toastification';
 import App from './App.vue'
 
-import '@unocss/reset/tailwind.css'
 import 'vuetify/styles'
 import 'cropperjs/dist/cropper.min.css'
+import './styles/toastification.scss';
 import './styles/main.scss'
 import 'uno.css'
 
@@ -31,6 +32,7 @@ const router = createRouter({
 app.use(router)
 app.use(vuetify)
 app.use(pinia);
+app.use(Toast);
 app.mount('#app')
 
 app.config.globalProperties.window = window

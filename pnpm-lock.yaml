@@ -35,6 +35,7 @@ importers:
       vitest: ^0.25.3
       vue: ^3.2.45
       vue-router: ^4.1.6
+      vue-toastification: 2.0.0-rc.5
       vue-tsc: ^1.0.11
       vuetify: ^3.0.3
     dependencies:
@@ -68,6 +69,7 @@ importers:
       vite: 3.2.4_clvymlzunojxjbv3h6i2warera
       vite-plugin-pages: 0.27.1_vite@3.2.4
       vitest: 0.25.3_jsdom@20.0.3+sass@1.56.1
+      vue-toastification: 2.0.0-rc.5_vue@3.2.45
       vue-tsc: 1.0.11_typescript@4.9.3
 
   server:
@@ -5235,6 +5237,14 @@ packages:
     dependencies:
       de-indent: 1.0.2
       he: 1.2.0
+    dev: true
+
+  /vue-toastification/2.0.0-rc.5_vue@3.2.45:
+    resolution: {integrity: sha512-q73e5jy6gucEO/U+P48hqX+/qyXDozAGmaGgLFm5tXX4wJBcVsnGp4e/iJqlm9xzHETYOilUuwOUje2Qg1JdwA==}
+    peerDependencies:
+      vue: ^3.0.2
+    dependencies:
+      vue: 3.2.45
     dev: true
 
   /vue-tsc/1.0.11_typescript@4.9.3:

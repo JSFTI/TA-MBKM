@@ -15,3 +15,8 @@ interface UserSession{
   role?: Role
   role_id?: string
 }
+
+interface ApiInvalidFeedback{
+  message: string
+  errors?: Record<string, string>
+}

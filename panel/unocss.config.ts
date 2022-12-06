@@ -13,7 +13,7 @@ export default defineConfig({
     colors: {
       primary: '#FF0000',
       secondary: '#FFBBB8',
-      success: '#39FF14',
+      success: '#1aad00',
       danger: '#ff4141',
       info: '#4589D6',
       warning: '#F2B702',
@@ -47,5 +47,8 @@ export default defineConfig({
   transformers: [
     transformerDirectives(),
     transformerVariantGroup(),
+  ],
+  safelist: [
+    '!bg-primary', '!bg-secondary', '!bg-success', '!bg-danger',
   ],
 })

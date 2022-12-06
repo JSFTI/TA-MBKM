@@ -24,7 +24,7 @@ if(!function_exists('auth')){
     $ci = &get_instance();
     if($ci->session->userdata('user')){
       $user = $ci->session->userdata('user');
-      return User::find($user['id'])->first();
+      return User::find($user['id'], ['id', 'email', 'email_verified_at', 'name', 'profile_picture']);
     }
     return null;
   }
@@ -84,6 +84,13 @@ if(!function_exists('get_input_json')){
     }
 
     return (object) $_POST;
+  }
+}
+
+if(!function_exists('is_date_format_iso')){
+  function is_date_format_iso($date){
+    $date = DateTime::createFromFormat("Y-m-d", $date);
+    return $date !== false && $date::getLastErrors();
   }
 }
 ?>

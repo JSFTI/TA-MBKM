@@ -53,6 +53,14 @@ export default defineConfig({
         'vue/macros',
         'vue-router',
         '@vueuse/core',
+        {
+          'vue-toastification': [
+            'useToast',
+          ],
+          'axios': [
+            ['default', 'axios'],
+          ],
+        },
       ],
       dts: true,
       dirs: [

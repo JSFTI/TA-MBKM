@@ -19,6 +19,7 @@
         "illuminate/conditionable": "^9.42",
         "illuminate/contracts": "^9.42",
         "illuminate/macroable": "^9.42",
-        "illuminate/collections": "^9.42"
+        "illuminate/collections": "^9.42",
+        "nesbot/carbon": "^2.64"
     }
 }

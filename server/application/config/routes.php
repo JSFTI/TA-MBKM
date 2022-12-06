@@ -61,6 +61,7 @@ $route['panel(.*)'] = 'PanelController';
 
 // Panel API
 $route['api/profile']['get'] = 'Panel/ProfileController';
+$route['api/profile/password']['post'] = 'Panel/ProfileController/changePassword';
 
 $route['api/users/(:num)']['patch'] = 'Panel/UserController/edit/$1';
 

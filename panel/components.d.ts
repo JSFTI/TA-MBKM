@@ -7,6 +7,8 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    ChangePasswordCard: typeof import('./src/components/Form/ChangePasswordCard.vue')['default']
+    FormProfileCard: typeof import('./src/components/Form/FormProfileCard.vue')['default']
     ProfilePictureUpdater: typeof import('./src/components/ProfilePictureUpdater.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -23,6 +25,7 @@ declare module '@vue/runtime-core' {
     VListItem: typeof import('vuetify/components')['VListItem']
     VMain: typeof import('vuetify/components')['VMain']
     VNavigationDrawer: typeof import('vuetify/components')['VNavigationDrawer']
+    VSnackbar: typeof import('vuetify/components')['VSnackbar']
     VTextField: typeof import('vuetify/components')['VTextField']
     VThemeProvider: typeof import('vuetify/components')['VThemeProvider']
   }
