@@ -8,7 +8,6 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ChangePasswordCard: typeof import('./src/components/Form/ChangePasswordCard.vue')['default']
-    DataTable: typeof import('./src/components/DataTable.vue')['default']
     ForcePasswordForm: typeof import('./src/components/Form/ForcePasswordForm.vue')['default']
     FormProfileCard: typeof import('./src/components/Form/FormProfileCard.vue')['default']
     NewUserForm: typeof import('./src/components/Form/NewUserForm.vue')['default']
