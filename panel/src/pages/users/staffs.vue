@@ -106,9 +106,6 @@ watch(params, () => {
 
 <template>
   <VCard>
-    <VOverlay :model-value="loading" persistent contained class="items-center justify-center">
-      <VProgressCircular size="64" color="primary" indeterminate />
-    </VOverlay>
     <VToolbar color="rgba(0,0,0,0)">
       <VToolbarTitle class="text-2xl">
         Staffs
@@ -130,45 +127,50 @@ watch(params, () => {
           />
         </div>
       </div>
-      <VTable>
-        <thead>
-          <tr
-            v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id"
-          >
-            <th
-              v-for="header in headerGroup.headers"
-              :key="header.id"
-              :colSpan="header.colSpan"
-              :style="{ minWidth: `${header.column.getSize()}px` }"
+      <div class="relative rounded">
+        <VOverlay :model-value="loading" persistent contained class="items-center justify-center">
+          <VProgressCircular size="64" color="primary" indeterminate />
+        </VOverlay>
+        <VTable>
+          <thead>
+            <tr
+              v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id"
             >
-              <FlexRender
-                v-if="!header.isPlaceholder"
-                :render="header.column.columnDef.header"
-                :props="header.getContext()"
-              />
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <template v-if="(table.getRowModel().rows.length > 0)">
-            <tr v-for="row in table.getRowModel().rows" :key="row.id">
-              <td v-for="cell in row.getVisibleCells()" :key="cell.id" class="py-2">
+              <th
+                v-for="header in headerGroup.headers"
+                :key="header.id"
+                :colSpan="header.colSpan"
+                :style="{ minWidth: `${header.column.getSize()}px` }"
+              >
                 <FlexRender
-                  :render="cell.column.columnDef.cell"
-                  :props="cell.getContext()"
+                  v-if="!header.isPlaceholder"
+                  :render="header.column.columnDef.header"
+                  :props="header.getContext()"
                 />
-              </td>
+              </th>
             </tr>
-          </template>
-          <template v-else-if="!loading">
-            <tr>
-              <td :colspan="columns.length" class="text-center font-bold !text-2xl">
-                No Data Available
-              </td>
-            </tr>
-          </template>
-        </tbody>
-      </VTable>
+          </thead>
+          <tbody>
+            <template v-if="(table.getRowModel().rows.length > 0)">
+              <tr v-for="row in table.getRowModel().rows" :key="row.id">
+                <td v-for="cell in row.getVisibleCells()" :key="cell.id" class="py-2">
+                  <FlexRender
+                    :render="cell.column.columnDef.cell"
+                    :props="cell.getContext()"
+                  />
+                </td>
+              </tr>
+            </template>
+            <template v-else-if="!loading">
+              <tr>
+                <td :colspan="columns.length" class="text-center font-bold !text-2xl">
+                  No Data Available
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </VTable>
+      </div>
       <div class="mt-5">
         <VPagination
           v-model="params.page"
