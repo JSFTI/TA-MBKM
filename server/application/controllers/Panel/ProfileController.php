@@ -12,7 +12,7 @@ class ProfileController extends CI_Controller{
     $user = auth();
     
     if(!$user){
-      response_json(['message' => 'Unauthorized'], 401);
+      response_json(['status' => 'Unauthorized'], 401);
       return;
     }
 
@@ -23,7 +23,7 @@ class ProfileController extends CI_Controller{
     $user = auth();
 
     if(!$user){
-      response_json(['message' => 'Unauthorized'], 401);
+      response_json(['status' => 'Unauthorized'], 401);
       return;
     }
 
@@ -62,7 +62,7 @@ class ProfileController extends CI_Controller{
 
     if(!$this->form_validation->run()){
       response_json([
-        'message' => 'Unprocessable Entity',
+        'status' => 'Unprocessable Entity',
         'errors' => $this->form_validation->error_array()
       ], 422);
       return;

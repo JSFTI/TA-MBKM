@@ -11,29 +11,7 @@
       <ProfilePictureCard />
     </div>
     <div>
-      <ChangePasswordCard class="grid-c" />
+      <ChangePasswordCard />
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-.d-grid{
-  display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-areas: "a b"
-                       "c b";
-  .grid-a{
-    grid: a;
-  }
-
-  .grid-b{
-    grid: b;
-    @apply row-span-2;
-  }
-
-  .grid-c{
-    grid: c;
-  }
-}
-</style>

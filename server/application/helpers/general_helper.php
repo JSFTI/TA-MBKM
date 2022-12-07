@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 
 if(!function_exists('alpine_json')){
   function alpine_json(mixed $json): string{
@@ -24,7 +25,22 @@ if(!function_exists('auth')){
     $ci = &get_instance();
     if($ci->session->userdata('user')){
       $user = $ci->session->userdata('user');
-      return User::find($user['id'], ['id', 'email', 'email_verified_at', 'name', 'profile_picture']);
+      return User::with('role')->find($user['id'], ['id', 'role_id', 'email', 'email_verified_at', 'name', 'profile_picture']);
+    }
+    return null;
+  }
+}
+
+if(!function_exists('re_auth')){
+  function re_auth(): null | User{
+    $ci = &get_instance();
+    if($ci->session->userdata('user')){
+      $user = User::with('role')
+        ->find($ci->session->userdata('user')['id'], ['id', 'role_id', 'profile_picture', 'name', 'email']);
+      
+      $ci->session->set_userdata('user', $user->toArray());
+
+      return $user;
     }
     return null;
   }

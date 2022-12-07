@@ -8,7 +8,7 @@ class ProfilePictureController extends CI_Controller{
   public function index(int $user_id){
     $profile_picture = User::select('profile_picture')->find($user_id)?->profile_picture;
     if(!$profile_picture){
-      response_json(['message' => 'Not Found'], 404);
+      response_json(['status' => 'Not Found'], 404);
       return;
     }
 
@@ -18,7 +18,7 @@ class ProfilePictureController extends CI_Controller{
   public function update(int $user_id){
     $user = User::select('id', 'profile_picture')->find($user_id);
     if(!$user){
-      response_json(['message' => 'Not Found'], 404);
+      response_json(['status' => 'Not Found'], 404);
       return;
     }
 
@@ -33,7 +33,7 @@ class ProfilePictureController extends CI_Controller{
 
     if(!$this->upload->do_upload('image')){
       response_json([
-        'message' => 'Unprocessable Entity',
+        'status' => 'Unprocessable Entity',
         'errors' => $this->upload->error_msg
       ], 422);
       return;
@@ -59,7 +59,7 @@ class ProfilePictureController extends CI_Controller{
     $user = User::select('id', 'profile_picture')->find($user_id);
     
     if(!$user){
-      response_json(['message' => 'Not Found'], 404);
+      response_json(['status' => 'Not Found'], 404);
       return;
     }
 

@@ -70,6 +70,9 @@ $route['api/users']['post'] = 'Panel/UserController/create';
 $route['api/users/(:num)']['get'] = 'Panel/UserController/show/$1';
 $route['api/users/(:num)']['put'] = 'Panel/UserController/update/$1';
 $route['api/users/(:num)']['patch'] = 'Panel/UserController/edit/$1';
+$route['api/users/(:num)']['delete'] = 'Panel/UserController/destroy/$1';
+
+$route['api/users/(:num)/password']['post'] = 'Panel/User/PasswordController/update/$1';
 
 $route['api/users/(:num)/profile-picture']['get'] = 'Panel/User/ProfilePictureController/index/$1';
 $route['api/users/(:num)/profile-picture']['post'] = 'Panel/User/ProfilePictureController/update/$1';

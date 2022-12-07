@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Role;
 use App\Models\User;
 use App\Traits\CustomValidator;
 
@@ -9,13 +10,25 @@ class UserController extends CI_Controller{
   use CustomValidator;
 
   public function index(){
-    return response_json(User::all()); 
+    $user = User::query();
+    
+    $limit = $this->input->get('limit') ?: 10;
+    $search = $this->input->get('search');
+    $page = $this->input->get('page');
+
+    if($search){
+      $user->where('name', 'LIKE', "%$search%");
+    }
+
+    // print_r($user->paginate(10));
+    
+    return response_json($user->paginate($limit, page: $page)); 
   }
 
   public function show(int $user_id){
     $user = User::find($user_id);
     if(!$user){
-      response_json(['message' => 'Not Found'], 404);
+      response_json(['status' => 'Not Found'], 404);
       return;
     }
 
@@ -25,7 +38,7 @@ class UserController extends CI_Controller{
   public function edit(int $user_id){
     $user = User::find($user_id);
     if(!$user){
-      response_json(['message' => 'Not Found'], 404);
+      response_json(['status' => 'Not Found'], 404);
       return;
     }
 
@@ -80,14 +93,38 @@ class UserController extends CI_Controller{
 
     if(!$this->form_validation->run()){
       response_json([
-        'message' => 'Unprocessable Entity',
+        'status' => 'Unprocessable Entity',
         'errors' => $this->form_validation->error_array()
       ], 422);
       return;
     }
+    
+    if(array_key_exists('role_id', $post)){
+      $role = Role::find($post['role_id'], ['name'])->name;
+      $auth = auth();
+
+      if($auth->role->name === 'admin' && $role !== 'admin'){
+        $otherAdminCount = User::where('role_id', $auth->role->id)
+          ->where('id', '!=', $user_id)
+          ->count();
+
+        if($otherAdminCount === 0){
+          return response_json([
+            'status' => 'Bad Request',
+            'errors' => [
+              'role_id' => 'You are the only manager remaining.'
+            ]
+          ], 400);
+        }
+      }
+    }
 
     $user->fill($post);
     $user->save();
+
+    if($user->id === auth()->id){
+      re_auth();
+    }
 
     response_json($user);
   }
@@ -95,7 +132,7 @@ class UserController extends CI_Controller{
   public function update(int $user_id){
     $user = User::find($user_id);
     if(!$user){
-      response_json(['message' => 'Not Found'], 404);
+      response_json(['status' => 'Not Found'], 404);
       return;
     }
 
@@ -134,16 +171,38 @@ class UserController extends CI_Controller{
 
     if(!$this->form_validation->run()){
       response_json([
-        'message' => 'Unprocessable Entity',
+        'status' => 'Unprocessable Entity',
         'errors' => $this->form_validation->error_array()
       ], 422);
       return;
+    }
+
+    $role = Role::find($post['role_id'], ['name'])->name;
+    $auth = auth();
+
+    if($auth->role->name === 'admin' && $role !== 'admin'){
+      $otherAdminCount = User::where('role_id', $auth->role->id)
+        ->where('id', '!=', $user_id)
+        ->count();
+
+      if($otherAdminCount === 0){
+        return response_json([
+          'status' => 'Bad Request',
+          'errors' => [
+            'role_id' => 'You are the only manager remaining.'
+          ]
+        ], 400);
+      }
     }
 
     $user->name = $post['name'];
     $user->email = $post['email'];
     $user->role_id = $post['role_id'];
     $user->save();
+
+    if($user->id === auth()->id){
+      re_auth();
+    }
 
     response_json($user);
   }
@@ -179,12 +238,29 @@ class UserController extends CI_Controller{
           'required' => 'Please give a role for the user',
           'exists' => 'Role not found'
         ],
+      ],
+      [
+        'field' => 'password',
+        'label' => 'Password',
+        'rules' => 'required',
+        'errors' => [
+          'required' => 'Please provide a password'
+        ]
+      ],
+      [
+        'field' => 'repeatPassword',
+        'label' => 'Repeat Password',
+        'rules' => 'callback_required_if_exists[password]|callback_optional_match[password]',
+        'errors' => [
+          'required_if_exists' => 'Please confirm new password',
+          'optional_match' => 'Password mismatch'
+        ]
       ]
     ]);
 
     if(!$this->form_validation->run()){
       response_json([
-        'message' => 'Unprocessable Entity',
+        'status' => 'Unprocessable Entity',
         'errors' => $this->form_validation->error_array()
       ], 422);
       return;
@@ -194,8 +270,30 @@ class UserController extends CI_Controller{
     $user->name = $post['name'];
     $user->email = $post['email'];
     $user->role_id = $post['role_id'];
+    $user->password = password_hash($post['password'], PASSWORD_ARGON2ID);
     $user->save();
 
     response_json($user);
+  }
+
+  public function destroy(int $user_id){
+    $user = User::find($user_id);
+    if(!$user){
+      response_json(['status' => 'Not Found'], 404);
+      return;
+    }
+
+    $auth = auth();
+
+    if($user->id === $auth->id){
+      response_json([
+        'status' => 'Bad Request',
+        'message' => 'Can\'t delete self.'
+      ], '400');
+    }
+    
+    $user->delete();
+
+    http_response_code(204);
   }
 }

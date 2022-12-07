@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Model {
   protected $appends = ['permissions'];
   protected $fillable = ['name', 'email'];
+  protected $hidden = ['password', 'password_token'];
 
   public function role(){
     return $this->belongsTo(Role::class);
