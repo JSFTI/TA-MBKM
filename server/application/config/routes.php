@@ -77,3 +77,13 @@ $route['api/users/(:num)/password']['post'] = 'Panel/User/PasswordController/upd
 $route['api/users/(:num)/profile-picture']['get'] = 'Panel/User/ProfilePictureController/index/$1';
 $route['api/users/(:num)/profile-picture']['post'] = 'Panel/User/ProfilePictureController/update/$1';
 $route['api/users/(:num)/profile-picture']['delete'] = 'Panel/User/ProfilePictureController/destroy/$1';
+
+$route['api/carousels']['get'] = 'Panel/CarouselController';
+$route['api/carousels']['post'] = 'Panel/CarouselController/create';
+$route['api/carousels/(:num)']['delete'] = 'Panel/CarouselController/destroy/$1';
+
+$route['api/carousels/approved']['patch'] = 'Panel/Carousel/ApprovedController/updateOrder/$1';
+$route['api/carousels/(:num)/approved']['put'] = 'Panel/Carousel/ApprovedController/update/$1';
+$route['api/carousels/(:num)/approved']['delete'] = 'Panel/Carousel/ApprovedController/destroy/$1';
+
+$route['storage/(.*)'] = 'StorageController/index/$1';

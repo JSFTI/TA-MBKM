@@ -8,6 +8,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ChangePasswordCard: typeof import('./src/components/Form/ChangePasswordCard.vue')['default']
+    Draggable: typeof import('vuedraggable')['default']
     ForcePasswordForm: typeof import('./src/components/Form/ForcePasswordForm.vue')['default']
     FormProfileCard: typeof import('./src/components/Form/FormProfileCard.vue')['default']
     NewUserForm: typeof import('./src/components/Form/NewUserForm.vue')['default']
@@ -22,9 +23,12 @@ declare module '@vue/runtime-core' {
     VAppBarNavIcon: typeof import('vuetify/components')['VAppBarNavIcon']
     VBtn: typeof import('vuetify/components')['VBtn']
     VCard: typeof import('vuetify/components')['VCard']
+    VCardActions: typeof import('vuetify/components')['VCardActions']
+    VCardText: typeof import('vuetify/components')['VCardText']
     VDialog: typeof import('vuetify/components')['VDialog']
     VDivider: typeof import('vuetify/components')['VDivider']
     VForm: typeof import('vuetify/components')['VForm']
+    VImg: typeof import('vuetify/components')['VImg']
     VLayout: typeof import('vuetify/components')['VLayout']
     VList: typeof import('vuetify/components')['VList']
     VListGroup: typeof import('vuetify/components')['VListGroup']
@@ -39,6 +43,7 @@ declare module '@vue/runtime-core' {
     VTextField: typeof import('vuetify/components')['VTextField']
     VThemeProvider: typeof import('vuetify/components')['VThemeProvider']
     VToolbar: typeof import('vuetify/components')['VToolbar']
+    VToolbarItems: typeof import('vuetify/components')['VToolbarItems']
     VToolbarTitle: typeof import('vuetify/components')['VToolbarTitle']
   }
 }

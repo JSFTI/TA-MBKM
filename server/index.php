@@ -56,6 +56,7 @@ $dotenv->load();
  * Define Storage Path
  */
 define('STORAGE_PATH', realpath(__DIR__ . '/../storage'));
+define('PUBLIC_PATH', realpath(__DIR__ . '/public'));
 
 /*
  *---------------------------------------------------------------

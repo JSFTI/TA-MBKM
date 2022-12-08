@@ -61,7 +61,7 @@ if(!function_exists('response_json')){
 
 if(!function_exists('response_file')){
   function response_file(string $file_out){
-    if(file_exists($file_out)){
+    if(file_exists($file_out) && !is_dir($file_out)){
       $image_info = getimagesize($file_out);
 
       //Set the content-type header as appropriate

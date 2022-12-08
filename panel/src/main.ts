@@ -5,6 +5,7 @@ import { createVuetify } from 'vuetify'
 import { createPinia } from 'pinia'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+import draggableComponent from 'vuedraggable'
 import axios from 'axios';
 import Toast from 'vue-toastification';
 import App from './App.vue'
@@ -28,11 +29,15 @@ const app = createApp(App)
 const router = createRouter({
   history: createWebHistory('/panel/'),
   routes,
-})
-app.use(router)
-app.use(vuetify)
+});
+
+app.use(router);
+app.use(vuetify);
 app.use(pinia);
 app.use(Toast);
+
+app.component('Draggable', draggableComponent);
+
 app.mount('#app')
 
 app.config.globalProperties.window = window

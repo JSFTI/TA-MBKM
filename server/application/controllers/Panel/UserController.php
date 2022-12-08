@@ -19,8 +19,6 @@ class UserController extends CI_Controller{
     if($search){
       $user->where('name', 'LIKE', "%$search%");
     }
-
-    // print_r($user->paginate(10));
     
     return response_json($user->paginate($limit, page: $page)); 
   }

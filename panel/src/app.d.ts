@@ -1,4 +1,4 @@
-interface Role{
+type Role = {
   id?: number
   name?: string
   display_name?: string
@@ -6,7 +6,7 @@ interface Role{
   updated_at?: string | null
 }
 
-interface User{
+type User = {
   email?: string
   id?: number
   name?: string
@@ -16,13 +16,13 @@ interface User{
   role_id?: string
 }
 
-interface ApiInvalidFeedback{
+type ApiInvalidFeedback = {
   status: string
   message?: string
   errors?: Record<string, string>
 }
 
-interface ApiPagination<T>{
+type ApiPagination<T> = {
   current_page: number,
   data: T[],
   first_page_url: string,
@@ -40,4 +40,17 @@ interface ApiPagination<T>{
   prev_page_url: null | string
   to: number
   total: number
+}
+
+type Carousel = {
+  id?: number
+  // title?: string | null
+  filename?: string
+  url?: string
+  // hyperlink?: string | null
+  priority?: number | null
+  approved?: boolean
+  approved_at?: null | string
+  created_at?: string
+  updated_at?: null | string
 }

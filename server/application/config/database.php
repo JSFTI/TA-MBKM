@@ -71,6 +71,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Container\Container;
+use Illuminate\Support\Facades\DB;
 
 $active_group = 'default';
 $query_builder = TRUE;
@@ -106,6 +107,7 @@ $capsule->addConnection([
     'collation' => $db['default']['dbcollat'],
     'prefix'    => $db['default']['dbprefix'],
 ]);
+
 // Set the event dispatcher used by Eloquent models... (optional)
 $capsule->setEventDispatcher(new Dispatcher(new Container));
 // Make this Capsule instance available globally via static methods... (optional)
