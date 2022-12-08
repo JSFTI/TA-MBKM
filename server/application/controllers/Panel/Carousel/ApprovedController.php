@@ -2,7 +2,7 @@
 
 use App\Models\Carousel;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Capsule\Manager as DB;
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -42,7 +42,7 @@ class ApprovedController extends CI_Controller{
   public function updateOrder(){
     $carousels = get_input_json();
 
-    $this->db->trans_begin();
+    DB::connection()->beginTransaction(); 
 
     if(is_array($carousels)){
       for($i = 0; $i < count($carousels); $i++){
@@ -52,7 +52,7 @@ class ApprovedController extends CI_Controller{
       }
     }
 
-    $this->db->trans_commit();
+    DB::connection()->commit(); 
     
     http_response_code(204);
   }

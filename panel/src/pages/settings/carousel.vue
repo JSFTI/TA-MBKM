@@ -116,13 +116,15 @@ const nonApprovedCarousels = computed(() => {
       >
         <template #item="{ element }">
           <VCard
-            class="cursor-pointer rounded-0 !max-w-80 flex items-center gap-5 flex-col" flat
+            class="cursor-pointer rounded-0 !w-50 !flex items-center gap-5 flex-col" flat
           >
-            <VImg cover class="!max-w-80 !h-35 aspect-ratio-16/9" :src="element.url" />
-            <VCardText class="py-0">
-              {{ element.filename }}
+            <img draggable="false" class="object-cover !w-50 aspect-ratio-16/9" :src="element.url" />
+            <VCardText class="!py-0">
+              <p class="text-center">
+                {{ element.filename }}
+              </p>
             </VCardText>
-            <VCardActions class="py-0 flex gap-5">
+            <VCardActions class="!py-0 flex gap-5 justify-center">
               <VBtn icon="i-mdi:cancel" size="small" class="!bg-danger !text-black" @click="handleDisapprove(element)" />
               <VBtn icon="i-mdi:trash-can" size="small" class="!bg-danger !text-black" @click="handleDelete(element.id)" />
             </VCardActions>
@@ -148,24 +150,25 @@ const nonApprovedCarousels = computed(() => {
           </div>
         </VOverlay>
         <VToolbar title="Carousels" color="rgba(0,0,0,0)">
-          <VBtn color="primary" />
-          <template #append>
+          <VToolbarItems>
             <VBtn icon="i-ic:round-add" class="!bg-success !text-white" tag="label" for="carousel" />
             <input
               id="carousel" type="file" class="w-0 h-0 invisible m-0 p-0"
               multiple @change="handleChange"
             />
-          </template>
+          </VToolbarItems>
         </VToolbar>
         <VCardText>
           <div class="flex gap-5 flex-wrap">
             <VCard
               v-for="carousel in nonApprovedCarousels" :key="carousel.id"
-              class="cursor-pointer rounded-0 !w-60 flex items-center gap-5 flex-col" flat
+              class="cursor-pointer rounded-0 !w-60 !flex items-center gap-5 flex-col" flat
             >
               <img draggable="false" class="object-cover !w-60 aspect-ratio-16/9" :src="carousel.url" />
               <VCardText class="!py-0">
-                {{ carousel.filename }}
+                <p class="text-center">
+                  {{ carousel.filename }}
+                </p>
               </VCardText>
               <VCardActions class="!py-0 flex gap-5">
                 <VBtn icon="i-mdi:check" size="small" class="!bg-success !text-black" @click="handleApprove(carousel)" />

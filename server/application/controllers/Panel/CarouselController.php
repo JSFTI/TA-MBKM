@@ -29,8 +29,6 @@ class CarouselController extends CI_Controller{
     $uploadedFiles = $this->upload->get_multi_upload_data();
     $carousels = [];
     
-    $this->db->trans_begin();
-
     foreach($uploadedFiles as $file){
       $carousel = new Carousel();
       $carousel->filename = $file['file_name'];
@@ -39,8 +37,6 @@ class CarouselController extends CI_Controller{
 
       $carousels[] = $carousel;
     }
-
-    $this->db->trans_commit();
 
     response_json($carousels);
   }

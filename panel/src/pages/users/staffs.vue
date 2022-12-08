@@ -110,9 +110,9 @@ watch(params, () => {
       <VToolbarTitle class="text-2xl">
         Staffs
       </VToolbarTitle>
-      <template #append>
+      <VToolbarItems>
         <VBtn v-model="params.limit" icon="i-ic:round-add" class="!bg-success !text-white" @click="(showModal = 0)" />
-      </template>
+      </VToolbarItems>
     </VToolbar>
     <div class="p-5">
       <div class="flex gap-2">

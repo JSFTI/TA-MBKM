@@ -38,23 +38,19 @@ const user = useUser();
             </VListItem>
             <VDivider class="my-5" />
             <VListItem prepend-icon="i-ic:round-dashboard" to="/" nav title="Dashboard" />
-            <VListGroup value="Inventory" fluid collapse-icon="i-ic:round-keyboard-arrow-up" expand-icon="i-ic:round-keyboard-arrow-down">
+            <VListGroup value="Products" fluid collapse-icon="i-ic:round-keyboard-arrow-up" expand-icon="i-ic:round-keyboard-arrow-down">
               <template #activator="{ props }">
-                <VListItem
-                  v-bind="props"
-                  prepend-icon="i-ic:baseline-inventory" nav
-                  title="Inventory"
-                />
+                <VListItem v-bind="props" prepend-icon="i-mdi:package" nav title="Products" />
               </template>
               <VListItem
-                nav title="Applications"
-                prepend-icon="i-ic:round-apps"
-                to="/inventory/applications"
+                nav title="All Products"
+                prepend-icon="i-mdi:package"
+                to="/products"
               />
               <VListItem
-                nav title="Products"
-                prepend-icon="i-mdi:package"
-                to="/inventory/products"
+                nav title="Add Product"
+                prepend-icon="i-ic:round-add"
+                to="/products/new"
               />
             </VListGroup>
             <VListItem prepend-icon="i-ic:baseline-receipt" to="/orders" nav title="Orders" />

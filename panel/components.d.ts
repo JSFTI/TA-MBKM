@@ -8,10 +8,11 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ChangePasswordCard: typeof import('./src/components/Form/ChangePasswordCard.vue')['default']
-    Draggable: typeof import('vuedraggable')['default']
     ForcePasswordForm: typeof import('./src/components/Form/ForcePasswordForm.vue')['default']
     FormProfileCard: typeof import('./src/components/Form/FormProfileCard.vue')['default']
     NewUserForm: typeof import('./src/components/Form/NewUserForm.vue')['default']
+    ProductDetailForm: typeof import('./src/components/Form/ProductDetailForm.vue')['default']
+    ProductImages: typeof import('./src/components/Form/ProductImages.vue')['default']
     ProfilePictureCard: typeof import('./src/components/Form/ProfilePictureCard.vue')['default']
     ProfilePictureUpdater: typeof import('./src/components/ProfilePictureUpdater.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
@@ -28,7 +29,6 @@ declare module '@vue/runtime-core' {
     VDialog: typeof import('vuetify/components')['VDialog']
     VDivider: typeof import('vuetify/components')['VDivider']
     VForm: typeof import('vuetify/components')['VForm']
-    VImg: typeof import('vuetify/components')['VImg']
     VLayout: typeof import('vuetify/components')['VLayout']
     VList: typeof import('vuetify/components')['VList']
     VListGroup: typeof import('vuetify/components')['VListGroup']

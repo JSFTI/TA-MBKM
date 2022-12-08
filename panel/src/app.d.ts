@@ -54,3 +54,28 @@ type Carousel = {
   created_at?: string
   updated_at?: null | string
 }
+
+type Product = {
+  id?: number
+  thumbnail_id?: number | null
+  thumbnail: ProductImage
+  category_id?: number | null
+  name?: string
+  price?: number
+  detail?: string | null
+  stock?: number | null
+  published?: boolean
+  created_at?: string
+  updated_at?: string | null
+  images: ProductImage[]
+}
+
+type ProductImage = {
+  id?: number
+  product_id?: number
+  product?: Product
+  filename?: string
+  url?: string
+  created_at?: string
+  updated_at?: string | null
+}
