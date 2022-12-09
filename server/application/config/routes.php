@@ -86,9 +86,16 @@ $route['api/carousels/approved']['patch'] = 'Panel/Carousel/ApprovedController/u
 $route['api/carousels/(:num)/approved']['put'] = 'Panel/Carousel/ApprovedController/update/$1';
 $route['api/carousels/(:num)/approved']['delete'] = 'Panel/Carousel/ApprovedController/destroy/$1';
 
+$route['api/categories']['get'] = 'Panel/CategoryController';
+
+$route['api/tags']['get'] = 'Panel/TagController';
+
 $route['api/products']['get'] = 'Panel/ProductController';
 $route['api/products']['post'] = 'Panel/ProductController/create';
 $route['api/products/(:num)']['put'] = 'Panel/ProductController/update/$1';
 $route['api/products/(:num)']['delete'] = 'Panel/ProductController/destroy/$1';
+
+$route['api/products/(:num)/published']['put'] = 'Panel/Product/PublishController/index/update/$1';
+$route['api/products/(:num)/published']['delete'] = 'Panel/Product/PublishController/index/destroy/$1';
 
 $route['storage/(.*)'] = 'StorageController/index/$1';

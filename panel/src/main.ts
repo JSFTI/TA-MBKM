@@ -1,6 +1,8 @@
 import { createApp } from 'vue'
+import type { LocationQuery } from 'vue-router';
 import { createRouter, createWebHistory } from 'vue-router'
 import routes from 'virtual:generated-pages'
+import qs from 'qs'
 import { createVuetify } from 'vuetify'
 import { createPinia } from 'pinia'
 import * as components from 'vuetify/components'
@@ -29,6 +31,19 @@ const app = createApp(App)
 const router = createRouter({
   history: createWebHistory('/panel/'),
   routes,
+  parseQuery(query) {
+    return qs.parse(query, {
+      parseArrays: true,
+    }) as LocationQuery;
+  },
+  stringifyQuery(query) {
+    const result = qs.stringify(query, {
+      arrayFormat: 'brackets',
+      encode: false,
+    });
+
+    return result ?? '';
+  },
 });
 
 app.use(router);

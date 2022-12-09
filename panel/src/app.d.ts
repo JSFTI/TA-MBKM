@@ -60,6 +60,7 @@ type Product = {
   thumbnail_id?: number | null
   thumbnail: ProductImage
   category_id?: number | null
+  category?: Category
   name?: string
   price?: number
   detail?: string | null
@@ -67,7 +68,8 @@ type Product = {
   published?: boolean
   created_at?: string
   updated_at?: string | null
-  images: ProductImage[]
+  images?: ProductImage[]
+  tags?: Tag[]
 }
 
 type ProductImage = {
@@ -78,4 +80,15 @@ type ProductImage = {
   url?: string
   created_at?: string
   updated_at?: string | null
+}
+
+type Category = {
+  id?: number
+  name?: string
+}
+
+type Tag = {
+  id?: number
+  name?: string
+  products_count?: number
 }

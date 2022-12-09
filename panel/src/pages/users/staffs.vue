@@ -117,7 +117,7 @@ watch(params, () => {
     <div class="p-5">
       <div class="flex gap-2">
         <div class="w-30">
-          <VSelect v-model="params.limit" :items="[2, 10, 25, 50, 100]" label="Limit" />
+          <VSelect v-model="params.limit" :items="[10, 25, 50, 100]" label="Limit" />
         </div>
         <div class="!w-100 ml-auto">
           <VTextField
