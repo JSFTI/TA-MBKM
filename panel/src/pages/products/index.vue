@@ -3,14 +3,13 @@ import type { SortingState } from '@tanstack/vue-table';
 import { FlexRender, createColumnHelper, getCoreRowModel, getSortedRowModel, useVueTable } from '@tanstack/vue-table';
 import { useRouteQuery } from '@vueuse/router';
 import dayjs from 'dayjs';
+import { pick } from 'lodash';
 
 const columnHelper = createColumnHelper<Product>();
 
-const route = useRoute();
 const router = useRouter();
 
 const selectableCategories = ref<Category[]>([]);
-const selectableTags = ref<Tag[]>([]);
 const showFilters = ref(false);
 const loading = ref(true);
 const data = ref<ApiPagination<Product> | null>(null);
@@ -18,16 +17,7 @@ const data = ref<ApiPagination<Product> | null>(null);
 const page = useRouteQuery<string>('page', '1');
 const limit = useRouteQuery<string>('limit', '10');
 const search = useRouteQuery<string | null>('search', null);
-const categories = useRouteQuery<string[] | null>('categories', []);
-const tags = useRouteQuery<string[] | null>('tags', []);
-const price = {
-  min: useRouteQuery<string | null>('price[gte]', null),
-  max: useRouteQuery<string | null>('price[lte]', null),
-};
-const stock = {
-  min: useRouteQuery<string | null>('stock[gte]', null),
-  max: useRouteQuery<string | null>('stock[lte]', null),
-};
+const filters = reactive(pick(router.currentRoute.value.query, ['categories', 'tags', 'price', 'stock']));
 
 const sorting = ref<SortingState>([]);
 
@@ -151,7 +141,7 @@ const table = useVueTable({
 function getData() {
   loading.value = true;
   axios.get<ApiPagination<Product>>('products', {
-    params: route.query,
+    params: router.currentRoute.value.query,
   }).then((res) => {
     data.value = res.data;
   }).finally(() => {
@@ -166,14 +156,12 @@ function updatePublication(product: Product, published: boolean) {
     });
 }
 
-function resetFilters() {
+function handleFilter(filter: any) {
+  Object.assign(filters, filter);
   router.replace({
     query: {
-      search: undefined,
-      categories: [],
-      tags: [],
-      price: undefined,
-      stock: undefined,
+      ...router.currentRoute.value.query,
+      ...filter,
     },
   });
 }
@@ -182,22 +170,7 @@ const searchValue = useDebounceFn((v: string) => {
   search.value = v || null;
 }, 200);
 
-const searchTags = useDebounceFn((v: string) => {
-  if (v.length === 0) {
-    selectableTags.value = [];
-    return;
-  }
-  axios.get<Tag[]>('tags', {
-    params: {
-      search: v,
-      limit: 10,
-    },
-  }).then((res) => {
-    selectableTags.value = res.data.filter(x => !tags.value?.includes(x.name!));
-  });
-}, 200);
-
-watch(() => route.query, () => {
+watch(() => router.currentRoute.value.query, () => {
   getData();
 }, { deep: true });
 
@@ -207,20 +180,6 @@ axios.get('categories')
   .then((res) => {
     selectableCategories.value = res.data;
   });
-
-const filtersActive = computed(() => {
-  return (
-    search.value !== null
-    || (categories.value?.length ?? 0) > 0
-    || (tags.value?.length ?? 0) > 0
-    || price.min.value !== null
-    || price.max.value !== null
-  );
-});
-
-watch(sorting, () => {
-  console.log(sorting.value);
-});
 </script>
 
 <template>
@@ -252,56 +211,12 @@ watch(sorting, () => {
               hide-details
             />
           </div>
-          <VBtn v-if="filtersActive" icon="i-mdi:filter-remove" @click="resetFilters()" />
         </div>
       </div>
       <div>
         <CollapseTransition>
-          <div v-if="showFilters" class="flex flex-col gap-5 mb-5">
-            <div class="flex flex-col lg:flex-row gap-5">
-              <VSelect
-                v-model="categories"
-                class="w-full lg:w-1/2" multiple :items="selectableCategories"
-                closable-chips item-title="name" item-value="name" label="Category"
-                chips clearable hide-details
-              >
-                <template #chip="{ props, item }">
-                  <VChip
-                    v-bind="props"
-                    :text="item.value"
-                  />
-                </template>
-              </VSelect>
-              <VAutocomplete
-                v-model="tags"
-                class="w-full lg:w-1/2" :items="selectableTags" closable-chips hide-details
-                multiple item-title="name" item-value="name" clearable
-                label="Tags" chips @update:search="searchTags" @update:model-value="(v) => tags = v"
-              >
-                <template #chip="{ props: p, item }">
-                  <VChip
-                    v-bind="p"
-                    :text="item.value"
-                  />
-                </template>
-                <template #item="{ props: p, item }">
-                  <VListItem
-                    v-bind="p"
-                    :title="item.value"
-                  />
-                </template>
-              </VAutocomplete>
-            </div>
-            <div class="flex flex-col lg:flex-row gap-5">
-              <ACurrencyInput v-model="price.min.value" label="Min. Price" hide-details />
-              <ACurrencyInput v-model="price.max.value" label="Max. Price" hide-details />
-            </div>
-            <div class="flex flex-col lg:flex-row gap-5">
-              <VTextField v-model="stock.min.value" type="number" class="flex-grow-1" label="Min. Stock" hide-details />
-              <div class="flex flex-grow-1">
-                <VTextField v-model="stock.max.value" type="number" class="flex-grow-1" label="Max. Stock" hide-details />
-              </div>
-            </div>
+          <div v-if="showFilters" class="mb-5">
+            <ComplexProductFilter :filters="(filters as any)" @update:filters="handleFilter" />
           </div>
         </CollapseTransition>
         <div class="relative rounded overflow-x-auto w-full">

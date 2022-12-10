@@ -57,6 +57,8 @@ class ProductController extends CI_Controller{
         if(isset($stock['lte'])){
           $product->where('stock', '<=', $stock['lte']);
         }
+      } else if($stock === 'infinite') {
+        $product->whereNull('stock');
       } else {
         $product->where('stock', $stock);
       }
