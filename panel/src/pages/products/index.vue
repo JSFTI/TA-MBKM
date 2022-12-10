@@ -231,71 +231,79 @@ watch(sorting, () => {
       </VToolbarItems>
     </VToolbar>
     <VCardText>
-      <div class="flex gap-5 px-4 items-center mb-5">
-        <div>
-          <VCheckbox
-            v-model="showFilters" true-icon="i-mdi:filter-cog"
-            false-icon="i-mdi:filter-cog-outline"
-            inline hide-details
-          />
+      <div class="flex flex-col md:(items-center flex-row px-4) gap-5 mb-5">
+        <div class="flex gap-5 items-center">
+          <div class="w-30">
+            <VSelect v-model="limit" class="w-30" :items="[10, 25, 50, 100]" label="Limit" hide-details />
+          </div>
         </div>
-        <VBtn v-if="filtersActive" icon="i-mdi:filter-remove" @click="resetFilters()" />
-        <div class="w-30">
-          <VSelect v-model="limit" :items="[10, 25, 50, 100]" label="Limit" hide-details />
-        </div>
-        <div class="!w-100 ml-auto">
-          <VTextField
-            :model-value="search"
-            label="Search" hide-details
-            @update:model-value="searchValue"
-          />
+        <div class="flex gap-5 ml-auto">
+          <div class="w-100">
+            <VTextField
+              :model-value="search"
+              label="Search" hide-details
+              @update:model-value="searchValue"
+            />
+          </div>
+          <div>
+            <VCheckbox
+              v-model="showFilters" true-icon="i-mdi:filter-cog"
+              false-icon="i-mdi:filter-cog-outline"
+              hide-details
+            />
+          </div>
+          <VBtn v-if="filtersActive" icon="i-mdi:filter-remove" @click="resetFilters()" />
         </div>
       </div>
       <div>
-        <div>
-          <div class="flex gap-5">
-            <VSelect
-              v-model="categories"
-              class="w-1/2" multiple :items="selectableCategories"
-              closable-chips item-title="name" item-value="name" label="Category"
-              chips clearable
-            >
-              <template #chip="{ props, item }">
-                <VChip
-                  v-bind="props"
-                  :text="item.value"
-                />
-              </template>
-            </VSelect>
-            <VAutocomplete
-              v-model="tags"
-              class="w-1/2" :items="selectableTags" closable-chips
-              multiple item-title="name" item-value="name" clearable
-              label="Tags" chips @update:search="searchTags" @update:model-value="(v) => tags = v"
-            >
-              <template #chip="{ props: p, item }">
-                <VChip
-                  v-bind="p"
-                  :text="item.value"
-                />
-              </template>
-              <template #item="{ props: p, item }">
-                <VListItem
-                  v-bind="p"
-                  :title="item.value"
-                />
-              </template>
-            </VAutocomplete>
+        <CollapseTransition>
+          <div v-if="showFilters" class="flex flex-col gap-5 mb-5">
+            <div class="flex flex-col lg:flex-row gap-5">
+              <VSelect
+                v-model="categories"
+                class="w-full lg:w-1/2" multiple :items="selectableCategories"
+                closable-chips item-title="name" item-value="name" label="Category"
+                chips clearable hide-details
+              >
+                <template #chip="{ props, item }">
+                  <VChip
+                    v-bind="props"
+                    :text="item.value"
+                  />
+                </template>
+              </VSelect>
+              <VAutocomplete
+                v-model="tags"
+                class="w-full lg:w-1/2" :items="selectableTags" closable-chips hide-details
+                multiple item-title="name" item-value="name" clearable
+                label="Tags" chips @update:search="searchTags" @update:model-value="(v) => tags = v"
+              >
+                <template #chip="{ props: p, item }">
+                  <VChip
+                    v-bind="p"
+                    :text="item.value"
+                  />
+                </template>
+                <template #item="{ props: p, item }">
+                  <VListItem
+                    v-bind="p"
+                    :title="item.value"
+                  />
+                </template>
+              </VAutocomplete>
+            </div>
+            <div class="flex flex-col lg:flex-row gap-5">
+              <ACurrencyInput v-model="price.min.value" label="Min. Price" hide-details />
+              <ACurrencyInput v-model="price.max.value" label="Max. Price" hide-details />
+            </div>
+            <div class="flex flex-col lg:flex-row gap-5">
+              <VTextField v-model="stock.min.value" type="number" class="flex-grow-1" label="Min. Stock" hide-details />
+              <div class="flex flex-grow-1">
+                <VTextField v-model="stock.max.value" type="number" class="flex-grow-1" label="Max. Stock" hide-details />
+              </div>
+            </div>
           </div>
-          <div class="flex gap-5">
-            <ACurrencyInput v-model="price.min.value" label="Min. Price" />
-            <ACurrencyInput v-model="price.max.value" label="Max. Price" />
-          </div>
-          <div class="flex gap-5">
-            <ACurrencyInput v-model="stock.min.value" label="Min. Stock" />
-            <ACurrencyInput v-model="stock.max.value" label="Max. Stock" />
-          </div>
-        </div>
+        </CollapseTransition>
         <div class="relative rounded overflow-x-auto w-full">
           <VOverlay :model-value="loading" persistent contained class="items-center justify-center">
             <VProgressCircular size="64" color="primary" indeterminate />

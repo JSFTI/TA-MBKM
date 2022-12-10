@@ -10,6 +10,7 @@ import * as directives from 'vuetify/directives'
 import draggableComponent from 'vuedraggable'
 import axios from 'axios';
 import Toast from 'vue-toastification';
+import CollapseTransition from '@ivanv/vue-collapse-transition/src/CollapseTransition.vue';
 import App from './App.vue'
 import { aliases, mdi } from './customIcons';
 
@@ -59,6 +60,7 @@ app.use(pinia);
 app.use(Toast);
 
 app.component('Draggable', draggableComponent);
+app.component('CollapseTransition', CollapseTransition);
 
 app.mount('#app')
 

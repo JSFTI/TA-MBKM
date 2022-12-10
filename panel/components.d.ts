@@ -9,6 +9,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ACurrencyInput: typeof import('./src/components/CustomInput/ACurrencyInput.vue')['default']
     ChangePasswordCard: typeof import('./src/components/Form/ChangePasswordCard.vue')['default']
+    CollapseTransition: typeof import('@ivanv/vue-collapse-transition/src/CollapseTransition.vue')['default']
     ForcePasswordForm: typeof import('./src/components/Form/ForcePasswordForm.vue')['default']
     FormProfileCard: typeof import('./src/components/Form/FormProfileCard.vue')['default']
     NewUserForm: typeof import('./src/components/Form/NewUserForm.vue')['default']
@@ -33,6 +34,8 @@ declare module '@vue/runtime-core' {
     VChip: typeof import('vuetify/components')['VChip']
     VDialog: typeof import('vuetify/components')['VDialog']
     VDivider: typeof import('vuetify/components')['VDivider']
+    VExpansionPanel: typeof import('vuetify/components')['VExpansionPanel']
+    VExpansionPanels: typeof import('vuetify/components')['VExpansionPanels']
     VForm: typeof import('vuetify/components')['VForm']
     VImg: typeof import('vuetify/components')['VImg']
     VLayout: typeof import('vuetify/components')['VLayout']

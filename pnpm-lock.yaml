@@ -10,6 +10,7 @@ importers:
       '@antfu/eslint-config': ^0.33.1
       '@iconify-json/ic': ^1.1.10
       '@iconify-json/mdi': ^1.1.36
+      '@ivanv/vue-collapse-transition': ^1.0.2
       '@tanstack/vue-table': ^8.7.1
       '@types/lodash': ^4.14.191
       '@types/node': ^18.11.12
@@ -47,6 +48,7 @@ importers:
       vuedraggable: ^4.1.0
       vuetify: ^3.0.4
     dependencies:
+      '@ivanv/vue-collapse-transition': 1.0.2
       '@tanstack/vue-table': 8.7.1_vue@3.2.45
       '@vueuse/core': 9.6.0_vue@3.2.45
       '@vueuse/router': 9.6.0_xsxatmlnmmg5bcuv3xdnj6fj7y
@@ -830,6 +832,10 @@ packages:
       local-pkg: 0.4.2
     transitivePeerDependencies:
       - supports-color
+
+  /@ivanv/vue-collapse-transition/1.0.2:
+    resolution: {integrity: sha512-eWEameFXJM/1khcoKbITvKjYYXDP1WKQ/Xf9ItJVPoEjCiOdocR3AgDAERzDrNNg4oWK28gRGi+0ft8Te27zxw==}
+    dev: false
 
   /@jridgewell/gen-mapping/0.1.1:
     resolution: {integrity: sha512-sQXCasFk+U8lWYEe66WxRDOE9PjVz4vSM51fTu3Hw+ClTpUSQb718772vH3pyS5pShp6lvQM7SxgIDXXXmOX7w==}
