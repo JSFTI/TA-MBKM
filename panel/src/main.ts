@@ -13,7 +13,6 @@ import Toast from 'vue-toastification';
 import App from './App.vue'
 import { aliases, mdi } from './customIcons';
 
-import 'vuetify/styles'
 import 'cropperjs/dist/cropper.min.css'
 import './styles/toastification.scss';
 import './styles/main.scss'

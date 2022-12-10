@@ -45,7 +45,6 @@ declare module '@vue/runtime-core' {
     VPagination: typeof import('vuetify/components')['VPagination']
     VProgressCircular: typeof import('vuetify/components')['VProgressCircular']
     VSelect: typeof import('vuetify/components')['VSelect']
-    VSimpleCheckbox: typeof import('vuetify/components')['VSimpleCheckbox']
     VTable: typeof import('vuetify/components')['VTable']
     VTextField: typeof import('vuetify/components')['VTextField']
     VThemeProvider: typeof import('vuetify/components')['VThemeProvider']

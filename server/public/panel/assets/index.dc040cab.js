@@ -1,2 +1,0 @@
-import{a1 as r,a2 as _,ag as d,S as l,o as u,t as m,w as o,a as t,P as V,h as f}from"./vendor.6743af40.js";import{_ as i}from"./main.69a876b4.js";const p={};function x(T,b){const e=f,a=r,c=_,n=d,s=l;return u(),m(s,null,{default:o(()=>[t(c,{title:"Products",color:"rgba(0,0,0,0)"},{default:o(()=>[t(a,null,{default:o(()=>[t(e,{icon:"i-ic:round-add",class:"!bg-success !text-white",to:"/products/new"})]),_:1})]),_:1}),t(n,null,{default:o(()=>[V(" Products ")]),_:1})]),_:1})}const w=i(p,[["render",x]]);export{w as default};
-//# sourceMappingURL=index.dc040cab.js.map

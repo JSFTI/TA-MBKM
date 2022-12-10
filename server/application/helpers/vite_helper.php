@@ -132,17 +132,17 @@ function cssUrls(string $entry): array
     $urls = [];
     $manifest = getManifest();
 
-    if (!empty($manifest[$entry]['css'])) {
-        foreach ($manifest[$entry]['css'] as $file) {
-            $urls[] = '/public/panel/' . $file;
-        }
-    }
-
     if (!empty($manifest[$entry]['imports'])) {
         foreach ($manifest[$entry]['imports'] as $imports) {
             foreach($manifest[$imports]['css'] as $file){
                 $urls[] = '/public/panel/' . $file;
             }
+        }
+    }
+
+    if (!empty($manifest[$entry]['css'])) {
+        foreach ($manifest[$entry]['css'] as $file) {
+            $urls[] = '/public/panel/' . $file;
         }
     }
 
