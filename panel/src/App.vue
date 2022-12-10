@@ -15,7 +15,7 @@ const user = useUser();
       <VLayout>
         <VAppBar title="Store Admin Panel">
           <template #prepend>
-            <VAppBarNavIcon icon="i-ic:round-menu" @click="showNavigation = !showNavigation" />
+            <VAppBarNavIcon @click="showNavigation = !showNavigation" />
           </template>
           <div class="flex gap-3 mr-5">
             <VBtn :icon="isDark ? 'i-ic:baseline-dark-mode' : 'i-ic:baseline-light-mode'" @click="toggleDark(!isDark)" />
@@ -38,7 +38,7 @@ const user = useUser();
             </VListItem>
             <VDivider class="my-5" />
             <VListItem prepend-icon="i-ic:round-dashboard" to="/" nav title="Dashboard" />
-            <VListGroup value="Products" fluid collapse-icon="i-ic:round-keyboard-arrow-up" expand-icon="i-ic:round-keyboard-arrow-down">
+            <VListGroup value="Products" fluid>
               <template #activator="{ props }">
                 <VListItem v-bind="props" prepend-icon="i-mdi:package" nav title="Products" />
               </template>
@@ -54,7 +54,7 @@ const user = useUser();
               />
             </VListGroup>
             <VListItem prepend-icon="i-ic:baseline-receipt" to="/orders" nav title="Orders" />
-            <VListGroup value="Users" collapse-icon="i-ic:round-keyboard-arrow-up" expand-icon="i-ic:round-keyboard-arrow-down">
+            <VListGroup value="Users">
               <template #activator="{ props }">
                 <VListItem
                   v-bind="props"
@@ -71,7 +71,7 @@ const user = useUser();
                 to="/users/clients"
               />
             </VListGroup>
-            <VListGroup value="Settings" fluid collapse-icon="i-ic:round-keyboard-arrow-up" expand-icon="i-ic:round-keyboard-arrow-down">
+            <VListGroup value="Settings" fluid>
               <template #activator="{ props }">
                 <VListItem
                   v-bind="props"

@@ -1,12 +1,13 @@
 <script setup lang="tsx">
-import { FlexRender, createColumnHelper, getCoreRowModel, useVueTable } from '@tanstack/vue-table';
+import type { SortingState } from '@tanstack/vue-table';
+import { FlexRender, createColumnHelper, getCoreRowModel, getSortedRowModel, useVueTable } from '@tanstack/vue-table';
 import { useRouteQuery } from '@vueuse/router';
 import dayjs from 'dayjs';
 
 const columnHelper = createColumnHelper<Product>();
 
 const route = useRoute();
-// const router = useRouter();
+const router = useRouter();
 
 const selectableCategories = ref<Category[]>([]);
 const selectableTags = ref<Tag[]>([]);
@@ -14,12 +15,21 @@ const showFilters = ref(false);
 const loading = ref(true);
 const data = ref<ApiPagination<Product> | null>(null);
 
+const page = useRouteQuery<string>('page', '1');
 const limit = useRouteQuery<string>('limit', '10');
 const search = useRouteQuery<string | null>('search', null);
-const categories = useRouteQuery<string | string[] | null>('categories', null);
-const tags = useRouteQuery<string | string[] | null>('tags', null);
-const minPrice = useRouteQuery<string | null>('minPrice', null);
-const maxPrice = useRouteQuery<string | null>('maxPrice', null);
+const categories = useRouteQuery<string[] | null>('categories', []);
+const tags = useRouteQuery<string[] | null>('tags', []);
+const price = {
+  min: useRouteQuery<string | null>('price[gte]', null),
+  max: useRouteQuery<string | null>('price[lte]', null),
+};
+const stock = {
+  min: useRouteQuery<string | null>('stock[gte]', null),
+  max: useRouteQuery<string | null>('stock[lte]', null),
+};
+
+const sorting = ref<SortingState>([]);
 
 const columns = [
   columnHelper.display({
@@ -30,7 +40,6 @@ const columns = [
       <div class="flex justify-center">
         <v-checkbox
           hide-details={true} inline={true} class="place-items-center"
-          true-icon="i-mdi:checkbox-marked" false-icon="i-mdi:checkbox-outline"
           onchange={(e: Event) => updatePublication(props.row.original, !!(e.target as HTMLInputElement).checked)}
           true-value={true}
           model-value={props.row.original.published}
@@ -63,12 +72,14 @@ const columns = [
     header: 'Price',
     id: 'price',
     minSize: 100,
+    enableSorting: true,
     cell: v => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(v.getValue()!),
   }),
   columnHelper.accessor('stock', {
     header: 'Stock',
     id: 'stock',
     minSize: 25,
+    enableSorting: true,
     cell: (v) => {
       const value = v.getValue();
       return value ?? '-'
@@ -122,7 +133,19 @@ const table = useVueTable({
   get data() {
     return data.value?.data ?? []
   },
+  state: {
+    get sorting() {
+      return sorting.value
+    },
+  },
+  onSortingChange: (updaterOrValue) => {
+    sorting.value = typeof updaterOrValue === 'function' ? updaterOrValue(sorting.value) : updaterOrValue;
+  },
+  defaultColumn: {
+    enableSorting: false,
+  },
   getCoreRowModel: getCoreRowModel(),
+  getSortedRowModel: getSortedRowModel(),
 });
 
 function getData() {
@@ -141,6 +164,18 @@ function updatePublication(product: Product, published: boolean) {
     .then(() => {
       product.published = published;
     });
+}
+
+function resetFilters() {
+  router.replace({
+    query: {
+      search: undefined,
+      categories: [],
+      tags: [],
+      price: undefined,
+      stock: undefined,
+    },
+  });
 }
 
 const searchValue = useDebounceFn((v: string) => {
@@ -172,6 +207,20 @@ axios.get('categories')
   .then((res) => {
     selectableCategories.value = res.data;
   });
+
+const filtersActive = computed(() => {
+  return (
+    search.value !== null
+    || (categories.value?.length ?? 0) > 0
+    || (tags.value?.length ?? 0) > 0
+    || price.min.value !== null
+    || price.max.value !== null
+  );
+});
+
+watch(sorting, () => {
+  console.log(sorting.value);
+});
 </script>
 
 <template>
@@ -182,65 +231,70 @@ axios.get('categories')
       </VToolbarItems>
     </VToolbar>
     <VCardText>
-      <div class="flex gap-5 px-4">
+      <div class="flex gap-5 px-4 items-center mb-5">
         <div>
           <VCheckbox
             v-model="showFilters" true-icon="i-mdi:filter-cog"
             false-icon="i-mdi:filter-cog-outline"
-            inline
+            inline hide-details
           />
         </div>
+        <VBtn v-if="filtersActive" icon="i-mdi:filter-remove" @click="resetFilters()" />
         <div class="w-30">
-          <VSelect v-model="limit" :items="[10, 25, 50, 100]" label="Limit" />
+          <VSelect v-model="limit" :items="[10, 25, 50, 100]" label="Limit" hide-details />
         </div>
         <div class="!w-100 ml-auto">
           <VTextField
             :model-value="search"
-            label="Search"
+            label="Search" hide-details
             @update:model-value="searchValue"
           />
         </div>
       </div>
-      <div class="flex flex-col md:flex-row gap-5">
-        <div
-          class="w-full md:transition-all"
-          :class="{
-            'max-w-full md:max-w-70': showFilters,
-            'h-0 max-w-0 invisible': !showFilters,
-          }"
-        >
-          <VSelect
-            v-model="categories" multiple :items="selectableCategories"
-            closable-chips item-title="name" item-value="name" label="Category"
-            chips
-          >
-            <template #chip="{ props, item }">
-              <VChip
-                v-bind="props" close-icon="i-mdi:close-circle"
-                :text="item.value"
-              />
-            </template>
-          </VSelect>
-          <VAutocomplete
-            v-model="tags" :items="selectableTags" closable-chips
-            multiple item-title="name" item-value="name"
-            label="Tags" chips @update:search="searchTags" @update:model-value="(v) => tags = v"
-          >
-            <template #chip="{ props: p, item }">
-              <VChip
-                v-bind="p" close-icon="i-mdi:close-circle"
-                :text="item.value"
-              />
-            </template>
-            <template #item="{ props: p, item }">
-              <VListItem
-                v-bind="p"
-                :title="item.value"
-              />
-            </template>
-          </VAutocomplete>
-          <ACurrencyInput v-model="minPrice" label="Min. Price" />
-          <ACurrencyInput v-model="maxPrice" label="Max. Price" />
+      <div>
+        <div>
+          <div class="flex gap-5">
+            <VSelect
+              v-model="categories"
+              class="w-1/2" multiple :items="selectableCategories"
+              closable-chips item-title="name" item-value="name" label="Category"
+              chips clearable
+            >
+              <template #chip="{ props, item }">
+                <VChip
+                  v-bind="props"
+                  :text="item.value"
+                />
+              </template>
+            </VSelect>
+            <VAutocomplete
+              v-model="tags"
+              class="w-1/2" :items="selectableTags" closable-chips
+              multiple item-title="name" item-value="name" clearable
+              label="Tags" chips @update:search="searchTags" @update:model-value="(v) => tags = v"
+            >
+              <template #chip="{ props: p, item }">
+                <VChip
+                  v-bind="p"
+                  :text="item.value"
+                />
+              </template>
+              <template #item="{ props: p, item }">
+                <VListItem
+                  v-bind="p"
+                  :title="item.value"
+                />
+              </template>
+            </VAutocomplete>
+          </div>
+          <div class="flex gap-5">
+            <ACurrencyInput v-model="price.min.value" label="Min. Price" />
+            <ACurrencyInput v-model="price.max.value" label="Max. Price" />
+          </div>
+          <div class="flex gap-5">
+            <ACurrencyInput v-model="stock.min.value" label="Min. Stock" />
+            <ACurrencyInput v-model="stock.max.value" label="Max. Stock" />
+          </div>
         </div>
         <div class="relative rounded overflow-x-auto w-full">
           <VOverlay :model-value="loading" persistent contained class="items-center justify-center">
@@ -255,7 +309,11 @@ axios.get('categories')
                   v-for="header in headerGroup.headers"
                   :key="header.id"
                   :colSpan="header.colSpan"
+                  :class="{
+                    'cursor-pointer select-none': header.column.getCanSort(),
+                  }"
                   :style="{ minWidth: `${header.column.getSize()}px` }"
+                  @click="header.column.getToggleSortingHandler()?.($event)"
                 >
                   <FlexRender
                     v-if="!header.isPlaceholder"
@@ -287,13 +345,14 @@ axios.get('categories')
           </VTable>
         </div>
       </div>
-      <!-- <div class="mt-5">
+      <div class="mt-5">
         <VPagination
-          v-model="params.page"
+          :model-value="+page"
           :length="data?.last_page"
           rounded="circle"
+          @update:model-value="(p) => page = p.toString()"
         />
-      </div> -->
+      </div>
     </VCardText>
   </VCard>
 </template>

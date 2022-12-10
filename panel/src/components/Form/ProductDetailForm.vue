@@ -102,7 +102,6 @@ watch(() => form.tags.length, () => {
       <ACurrencyInput v-model="form.price" label="Price" inputmode="numeric" />
       <div class="flex gap-5 items-center mb-5">
         <VCheckboxBtn
-          true-icon="i-mdi:checkbox-marked" false-icon="i-mdi:checkbox-outline"
           :model-value="(form.stock !== null)"
           @update:model-value="(form.stock = form.stock === null ? 0 : null)"
         />
@@ -121,7 +120,7 @@ watch(() => form.tags.length, () => {
       >
         <template #chip="{ props: p, item }">
           <VChip
-            v-bind="p" close-icon="i-mdi:close-circle"
+            v-bind="p"
             :text="`${item.value.name} ${item.value.products_count ? `(${item.value.products_count})` : ''}`"
           />
         </template>
@@ -133,8 +132,7 @@ watch(() => form.tags.length, () => {
         </template>
       </VAutocomplete>
       <VCheckbox
-        v-model="form.published" true-icon="i-mdi:checkbox-marked"
-        false-icon="i-mdi:checkbox-outline" label="Publish immediately"
+        v-model="form.published" label="Publish immediately"
       />
     </div>
     <VBtn type="submit" color="primary">

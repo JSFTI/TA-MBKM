@@ -11,6 +11,7 @@ import draggableComponent from 'vuedraggable'
 import axios from 'axios';
 import Toast from 'vue-toastification';
 import App from './App.vue'
+import { aliases, mdi } from './customIcons';
 
 import 'vuetify/styles'
 import 'cropperjs/dist/cropper.min.css'
@@ -23,6 +24,13 @@ axios.defaults.baseURL = `${import.meta.env.VITE_API_URL}/api`;
 const vuetify = createVuetify({
   components,
   directives,
+  icons: {
+    defaultSet: 'mdi',
+    sets: {
+      mdi,
+    },
+    aliases,
+  },
 });
 
 const pinia = createPinia();

@@ -19,8 +19,7 @@ class ProductController extends CI_Controller{
     $categories = $this->input->get('categories');
     $tags = $this->input->get('tags');
     $price = $this->input->get('price');
-    $minPrice = $this->input->get('minPrice');
-    $maxPrice = $this->input->get('maxPrice');
+    $stock = $this->input->get('stock');
     $published = $this->input->get('published');
 
     if($search){
@@ -33,19 +32,34 @@ class ProductController extends CI_Controller{
 
     if($tags){
       $product->whereHas('tags', fn($q) => $q->whereIn('name', $tags));
-    }
+    } 
 
     if($price){
-      $product->where('price', $price); 
+      if(is_array($price)){
+        if(isset($price['gte'])){
+          $product->where('price', '>=', $price['gte']);
+        }
+    
+        if(isset($price['lte'])){
+          $product->where('price', '<=', $price['lte']);
+        }
+      } else {
+        $product->where('price', $price);
+      }
     }
-
-    if($minPrice){
-      // echo $minPrice;
-      $product->where('price', '>=', $minPrice);
-    }
-
-    if($maxPrice){
-      $product->where('price', '<=', $maxPrice);
+    
+    if($stock){
+      if(is_array($stock)){
+        if(isset($stock['gte'])){
+          $product->where('stock', '>=', $stock['gte']);
+        }
+    
+        if(isset($stock['lte'])){
+          $product->where('stock', '<=', $stock['lte']);
+        }
+      } else {
+        $product->where('stock', $stock);
+      }
     }
 
     if($published !== null){

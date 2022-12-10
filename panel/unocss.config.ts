@@ -9,6 +9,7 @@ import {
 } from 'unocss'
 
 export default defineConfig({
+  include: 'vue|ts',
   theme: {
     colors: {
       primary: '#FF0000',
