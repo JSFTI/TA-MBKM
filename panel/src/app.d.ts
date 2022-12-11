@@ -78,6 +78,7 @@ type ProductImage = {
   product?: Product
   filename?: string
   url?: string
+  priority?: number | null
   created_at?: string
   updated_at?: string | null
 }

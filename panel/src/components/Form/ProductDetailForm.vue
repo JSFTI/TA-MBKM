@@ -10,6 +10,7 @@ const props = withDefaults(defineProps<{
 
 const initForm = {
   name: '',
+  slug: '',
   category_id: null,
   price: null,
   stock: 0 as number | null,
@@ -20,6 +21,7 @@ const initForm = {
 
 const initInvalidFeedbacks = {
   name: '',
+  slug: '',
   category_id: '',
   price: '',
   stock: '',
@@ -27,6 +29,7 @@ const initInvalidFeedbacks = {
   detail: '',
 };
 
+const toast = useToast();
 const router = useRouter();
 const form = reactive({ ...initForm });
 const invalidFeedbacks = reactive({ ...initInvalidFeedbacks });
@@ -80,9 +83,11 @@ async function handleSubmit() {
   try {
     if (props.id) {
       await axios.put(`products/${props.id}`, formData);
+      toast.success('Product updated');
       return;
     }
     const res = await axios.post<Product>('products', formData);
+    toast.success('Product created');
     router.push(`/products/${res.data.id}`);
   } catch (e: unknown) {
     if (e instanceof AxiosError<ApiInvalidFeedback>)
@@ -98,7 +103,7 @@ function getData() {
       relations: ['tags'],
     },
   }).then((res) => {
-    Object.assign(form, pick(res.data, ['name', 'category_id', 'price', 'stock', 'published', 'tags', 'detail']));
+    Object.assign(form, pick(res.data, ['name', 'category_id', 'price', 'stock', 'published', 'slug', 'tags', 'detail']));
   });
 }
 
@@ -113,43 +118,57 @@ if (props.id)
 <template>
   <VForm @submit.prevent="handleSubmit">
     <div class="flex flex-col gap-2 py-5">
-      <VTextField v-model="form.name" label="Product Name" />
-      <ACurrencyInput v-model="form.price" label="Price" inputmode="numeric" />
-      <div class="flex gap-5 items-center mb-5">
-        <VCheckboxBtn
-          :model-value="(form.stock !== null)"
-          @update:model-value="(form.stock = form.stock === null ? 0 : null)"
+      <div class="grid gap-3 md:grid-cols-1 lg:grid-cols-2">
+        <VTextField
+          v-model="form.name" label="Product Name"
+          :error="!!invalidFeedbacks.name"
+          :error-messages="invalidFeedbacks.name"
         />
         <VTextField
-          v-model="form.stock" type="number" min="0" label="Stock" :disabled="(form.stock === null)"
-          hide-details
-          hint="Disable if stock is infinite"
+          v-model="form.slug" label="Product Slug"
+          :error="!!invalidFeedbacks.slug"
+          :error-messages="invalidFeedbacks.slug"
         />
       </div>
-      <VSelect v-model="form.category_id" :items="categories" item-title="name" item-value="id" label="Category" />
-      <VAutocomplete
-        v-model="form.tags" :items="tags" multiple label="Tags"
-        item-title="name" item-value="name" chips closable-chips
-        return-object placeholder="Duplicate tags will be truncated"
-        :loading="loading.search" @update:search="searchTag"
-      >
-        <template #chip="{ props: p, item }">
-          <VChip
-            v-bind="p"
-            :text="`${item.value.name} ${item.value.products_count ? `(${item.value.products_count})` : ''}`"
+      <div class="grid gap-3 md:grid-cols-1 lg:grid-cols-2">
+        <ACurrencyInput v-model="form.price" label="Price" inputmode="numeric" />
+        <div class="flex gap-5 items-center mb-5">
+          <VCheckboxBtn
+            :model-value="(form.stock !== null)"
+            @update:model-value="(form.stock = form.stock === null ? 0 : null)"
           />
-        </template>
-        <template #item="{ props: p, item }">
-          <VListItem
-            v-bind="p"
-            :title="`${item.value.name} ${item.value.products_count ? `(${item.value.products_count})` : ''}`"
+          <VTextField
+            v-model="form.stock" type="number" min="0" label="Stock" :disabled="(form.stock === null)"
+            hide-details
+            hint="Disable if stock is infinite"
           />
-        </template>
-      </VAutocomplete>
+        </div>
+      </div>
+      <div class="grid gap-3 md:grid-cols-1 lg:grid-cols-2">
+        <VSelect v-model="form.category_id" :items="categories" item-title="name" item-value="id" label="Category" />
+        <VAutocomplete
+          v-model="form.tags" :items="tags" multiple label="Tags"
+          item-title="name" item-value="name" chips closable-chips
+          return-object placeholder="Duplicate tags will be truncated"
+          :loading="loading.search" @update:search="searchTag"
+        >
+          <template #chip="{ props: p, item }">
+            <VChip
+              v-bind="p"
+              :text="`${item.value.name} ${item.value.products_count ? `(${item.value.products_count})` : ''}`"
+            />
+          </template>
+          <template #item="{ props: p, item }">
+            <VListItem
+              v-bind="p"
+              :title="`${item.value.name} ${item.value.products_count ? `(${item.value.products_count})` : ''}`"
+            />
+          </template>
+        </VAutocomplete>
+      </div>
       <VCheckbox
-        v-model="form.published" label="Publish immediately"
+        v-model="form.published" label="Publish"
       />
-      {{ form.detail }}
       <AEditor v-model:content="form.detail" />
     </div>
     <VBtn type="submit" color="primary">

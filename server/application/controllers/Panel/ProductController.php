@@ -22,6 +22,11 @@ class ProductController extends CI_Controller{
     $stock = $this->input->get('stock');
     $published = $this->input->get('published');
     $sortBy = $this->input->get('sortBy');
+    $select = $this->input->get('select');
+
+    if($this->input->get('relations')){
+      $product->with($this->input->get('relations'));
+    }
 
     if($search){
       $product->where('name', 'LIKE', "%$search%");
@@ -77,15 +82,43 @@ class ProductController extends CI_Controller{
         $product->orderByRaw("ISNULL($field), $field " . ($sort[0] === '-' ? 'DESC' : 'ASC'));
       }
     }
+
+    if($select){
+      $select = explode(',', $select);
+      if(!in_array('id', $select)){
+        array_unshift($select, 'id');
+      }
+
+      if(!in_array('thumbnail_id', $select)){
+        array_unshift($select, 'thumbnail_id');
+      }
+
+      $product->select($select);
+    }
     
     return response_json($product->paginate($limit, page: $page)); 
   }
 
   public function show(int $product_id){
+    $select = $this->input->get('select');
+
     $product = Product::query();
 
     if($this->input->get('relations')){
       $product->with($this->input->get('relations'));
+    }
+
+    if($select){
+      $select = explode(',', $select);
+      if(!in_array('id', $select)){
+        array_unshift($select, 'id');
+      }
+
+      if(!in_array('thumbnail_id', $select)){
+        array_unshift($select, 'thumbnail_id');
+      }
+
+      $product->select($select);
     }
 
     $product = $product->find($product_id);
@@ -146,6 +179,15 @@ class ProductController extends CI_Controller{
           'exists' => 'Category does not exist'
         ]
       ],
+      [
+        'field' => 'slug',
+        'label' => 'Slug',
+        'rules' => 'required|callback_value_is_unique[products.slug]',
+        'errors' => [
+          'required' => 'Please provide a URL slug',
+          'value_is_unique' => 'Slug already used by another product'
+        ]
+      ]
     ]);
 
     if(!$this->form_validation->run()){
@@ -161,9 +203,11 @@ class ProductController extends CI_Controller{
     $product = new Product();
 
     $product->name = $post['name'];
+    $product->slug = $post['slug'];
     $product->category_id = $post['category_id'];
     $product->price = $post['price'];
     $product->stock = $post['stock'] ?? null;
+    $product->detail = $post['detail'] ?: null;
     $product->published = $post['published'] ?: false;
 
     $product->save();
@@ -183,7 +227,101 @@ class ProductController extends CI_Controller{
   }
 
   public function update(int $product_id){
+    $product = Product::find($product_id);
 
+    if(!$product){
+      return response_json(['status' => 'Not Found'], 404);
+    }
+
+    $post = get_input_json(TRUE);
+
+    $this->form_validation->set_data($post);
+
+    $this->form_validation->set_rules([
+      [
+        'field' => 'name',
+        'label' => 'Name',
+        'rules' => 'required|max_length[255]',
+        'errors' => [
+          'required' => 'Please provide a display name',
+          'max_length' => 'Maximum length for display name is 255 characters'
+        ]
+      ],
+      [
+        'field' => 'price',
+        'label' => 'Price',
+        'rules' => 'required|numeric',
+        'errors' => [
+          'required' => 'Please provide a price',
+          'numeric' => 'Please provide a numeric value',
+        ]
+      ],
+      [
+        'field' => 'detail',
+        'label' => 'Detail',
+        'rules' => 'max_length[65535]',
+        'errors' => [
+          'max_length' => 'Detail too long'
+        ]
+      ],
+      [
+        'field' => 'stock',
+        'label' => 'Stock',
+        'rules' => 'numeric',
+        'errors' => [
+          'numeric' => 'Please provide a numeric value',
+        ]
+      ],
+      [
+        'field' => 'category_id',
+        'label' => 'Category',
+        'rules' => 'required|callback_exists[categories.id]',
+        'errors' => [
+          'required' => 'Please provide product\'s category',
+          'exists' => 'Category does not exist'
+        ]
+      ],
+      [
+        'field' => 'slug',
+        'label' => 'Slug',
+        'rules' => "required|callback_value_is_unique[products.slug.{$product_id}]",
+        'errors' => [
+          'required' => 'Please provide a URL slug',
+          'value_is_unique' => 'Slug already used by another product'
+        ]
+      ]
+    ]);
+
+    if(!$this->form_validation->run()){
+      response_json([
+        'status' => 'Unprocessable Entity',
+        'errors' => $this->form_validation->error_array()
+      ], 422);
+      return;
+    }
+
+    DB::connection()->beginTransaction();
+
+    $product->name = $post['name'];
+    $product->slug = $post['slug'];
+    $product->category_id = $post['category_id'];
+    $product->price = $post['price'];
+    $product->stock = $post['stock'] ?? null;
+    $product->detail = $post['detail'] ?: null;
+    $product->published = $post['published'] ?: false;
+
+    $product->save();
+
+    Tag::upsert(
+      array_map(fn($x) => ['name' => $x], $post['tags']),
+      ['name']
+    );
+
+    $tags = Tag::whereIn('name', $post['tags'])->get();
+
+    $product->tags()->sync($tags);
+
+    DB::connection()->commit();
   }
 
   public function destroy(int $product_id){

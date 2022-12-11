@@ -104,6 +104,15 @@ const heading = computed({
 onBeforeUnmount(() => {
   editor.value?.destroy();
 });
+
+watch(() => props.content, () => {
+  const isSame = editor.value?.getHTML() === props.content;
+
+  if (isSame)
+    return
+
+  editor.value?.commands.setContent(props.content, false);
+})
 </script>
 
 <template>
@@ -206,6 +215,10 @@ onBeforeUnmount(() => {
 
   ul, ol{
     @apply pl-5
+  }
+
+  *{
+    line-height: 2rem;
   }
 }
 </style>

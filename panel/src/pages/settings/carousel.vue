@@ -17,8 +17,11 @@ function fileEnter(e: DragEvent) {
   fileHovering.value = true;
 }
 
-function fileExit(e: DragEvent) {
+function fileLeave(e: DragEvent) {
   e.preventDefault();
+  if ((e.target as HTMLElement).id !== 'carousel-card')
+    return;
+
   fileHovering.value = false;
 }
 
@@ -137,24 +140,30 @@ const nonApprovedCarousels = computed(() => {
         </VBtn>
       </div>
       <VCard
-        class="mt-10"
+        id="carousel-card" class="mt-10"
+        :class="{ 'is-file-hovering': fileHovering }"
         @dragover="fileDragging"
         @dragenter="fileEnter"
-        @dragexit="fileExit"
+        @dragleave="fileLeave"
         @drop="fileDrop"
       >
-        <VOverlay :model-value="fileHovering" persistent contained class="items-center justify-center">
-          <div class="i-mdi:upload text-7xl" />
-          <div class="select-none">
+        <div
+          class="pointer-events-none absolute z-100 top-0 left-0 w-full h-full bg-light bg-opacity-50 items-center justify-center flex flex-col opacity-0 transition"
+          :class="{
+            '!opacity-100': fileHovering,
+          }"
+        >
+          <div class="i-mdi:upload text-7xl text-dark" />
+          <div class="select-none text-dark font-bold">
             Drop Carousel
           </div>
-        </VOverlay>
+        </div>
         <VToolbar title="Carousels" color="rgba(0,0,0,0)">
           <VToolbarItems>
             <VBtn icon="i-ic:round-add" class="!bg-success !text-white" tag="label" for="carousel" />
             <input
               id="carousel" type="file" class="w-0 h-0 invisible m-0 p-0"
-              multiple @change="handleChange"
+              multiple accept="image/*" @change="handleChange"
             />
           </VToolbarItems>
         </VToolbar>
@@ -162,7 +171,7 @@ const nonApprovedCarousels = computed(() => {
           <div class="flex gap-5 flex-wrap">
             <VCard
               v-for="carousel in nonApprovedCarousels" :key="carousel.id"
-              class="cursor-pointer rounded-0 !w-60 !flex items-center gap-5 flex-col" flat
+              class="rounded-0 !w-60 !flex items-center gap-5 flex-col" flat
             >
               <img draggable="false" class="object-cover !w-60 aspect-ratio-16/9" :src="carousel.url" />
               <VCardText class="!py-0">

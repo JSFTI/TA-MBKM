@@ -48,9 +48,9 @@ class CarouselController extends CI_Controller{
       response_json(['status' => 'Not Found'], 404);
       return;
     }
-
-    if(file_exists(PUBLIC_PATH . "/carousels/{$carousel->filename}")){
-      unlink(PUBLIC_PATH . "/carousels/{$carousel->filename}");
+  
+    if(file_exists(STORAGE_PATH . "/public/carousels/{$carousel->filename}")){
+      unlink(STORAGE_PATH . "/public/carousels/{$carousel->filename}");
     }
 
     $carousel->delete();

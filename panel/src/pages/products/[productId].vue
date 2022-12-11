@@ -1,19 +1,7 @@
 <script setup lang="ts">
-// import { pick } from 'lodash';
-
 defineProps<{
   productId: string
 }>();
-
-// const product = ref<Product | null>(null);
-
-// axios.get<Product>(`/products/${props.productId}`, {
-//   params: {
-//     relations: ['tags', 'category', 'thumbnail', 'images'],
-//   },
-// }).then((res) => {
-//   product.value = pick(res.data, ['id', 'name', 'price', 'detail', 'stock', 'published']);
-// });
 </script>
 
 <template>
@@ -22,4 +10,5 @@ defineProps<{
       <ProductDetailForm :id="+productId" />
     </VCardText>
   </VCard>
+  <ProductImages :id="+productId" class="mt-5" />
 </template>

@@ -29,3 +29,7 @@ html{
   background-clip: padding-box;
   @apply bg-gray dark:bg-light rounded-full;
 }
+
+.is-file-hovering *{
+  pointer-events: none;
+}
