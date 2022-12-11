@@ -71,25 +71,32 @@ body {
   display: block;
 }
 
-.navbar-grid {
+.main-carousel .arrow-button {
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+  font-size: 3.75rem;
+  line-height: 1;
+  background-color: rgba(200, 200, 200, 0.75);
+  border-radius: 50%;
+  padding: 0.5rem;
   display: flex;
-  align-items: center;
+  justify-content: center;
+  transition: 200ms linear all;
 }
-@media screen and (max-width: 992px) {
-  .navbar-grid {
-    display: grid;
-    grid-template-areas: "a c c" "b b b";
-  }
-  .navbar-grid .logo {
-    grid-area: a;
-  }
-  .navbar-grid .search {
-    grid-area: b;
-  }
-  .navbar-grid .buttons {
-    grid-area: c;
-    justify-self: flex-end;
-  }
+.main-carousel .arrow-button:hover {
+  background-color: #c8c8c8;
+}
+.main-carousel::after {
+  content: " ";
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background: linear-gradient(0deg, rgba(2, 0, 36, 0.2) 0%, rgba(128, 128, 128, 0) 50%);
 }
 
 /*# sourceMappingURL=style.css.map */

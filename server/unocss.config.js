@@ -17,9 +17,8 @@ export default defineConfig({
       'a-btn': 'rounded-1 px-4 py-2 bg-neutral hover:(shadow-md shadow-gray) transition',
     },
     [/^a-btn-(.*)-(.*)$/, ([, theme, shadow]) => {
-      console.log(shadow);
-      return `bg-${theme} hover:shadow-${shadow}
-    `}]
+      return `bg-${theme} hover:shadow-${shadow}`;
+    }]
   ],
   presets: [
     presetUno(),
