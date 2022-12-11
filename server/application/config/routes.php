@@ -91,6 +91,7 @@ $route['api/categories']['get'] = 'Panel/CategoryController';
 $route['api/tags']['get'] = 'Panel/TagController';
 
 $route['api/products']['get'] = 'Panel/ProductController';
+$route['api/products/(:num)']['get'] = 'Panel/ProductController/show/$1';
 $route['api/products']['post'] = 'Panel/ProductController/create';
 $route['api/products/(:num)']['put'] = 'Panel/ProductController/update/$1';
 $route['api/products/(:num)']['delete'] = 'Panel/ProductController/destroy/$1';

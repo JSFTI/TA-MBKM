@@ -25,6 +25,16 @@ const sorting = ref<SortingState>([]);
 
 const columns = [
   columnHelper.display({
+    id: 'action',
+    maxSize: 40,
+    header: '',
+    cell: props => (
+      <div class="flex justify-center">
+        <v-btn to={`/products/${props.row.original.id}`} icon="i-mdi:magnify" />
+      </div>
+    ),
+  }),
+  columnHelper.display({
     id: 'published',
     maxSize: 50,
     header: 'Published',

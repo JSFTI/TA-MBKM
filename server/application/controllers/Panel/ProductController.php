@@ -81,6 +81,22 @@ class ProductController extends CI_Controller{
     return response_json($product->paginate($limit, page: $page)); 
   }
 
+  public function show(int $product_id){
+    $product = Product::query();
+
+    if($this->input->get('relations')){
+      $product->with($this->input->get('relations'));
+    }
+
+    $product = $product->find($product_id);
+
+    if(!$product){
+      return response_json(['status' => 'Not Found'], 404);
+    }
+
+    response_json($product);
+  }
+
   public function create(){
     $post = get_input_json(TRUE);
 

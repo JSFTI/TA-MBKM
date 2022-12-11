@@ -15,6 +15,7 @@ import App from './App.vue'
 import { aliases, mdi } from './customIcons';
 
 import 'cropperjs/dist/cropper.min.css'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import './styles/toastification.scss';
 import './styles/main.scss'
 import 'uno.css'

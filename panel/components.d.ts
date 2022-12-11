@@ -8,6 +8,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ACurrencyInput: typeof import('./src/components/CustomInput/ACurrencyInput.vue')['default']
+    AEditor: typeof import('./src/components/CustomInput/AEditor.vue')['default']
     ChangePasswordCard: typeof import('./src/components/Form/ChangePasswordCard.vue')['default']
     CollapseTransition: typeof import('@ivanv/vue-collapse-transition/src/CollapseTransition.vue')['default']
     ComplexProductFilter: typeof import('./src/components/Form/ComplexProductFilter.vue')['default']
@@ -39,12 +40,14 @@ declare module '@vue/runtime-core' {
     VExpansionPanel: typeof import('vuetify/components')['VExpansionPanel']
     VExpansionPanels: typeof import('vuetify/components')['VExpansionPanels']
     VForm: typeof import('vuetify/components')['VForm']
+    VIcon: typeof import('vuetify/components')['VIcon']
     VImg: typeof import('vuetify/components')['VImg']
     VLayout: typeof import('vuetify/components')['VLayout']
     VList: typeof import('vuetify/components')['VList']
     VListGroup: typeof import('vuetify/components')['VListGroup']
     VListItem: typeof import('vuetify/components')['VListItem']
     VMain: typeof import('vuetify/components')['VMain']
+    VMenu: typeof import('vuetify/components')['VMenu']
     VNavigationDrawer: typeof import('vuetify/components')['VNavigationDrawer']
     VOverlay: typeof import('vuetify/components')['VOverlay']
     VPagination: typeof import('vuetify/components')['VPagination']

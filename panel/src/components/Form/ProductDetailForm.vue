@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AxiosError } from 'axios';
-import { uniqBy } from 'lodash';
+import { pick, uniqBy } from 'lodash';
 
 const props = withDefaults(defineProps<{
   id?: number | null
@@ -15,6 +15,7 @@ const initForm = {
   stock: 0 as number | null,
   published: false,
   tags: [] as Tag[],
+  detail: '',
 };
 
 const initInvalidFeedbacks = {
@@ -23,6 +24,7 @@ const initInvalidFeedbacks = {
   price: '',
   stock: '',
   published: '',
+  detail: '',
 };
 
 const router = useRouter();
@@ -90,9 +92,22 @@ async function handleSubmit() {
   }
 }
 
+function getData() {
+  axios.get<Product>(`/products/${props.id}`, {
+    params: {
+      relations: ['tags'],
+    },
+  }).then((res) => {
+    Object.assign(form, pick(res.data, ['name', 'category_id', 'price', 'stock', 'published', 'tags', 'detail']));
+  });
+}
+
 watch(() => form.tags.length, () => {
   form.tags = uniqBy(form.tags, 'name');
 });
+
+if (props.id)
+  getData();
 </script>
 
 <template>
@@ -134,6 +149,8 @@ watch(() => form.tags.length, () => {
       <VCheckbox
         v-model="form.published" label="Publish immediately"
       />
+      {{ form.detail }}
+      <AEditor v-model:content="form.detail" />
     </div>
     <VBtn type="submit" color="primary">
       Submit

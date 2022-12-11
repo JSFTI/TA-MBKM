@@ -58,7 +58,7 @@ type Carousel = {
 type Product = {
   id?: number
   thumbnail_id?: number | null
-  thumbnail: ProductImage
+  thumbnail?: ProductImage
   category_id?: number | null
   category?: Category
   name?: string
