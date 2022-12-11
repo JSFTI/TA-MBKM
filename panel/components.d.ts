@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     ChangePasswordCard: typeof import('./src/components/Form/ChangePasswordCard.vue')['default']
     CollapseTransition: typeof import('@ivanv/vue-collapse-transition/src/CollapseTransition.vue')['default']
     ComplexProductFilter: typeof import('./src/components/Form/ComplexProductFilter.vue')['default']
+    Draggable: typeof import('vuedraggable')['default']
     ForcePasswordForm: typeof import('./src/components/Form/ForcePasswordForm.vue')['default']
     FormProfileCard: typeof import('./src/components/Form/FormProfileCard.vue')['default']
     NewUserForm: typeof import('./src/components/Form/NewUserForm.vue')['default']

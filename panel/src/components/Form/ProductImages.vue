@@ -5,7 +5,7 @@ const props = defineProps<{
   id: number
 }>();
 const state = reactive<{
-  thumbnail: ProductImage | null
+  thumbnail_id: number | null
   images: ProductImage[]
 }>({
   thumbnail: null,
@@ -19,14 +19,12 @@ function fileDragging(e: DragEvent) {
 
 function fileEnter(e: DragEvent) {
   e.preventDefault();
+
   fileHovering.value = true;
 }
 
 function fileExit(e: DragEvent) {
   e.preventDefault();
-
-  if ((e.target as HTMLElement).id !== 'image-bag')
-    return;
 
   fileHovering.value = false;
 }
@@ -34,7 +32,7 @@ function fileExit(e: DragEvent) {
 function fileDrop(e: DragEvent) {
   e.preventDefault();
   fileHovering.value = false;
-  if (e.dataTransfer)
+  if (e.dataTransfer?.files.length)
     addImages(e.dataTransfer.files);
 }
 
@@ -59,13 +57,37 @@ function addImages(images: FileList) {
     });
 }
 
+function handleDelete(imageId: number) {
+  axios.delete(`/product-images/${imageId}`)
+    .then(() => {
+      state.images = state.images.filter(x => x.id !== imageId);
+    });
+}
+
+function handleReorder(newImages: ProductImage[]) {
+  state.images = newImages.map((x, i) => ({
+    ...x,
+    priority: i + 1,
+  }));
+
+  axios.patch(`/products/${props.id}/images`, state.images);
+}
+
+function handleSetAsThumbnail(imageId: number | null) {
+  axios.put(`/products/${props.id}/thumbnail`, {
+    thumbnail_id: imageId,
+  }).then(() => {
+    state.thumbnail_id = imageId;
+  });
+}
+
 axios.get<Product>(`/products/${props.id}`, {
   params: {
-    select: 'id',
-    relations: ['thumbnail', 'images'],
+    select: 'id,thumbnail_id',
+    relations: ['images'],
   },
 }).then((res) => {
-  Object.assign(state, pick(res.data, ['thumbnail', 'images']));
+  Object.assign(state, pick(res.data, ['thumbnail_id', 'images']));
 });
 </script>
 
@@ -98,10 +120,28 @@ axios.get<Product>(`/products/${props.id}`, {
       </VToolbarItems>
     </VToolbar>
     <VCardText>
-      <div v-if="state.images.length > 0">
-        {{ state.images }}
-      </div>
-      <div v-else class="text-3xl text-center py-5 font-bold">
+      <Draggable
+        v-if="state.images.length > 0" :model-value="state.images"
+        class="flex gap-5 flex-wrap"
+        @update:model-value="handleReorder"
+      >
+        <template #item="{ element }">
+          <VCard
+            class="rounded-0 !w-60 !flex items-center gap-5 flex-col" flat
+            :class="element.id === state.thumbnail_id ? 'border-2 border-gray' : ''"
+          >
+            <img draggable="false" class="object-cover !w-60 aspect-ratio-16/9" :src="element.url" />
+            <VCardActions class="!py-0 flex gap-5">
+              <VBtn
+                :icon="element.id === state.thumbnail_id ? 'i-mdi:image-off' : 'i-mdi:file-image-box'"
+                size="small" color="primary" @click="handleSetAsThumbnail(element.id === state.thumbnail_id ? null : element.id!)"
+              />
+              <VBtn icon="i-mdi:trash-can" size="small" class="text-danger" @click="handleDelete(element.id!)" />
+            </VCardActions>
+          </VCard>
+        </template>
+      </Draggable>
+      <div v-else-if="state.images.length === 0" class="text-3xl text-center py-5 font-bold">
         No Images Found
       </div>
     </VCardText>

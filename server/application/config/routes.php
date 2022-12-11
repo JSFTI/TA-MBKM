@@ -96,12 +96,16 @@ $route['api/products']['post'] = 'Panel/ProductController/create';
 $route['api/products/(:num)']['put'] = 'Panel/ProductController/update/$1';
 $route['api/products/(:num)']['delete'] = 'Panel/ProductController/destroy/$1';
 
+$route['api/products/(:num)/thumbnail']['put'] = 'Panel/Product/ThumbnailController/update/$1';
+$route['api/products/(:num)/thumbnail']['delete'] = 'Panel/Product/ThumbnailController/destroy/$1';
+
 $route['api/products/(:num)/published']['put'] = 'Panel/Product/PublishController/index/update/$1';
 $route['api/products/(:num)/published']['delete'] = 'Panel/Product/PublishController/index/destroy/$1';
 
 $route['api/products/(:num)/images']['get'] = 'Panel/Product/ImageController/$1';
 $route['api/products/(:num)/images']['post'] = 'Panel/Product/ImageController/create/$1';
 $route['api/products/(:num)/images']['patch'] = 'Panel/Product/ImageController/edit/$1';
+
 $route['api/product-images/(:num)']['delete'] = 'Panel/Product/ImageController/destroy/$1';
 
 $route['storage/(.*)'] = 'StorageController/index/$1';

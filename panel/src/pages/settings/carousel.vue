@@ -28,7 +28,7 @@ function fileLeave(e: DragEvent) {
 function fileDrop(e: DragEvent) {
   e.preventDefault();
   fileHovering.value = false;
-  if (e.dataTransfer)
+  if (e.dataTransfer?.files.length)
     addImages(e.dataTransfer.files);
 }
 
