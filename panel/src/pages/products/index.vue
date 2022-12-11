@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import type { SortingState } from '@tanstack/vue-table';
-import { FlexRender, createColumnHelper, getCoreRowModel, getSortedRowModel, useVueTable } from '@tanstack/vue-table';
+import { FlexRender, createColumnHelper, getCoreRowModel, useVueTable } from '@tanstack/vue-table';
 import { useRouteQuery } from '@vueuse/router';
 import dayjs from 'dayjs';
 import { pick } from 'lodash';
@@ -12,11 +12,13 @@ const router = useRouter();
 const selectableCategories = ref<Category[]>([]);
 const showFilters = ref(false);
 const loading = ref(true);
+const error = ref(false);
 const data = ref<ApiPagination<Product> | null>(null);
 
 const page = useRouteQuery<string>('page', '1');
 const limit = useRouteQuery<string>('limit', '10');
 const search = useRouteQuery<string | null>('search', null);
+const sortBy = useRouteQuery<string | null>('sortBy', null);
 const filters = reactive(pick(router.currentRoute.value.query, ['categories', 'tags', 'price', 'stock']));
 
 const sorting = ref<SortingState>([]);
@@ -135,15 +137,17 @@ const table = useVueTable({
     enableSorting: false,
   },
   getCoreRowModel: getCoreRowModel(),
-  getSortedRowModel: getSortedRowModel(),
 });
 
 function getData() {
   loading.value = true;
+  error.value = false;
   axios.get<ApiPagination<Product>>('products', {
     params: router.currentRoute.value.query,
   }).then((res) => {
     data.value = res.data;
+  }).catch(() => {
+    error.value = true;
   }).finally(() => {
     loading.value = false;
   });
@@ -173,6 +177,14 @@ const searchValue = useDebounceFn((v: string) => {
 watch(() => router.currentRoute.value.query, () => {
   getData();
 }, { deep: true });
+
+watch(() => sorting.value, () => {
+  let sortByQuery = '';
+  for (const sort of sorting.value)
+    sortByQuery += `${(sort.desc ? '-' : '+') + sort.id},`;
+
+  sortBy.value = sortByQuery.slice(0, -1) || null;
+});
 
 getData();
 
@@ -238,29 +250,45 @@ axios.get('categories')
                   :style="{ minWidth: `${header.column.getSize()}px` }"
                   @click="header.column.getToggleSortingHandler()?.($event)"
                 >
-                  <FlexRender
-                    v-if="!header.isPlaceholder"
-                    :render="header.column.columnDef.header"
-                    :props="header.getContext()"
-                  />
+                  <div class="flex items-center gap-4">
+                    <FlexRender
+                      v-if="!header.isPlaceholder"
+                      :render="header.column.columnDef.header"
+                      :props="header.getContext()"
+                    />
+                    <div
+                      :class="{
+                        asc: 'i-mdi:chevron-up', desc: 'i-mdi:chevron-down',
+                      }[header.column.getIsSorted() as string]"
+                    />
+                  </div>
                 </th>
               </tr>
             </thead>
             <tbody>
-              <template v-if="(table.getRowModel().rows.length > 0)">
-                <tr v-for="row in table.getRowModel().rows" :key="row.id">
-                  <td v-for="cell in row.getVisibleCells()" :key="cell.id">
-                    <FlexRender
-                      :render="cell.column.columnDef.cell"
-                      :props="cell.getContext()"
-                    />
-                  </td>
-                </tr>
+              <template v-if="!error">
+                <template v-if="(table.getRowModel().rows.length > 0)">
+                  <tr v-for="row in table.getRowModel().rows" :key="row.id">
+                    <td v-for="cell in row.getVisibleCells()" :key="cell.id">
+                      <FlexRender
+                        :render="cell.column.columnDef.cell"
+                        :props="cell.getContext()"
+                      />
+                    </td>
+                  </tr>
+                </template>
+                <template v-else-if="!loading">
+                  <tr>
+                    <td :colspan="columns.length" class="text-center font-bold !text-2xl">
+                      No Data Available
+                    </td>
+                  </tr>
+                </template>
               </template>
-              <template v-else-if="!loading">
+              <template v-else>
                 <tr>
                   <td :colspan="columns.length" class="text-center font-bold !text-2xl">
-                    No Data Available
+                    Server Error
                   </td>
                 </tr>
               </template>

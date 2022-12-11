@@ -21,6 +21,7 @@ class ProductController extends CI_Controller{
     $price = $this->input->get('price');
     $stock = $this->input->get('stock');
     $published = $this->input->get('published');
+    $sortBy = $this->input->get('sortBy');
 
     if($search){
       $product->where('name', 'LIKE', "%$search%");
@@ -66,6 +67,15 @@ class ProductController extends CI_Controller{
 
     if($published !== null){
       $product->where('published', $published);
+    }
+
+    if($sortBy){
+      $sortBy = explode(',', $sortBy);
+
+      foreach($sortBy as $sort){
+        $field = substr($sort, 1);
+        $product->orderByRaw("ISNULL($field), $field " . ($sort[0] === '-' ? 'DESC' : 'ASC'));
+      }
     }
     
     return response_json($product->paginate($limit, page: $page)); 
