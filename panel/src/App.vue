@@ -19,7 +19,7 @@ const user = useUser();
           </template>
           <div class="flex gap-3 mr-5">
             <VBtn :icon="isDark ? 'i-ic:baseline-dark-mode' : 'i-ic:baseline-light-mode'" @click="toggleDark(!isDark)" />
-            <VBtn :href="baseUrlApi('/logout')" icon="i-ic:round-log-out" @click="toggleDark(!isDark)" />
+            <VBtn :href="baseUrlApi('/logout')" icon="i-ic:round-log-out" />
           </div>
         </VAppBar>
         <VNavigationDrawer v-model="showNavigation" class="pt-3" elevation="10">
@@ -54,7 +54,7 @@ const user = useUser();
               />
             </VListGroup>
             <VListItem prepend-icon="i-ic:baseline-receipt" to="/orders" nav title="Orders" />
-            <VListGroup value="Users">
+            <VListGroup v-if="user.role?.name === 'admin'" value="Users">
               <template #activator="{ props }">
                 <VListItem
                   v-bind="props"

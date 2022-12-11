@@ -4,10 +4,12 @@ import { FlexRender, createColumnHelper, getCoreRowModel, useVueTable } from '@t
 import { useRouteQuery } from '@vueuse/router';
 import dayjs from 'dayjs';
 import { pick } from 'lodash';
+import { useUser } from '~/stores/useUser';
 
 const columnHelper = createColumnHelper<Product>();
 
 const router = useRouter();
+const user = useUser();
 
 const selectableCategories = ref<Category[]>([]);
 const showFilters = ref(false);
@@ -40,12 +42,16 @@ const columns = [
     header: 'Published',
     cell: props => (
       <div class="flex justify-center">
-        <v-checkbox
-          hide-details={true} inline={true} class="place-items-center"
-          onchange={(e: Event) => updatePublication(props.row.original, !!(e.target as HTMLInputElement).checked)}
-          true-value={true}
-          model-value={props.row.original.published}
-        />
+        {
+          user.role?.name === 'admin'
+            ? <v-checkbox
+              hide-details={true} inline={true} class="place-items-center"
+              onchange={(e: Event) => updatePublication(props.row.original, !!(e.target as HTMLInputElement).checked)}
+              true-value={true}
+              model-value={props.row.original.published}
+            />
+            : <div class={props.row.original.published ? 'i-mdi:check' : ''} />
+        }
       </div>
     ),
   }),

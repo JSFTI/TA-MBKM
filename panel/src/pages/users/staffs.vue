@@ -1,23 +1,18 @@
 <script setup lang="tsx">
 import { FlexRender, createColumnHelper, getCoreRowModel, useVueTable } from '@tanstack/vue-table';
+import { useRouteQuery } from '@vueuse/router';
 import { useUser } from '~/stores/useUser';
 
 const columnHelper = createColumnHelper<User>();
 
-const route = useRoute();
 const router = useRouter();
 const user = useUser();
 const showModal = ref<number | null>(null);
 const data = ref<ApiPagination<User> | null>(null);
 const loading = ref(true);
-const params = reactive<{
-  limit?: number
-  search?: string
-  page?: number
-}>({
-  limit: 2,
-  ...route.query,
-});
+const page = useRouteQuery<string>('page', '1');
+const limit = useRouteQuery<string>('limit', '10');
+const search = useRouteQuery<string | null>('search', null);
 
 const columns = [
   columnHelper.display({
@@ -61,7 +56,7 @@ const table = useVueTable({
 
 function getData() {
   loading.value = true;
-  axios.get('users', { params })
+  axios.get('users', { params: router.currentRoute.value.query })
     .then((res) => {
       data.value = res.data;
     })
@@ -90,18 +85,14 @@ function handleDelete(id: number) {
 }
 
 const handleSearch = useDebounceFn((v) => {
-  params.search = v || undefined;
+  search.value = v || undefined;
 }, 200)
 
 getData();
 
-watch(params, () => {
-  router.replace({
-    query: params,
-  });
-
+watch(() => router.currentRoute.value.query, () => {
   getData();
-});
+}, { deep: true });
 </script>
 
 <template>
@@ -111,17 +102,17 @@ watch(params, () => {
         Staffs
       </VToolbarTitle>
       <VToolbarItems>
-        <VBtn v-model="params.limit" icon="i-ic:round-add" class="!bg-success !text-white" @click="(showModal = 0)" />
+        <VBtn icon="i-ic:round-add" class="!bg-success !text-white" @click="(showModal = 0)" />
       </VToolbarItems>
     </VToolbar>
     <div class="p-5">
       <div class="flex gap-2">
         <div class="w-30">
-          <VSelect v-model="params.limit" :items="[10, 25, 50, 100]" label="Limit" />
+          <VSelect v-model="limit" :items="[10, 25, 50, 100]" label="Limit" />
         </div>
         <div class="!w-100 ml-auto">
           <VTextField
-            :model-value="params.search"
+            :model-value="search"
             label="Search"
             @update:model-value="handleSearch"
           />
@@ -173,9 +164,10 @@ watch(params, () => {
       </div>
       <div class="mt-5">
         <VPagination
-          v-model="params.page"
+          :model-value="+page"
           :length="data?.last_page"
           rounded="circle"
+          @update:model-value="p => page = p.toString()"
         />
       </div>
     </div>

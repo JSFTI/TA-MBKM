@@ -12,6 +12,7 @@ interface Filter {
     gte?: string
     lte?: string
   } | 'infinite' | '0'
+  published: 1 | 0 | null
 }
 
 const props = defineProps<{
@@ -47,6 +48,7 @@ function handleReset() {
     tags: [],
     price: undefined,
     stock: undefined,
+    published: null,
   });
 
   emit('update:filters', filters);
@@ -126,12 +128,13 @@ const filled = computed(() => {
     || (typeof filters.stock !== 'object' && filters.price != null)
     || !isEmpty(filters.price)
     || (typeof filters.stock !== 'object' && filters.stock != null)
-    || !isEmpty(filters.stock);
+    || !isEmpty(filters.stock)
+    || filters.published !== null;
 });
 </script>
 
 <template>
-  <div class="flex flex-col gap-5">
+  <div class="flex flex-col gap-2">
     <div class="flex flex-col md:flex-row gap-5">
       <VSelect
         v-model="filters.categories" class="w-full md:w-1/2"
@@ -180,14 +183,24 @@ const filled = computed(() => {
         label="Max. Stock" hide-details
       />
     </div>
-    <div class="flex">
+    <div class="grid grid-cols-1 md:grid-cols-2">
       <VCheckbox
         v-model="filters.stock" box :true-value="0" :false-value="{}"
-        label="Stock empty"
+        label="Stock empty" hide-details
       />
       <VCheckbox
         v-model="filters.stock" box true-value="infinite" :false-value="{}"
-        label="Stock infinite"
+        label="Stock infinite" hide-details
+      />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2">
+      <VCheckbox
+        v-model="filters.published" box :true-value="1" :false-value="null"
+        label="Show published products" hide-details
+      />
+      <VCheckbox
+        v-model="filters.published" box true-value="0" :false-value="null"
+        label="Show unpublished products" hide-details
       />
     </div>
     <div class="flex justify-center gap-10">

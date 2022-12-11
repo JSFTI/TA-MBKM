@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { AxiosError } from 'axios';
 import { pick, uniqBy } from 'lodash';
+import { useUser } from '~/stores/useUser';
 
 const props = withDefaults(defineProps<{
   id?: number | null
@@ -29,6 +30,7 @@ const initInvalidFeedbacks = {
   detail: '',
 };
 
+const user = useUser();
 const toast = useToast();
 const router = useRouter();
 const form = reactive({ ...initForm });
@@ -167,7 +169,7 @@ if (props.id)
         </VAutocomplete>
       </div>
       <VCheckbox
-        v-model="form.published" label="Publish"
+        v-if="user.role?.name === 'admin'" v-model="form.published" label="Publish"
       />
       <AEditor v-model:content="form.detail" />
     </div>

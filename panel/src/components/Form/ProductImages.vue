@@ -8,7 +8,7 @@ const state = reactive<{
   thumbnail_id: number | null
   images: ProductImage[]
 }>({
-  thumbnail: null,
+  thumbnail_id: null,
   images: [],
 });
 const fileHovering = ref(false);

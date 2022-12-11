@@ -325,6 +325,29 @@ class ProductController extends CI_Controller{
   }
 
   public function destroy(int $product_id){
+    $product = Product::with('images')->find($product_id);
 
+    if(!$product){
+      return response_json(['status' => 'Not Found'], 404);
+    }
+
+    if($product->published){
+      return response_json([
+        'status' => 'Bad Request',
+        'message' => 'Cannot delete published product'
+      ], 400);
+    }
+
+    DB::connection()->beginTransaction();
+
+    foreach($product->images as $image){
+      if(file_exists(STORAGE_PATH . "/public/products/{$image->filename}")){
+        unlink(STORAGE_PATH . "/public/products/{$image->filename}");
+      }
+    }
+    
+    $product->delete();
+
+    DB::connection()->commit();
   }
 }

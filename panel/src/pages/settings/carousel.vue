@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { sortBy } from 'lodash';
 import dayjs from 'dayjs';
+import { useUser } from '~/stores/useUser';
 
 const toast = useToast();
+const user = useUser();
 const approvedCarousels = ref<Carousel[]>([]);
 const carousels = ref<Carousel[]>([]);
 const fileHovering = ref(false);
@@ -112,35 +114,37 @@ const nonApprovedCarousels = computed(() => {
 <template>
   <VCard title="Carousel Setting">
     <div class="p-5">
-      <Draggable
-        v-model="approvedCarousels" item-key="id"
-        class="flex gap-5 flex-wrap justify-center"
-        @change="(isDirty = true)"
-      >
-        <template #item="{ element }">
-          <VCard
-            class="cursor-pointer rounded-0 !w-50 !flex items-center gap-5 flex-col" flat
-          >
-            <img draggable="false" class="object-cover !w-50 aspect-ratio-16/9" :src="element.url" />
-            <VCardText class="!py-0">
-              <p class="text-center">
-                {{ element.filename }}
-              </p>
-            </VCardText>
-            <VCardActions class="!py-0 flex gap-5 justify-center">
-              <VBtn icon="i-mdi:cancel" size="small" class="!bg-danger !text-black" @click="handleDisapprove(element)" />
-              <VBtn icon="i-mdi:trash-can" size="small" class="!bg-danger !text-black" @click="handleDelete(element.id)" />
-            </VCardActions>
-          </VCard>
-        </template>
-      </Draggable>
-      <div class="text-center">
-        <VBtn color="primary" @click="handleSaveOrder">
-          Update Carousel Order
-        </VBtn>
+      <div v-if="user.role?.name === 'admin'" class="mb-10">
+        <Draggable
+          v-model="approvedCarousels" item-key="id"
+          class="flex gap-5 flex-wrap justify-center"
+          @change="(isDirty = true)"
+        >
+          <template #item="{ element }">
+            <VCard
+              class="cursor-pointer rounded-0 !w-50 !flex items-center gap-5 flex-col" flat
+            >
+              <img draggable="false" class="object-cover !w-50 aspect-ratio-16/9" :src="element.url" />
+              <VCardText class="!py-0">
+                <p class="text-center">
+                  {{ element.filename }}
+                </p>
+              </VCardText>
+              <VCardActions class="!py-0 flex gap-5 justify-center">
+                <VBtn icon="i-mdi:cancel" size="small" class="!bg-danger !text-black" @click="handleDisapprove(element)" />
+                <VBtn icon="i-mdi:trash-can" size="small" class="!bg-danger !text-black" @click="handleDelete(element.id)" />
+              </VCardActions>
+            </VCard>
+          </template>
+        </Draggable>
+        <div class="text-center">
+          <VBtn color="primary" @click="handleSaveOrder">
+            Update Carousel Order
+          </VBtn>
+        </div>
       </div>
       <VCard
-        id="carousel-card" class="mt-10"
+        id="carousel-card"
         :class="{ 'is-file-hovering': fileHovering }"
         @dragover="fileDragging"
         @dragenter="fileEnter"
