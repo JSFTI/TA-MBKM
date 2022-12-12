@@ -1,4 +1,5 @@
 <main>
+  <?php if($carousels->count() > 0): ?>
   <section>
     <div
       class="relative main-carousel" x-data="mainCarousel"
@@ -42,6 +43,39 @@
           </button>
         <?php endforeach; ?>
       </div>
+    </div>
+  </section>
+  <?php endif; ?>
+  
+  <section class="container mx-auto my-15 px-2">
+    <div class="flex items-center justify-between">
+      <h1 class="font-bold text-4xl">Explore Our Products</h1>
+      <a class="font-bold underline text-primary" href="<?= base_url('products') ?>">See More >></a>
+    </div>
+
+    <div class="grid grid-cols-6 mt-10 gap-5">
+      <?php foreach($products as $product): ?>
+        <div class="product-card">
+          <div class="product-thumbnail" x-data="{error: false}">
+            <?php if($product->thumbnail): ?>
+              <img src="<?= $product->thumbnail?->url ?>"
+                alt="Picture of <?= htmlspecialchars($product->name) ?>"
+                @error="error = true"
+              />
+              <div class="fallback-thumbnail">
+                <div class="i-ic:round-image text-9xl text-gray"></div>
+              </div>
+            <?php else: ?>
+              <div class="fallback-thumbnail">
+                <div class="i-ic:round-image text-9xl text-gray"></div>
+              </div>
+            <?php endif; ?>
+          </div>
+          <div>
+            <h4><?= htmlspecialchars($product->name) ?></h4>
+          </div>
+        </div>
+      <?php endforeach; ?>
     </div>
   </section>
 </main>

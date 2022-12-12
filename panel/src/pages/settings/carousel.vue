@@ -16,6 +16,10 @@ function fileDragging(e: DragEvent) {
 
 function fileEnter(e: DragEvent) {
   e.preventDefault();
+
+  if ((e.dataTransfer?.items.length ?? 0) === 0)
+    return;
+
   fileHovering.value = true;
 }
 
@@ -114,8 +118,9 @@ const nonApprovedCarousels = computed(() => {
 <template>
   <VCard title="Carousel Setting">
     <div class="p-5">
-      <div v-if="user.role?.name === 'admin'" class="mb-10">
+      <div v-if="user.role?.name === 'admin'">
         <Draggable
+          v-if="approvedCarousels.length > 0"
           v-model="approvedCarousels" item-key="id"
           class="flex gap-5 flex-wrap justify-center"
           @change="(isDirty = true)"
@@ -137,7 +142,10 @@ const nonApprovedCarousels = computed(() => {
             </VCard>
           </template>
         </Draggable>
-        <div class="text-center">
+        <div v-else class="text-center text-3xl">
+          No Approved Carousel
+        </div>
+        <div class="text-center mt-10">
           <VBtn color="primary" @click="handleSaveOrder">
             Update Carousel Order
           </VBtn>
@@ -172,7 +180,7 @@ const nonApprovedCarousels = computed(() => {
           </VToolbarItems>
         </VToolbar>
         <VCardText>
-          <div class="flex gap-5 flex-wrap">
+          <div v-if="nonApprovedCarousels.length > 0" class="flex gap-5 flex-wrap">
             <VCard
               v-for="carousel in nonApprovedCarousels" :key="carousel.id"
               class="rounded-0 !w-60 !flex items-center gap-5 flex-col" flat
@@ -188,6 +196,9 @@ const nonApprovedCarousels = computed(() => {
                 <VBtn icon="i-mdi:trash-can" size="small" class="!bg-danger !text-black" @click="handleDelete(carousel.id!)" />
               </VCardActions>
             </VCard>
+          </div>
+          <div v-else class="text-3xl text-center">
+            No Available Carousel
           </div>
         </VCardText>
       </VCard>

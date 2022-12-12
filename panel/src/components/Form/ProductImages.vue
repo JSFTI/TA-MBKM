@@ -19,12 +19,17 @@ function fileDragging(e: DragEvent) {
 
 function fileEnter(e: DragEvent) {
   e.preventDefault();
+  if ((e.dataTransfer?.items.length ?? 0) === 0)
+    return;
 
   fileHovering.value = true;
 }
 
-function fileExit(e: DragEvent) {
+function fileLeave(e: DragEvent) {
   e.preventDefault();
+
+  if ((e.target as HTMLElement).id !== 'image-bag')
+    return;
 
   fileHovering.value = false;
 }
@@ -93,10 +98,10 @@ axios.get<Product>(`/products/${props.id}`, {
 
 <template>
   <VCard
-    id="image-bag"
+    id="image-bag" :class="{ 'is-file-hovering': fileHovering }"
     @dragover="fileDragging"
     @dragenter="fileEnter"
-    @dragleave="fileExit"
+    @dragleave="fileLeave"
     @drop="fileDrop"
   >
     <div
