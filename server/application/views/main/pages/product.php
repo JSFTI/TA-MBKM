@@ -1,4 +1,4 @@
-<main class="mx-auto">
+<main class="mx-auto mb-20">
   <header>
     <div class="page-thumbnail" style="--image: url('<?= $product->thumbnail?->url ?>')"></div>
     <div class="container mx-auto mt-5">
@@ -7,7 +7,7 @@
       </h1>
     </div>
   </header>
-  <article class="container mx-auto mt-10">
+  <article class="container mx-auto mt-10 ">
     <div
       class="product-images" x-data="{ glide: null }" 
       x-init="
