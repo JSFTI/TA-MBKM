@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 09, 2022 at 09:38 PM
+-- Generation Time: Dec 14, 2022 at 01:40 AM
 -- Server version: 10.3.37-MariaDB-0ubuntu0.20.04.1
--- PHP Version: 8.1.12
+-- PHP Version: 8.1.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -85,6 +85,7 @@ CREATE TABLE `products` (
   `id` bigint(20) NOT NULL,
   `thumbnail_id` bigint(20) DEFAULT NULL,
   `category_id` bigint(20) NOT NULL,
+  `slug` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `price` double NOT NULL,
   `detail` text DEFAULT NULL,
@@ -105,6 +106,7 @@ CREATE TABLE `product_images` (
   `product_id` bigint(20) NOT NULL,
   `filename` varchar(255) NOT NULL,
   `url` varchar(255) NOT NULL,
+  `priority` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -224,6 +226,7 @@ ALTER TABLE `permission_role`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `slug` (`slug`),
   ADD KEY `fk_products_thumbnail_id_product_images_id` (`thumbnail_id`),
   ADD KEY `fk_products_category_id_categories_id` (`category_id`);
 
@@ -372,7 +375,7 @@ ALTER TABLE `products`
 -- Constraints for table `product_images`
 --
 ALTER TABLE `product_images`
-  ADD CONSTRAINT `fk_product_images_product_id_products_id` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_product_images_product_id_products_id` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `users`
