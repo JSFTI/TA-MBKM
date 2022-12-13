@@ -143,3 +143,32 @@ body{
     }
   }
 }
+
+.main-title{
+  font-weight: bold;
+  font-size: 2.5rem;
+  position: relative;
+  display: inline-block;
+
+  &::before{
+    content: ' ';
+    height: 0.5rem;
+    width: 50%;
+    background-color: $primaryColor;
+    position: absolute;
+    bottom: -5px;
+    border-radius: 5px;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

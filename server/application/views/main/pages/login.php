@@ -2,7 +2,7 @@
     showPassword: false,
     validationErrors: <?= alpine_json($this->session->flashdata('validation_errors')) ?>,
 }">
-  <a href="<?= base_url() ?>" rel="nofollow">
+  <a href="<?= site_url() ?>" rel="nofollow">
     <h1 class="inline-flex flex-col items-center text-primary">
       <div class="i-ic:twotone-store-mall-directory text-9xl"></div>
       <div class="text-5xl font-bold">Arkastore</div>
@@ -11,7 +11,7 @@
   <form
     class="mt-5 text-left max-w-125 p-5 w-5/6 mx-auto shadow flex flex-col gap-5"
     method="POST"
-    action="<?= base_url('/login' . (isset($_GET['back_url']) ? '?back_url=' . urlencode($_GET['back_url']) : '')) ?>"
+    action="<?= site_url('/login' . (isset($_GET['back_url']) ? '?back_url=' . urlencode($_GET['back_url']) : '')) ?>"
     x-data="{
       values: {
         email: '',

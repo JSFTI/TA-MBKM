@@ -50,11 +50,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'HomepageController';
-$route['404_override'] = '';
+$route['404_override'] = 'HomepageController/notFound';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['login'] = 'AuthController/login';
 $route['logout'] = 'AuthController/logout';
+
+$route['products'] = 'ProductController';
+$route['products/(:any)'] = 'ProductController/show/$1';
 
 // Catch all panel route
 $route['panel(.*)'] = 'PanelController';

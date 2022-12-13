@@ -21,6 +21,7 @@
         "illuminate/macroable": "^9.42",
         "illuminate/collections": "^9.42",
         "nesbot/carbon": "^2.64",
-        "illuminate/pagination": "^9.43"
+        "illuminate/pagination": "^9.43",
+        "fakerphp/faker": "^1.20"
     }
 }

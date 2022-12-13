@@ -20,4 +20,11 @@ class Template{
       'data' => $data
     ]);
   }
+
+  public function show_404(){
+    $this->load('404', 'Page Not Found', [], false, [
+			'robots' => 'noindex',
+			'description' => 'Page not found.'
+		]);
+  }
 }

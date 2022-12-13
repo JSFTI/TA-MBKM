@@ -5,6 +5,11 @@ function baseUrl(url){
   return `${window.BASE_URL}/${url}`;
 }
 
+function handleProductImageError(e){
+  e.target.nextElementSibling.classList.toggle('!hidden');
+  e.target.classList.toggle('!hidden')
+}
+
 document.addEventListener('alpine:init', () => {
   Alpine.data('mainCarousel', () => {
     const state = {
