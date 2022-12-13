@@ -148,4 +148,27 @@ body {
   border-width: 0;
 }
 
+.page-thumbnail {
+  height: 25vh;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%), var(--image);
+  background-position: center;
+  background-size: cover;
+}
+
+.product-images .product-image-controls {
+  display: none;
+}
+.product-images:hover .product-image-controls {
+  display: block;
+}
+
+.product-details ul {
+  list-style: circle;
+  padding-left: 1.25rem;
+}
+.product-details ol {
+  list-style: decimal;
+  padding-left: 1.25rem;
+}
+
 /*# sourceMappingURL=style.css.map */

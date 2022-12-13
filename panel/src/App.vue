@@ -53,24 +53,11 @@ const user = useUser();
                 to="/products/new"
               />
             </VListGroup>
-            <VListItem prepend-icon="i-ic:baseline-receipt" to="/orders" nav title="Orders" />
-            <VListGroup v-if="user.role?.name === 'admin'" value="Users">
-              <template #activator="{ props }">
-                <VListItem
-                  v-bind="props"
-                  prepend-icon="i-ic:baseline-people" nav
-                  title="Users"
-                />
-              </template>
-              <VListItem
-                nav title="Staffs"
-                to="/users/staffs"
-              />
-              <VListItem
-                nav title="Clients"
-                to="/users/clients"
-              />
-            </VListGroup>
+            <!-- <VListItem prepend-icon="i-ic:baseline-receipt" to="/orders" nav title="Orders" /> -->
+            <VListItem
+              v-if="user.role?.name === 'admin'" prepend-icon="i-ic:baseline-people"
+              to="/users/staffs" nav title="Users"
+            />
             <VListGroup value="Settings" fluid>
               <template #activator="{ props }">
                 <VListItem

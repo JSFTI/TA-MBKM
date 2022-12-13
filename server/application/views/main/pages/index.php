@@ -8,7 +8,7 @@
       <div data-glide-el="track" class="glide__track">
         <ul class="glide__slides h-80vh invisible">
           <?php foreach($carousels as $carousel): ?>
-            <li class="glide_slide">
+            <li class="glide__slide">
               <img
                 src="<?= $carousel->url ?>" class="object-cover h-full w-full"
                 alt="Carousel"

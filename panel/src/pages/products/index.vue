@@ -58,10 +58,10 @@ const columns = [
   columnHelper.accessor('thumbnail', {
     header: 'Thumbnail',
     id: 'thumbnail',
-    minSize: 100,
+    minSize: 200,
     cell: (v) => {
       const value = v.getValue();
-      return value ? <v-img cover src={v.getValue()?.url} /> : 'No thumbnail set'
+      return value ? <v-img contain src={v.getValue()?.url} class="h-25" /> : 'No thumbnail set'
     },
   }),
   columnHelper.accessor('name', {
@@ -159,7 +159,10 @@ function getData() {
   loading.value = true;
   error.value = false;
   axios.get<ApiPagination<Product>>('products', {
-    params: router.currentRoute.value.query,
+    params: {
+      ...router.currentRoute.value.query,
+      relations: ['thumbnail'],
+    },
   }).then((res) => {
     data.value = res.data;
   }).catch(() => {

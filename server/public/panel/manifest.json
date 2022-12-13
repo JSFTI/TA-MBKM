@@ -1,11 +1,11 @@
 {
-  "ProfilePictureUpdater.css": {
-    "file": "assets/ProfilePictureUpdater-e98c3e38.css",
-    "src": "ProfilePictureUpdater.css"
-  },
   "ProductDetailForm.css": {
     "file": "assets/ProductDetailForm-628e642e.css",
     "src": "ProductDetailForm.css"
+  },
+  "ProfilePictureUpdater.css": {
+    "file": "assets/ProfilePictureUpdater-e98c3e38.css",
+    "src": "ProfilePictureUpdater.css"
   },
   "src/pages/users/staffs.css": {
     "file": "assets/staffs-88307efe.css",
@@ -16,70 +16,16 @@
     "src": "vendor.css"
   },
   "src/main.css": {
-    "file": "assets/main-438887c9.css",
+    "file": "assets/main-f9c0a4fd.css",
     "src": "src/main.css"
   },
-  "src/pages/products/[productId].vue": {
-    "file": "assets/_productId_-d3d4787c.js",
-    "src": "src/pages/products/[productId].vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "_vendor-d8963f8a.js",
-      "_lodash-89c1e3b6.js",
-      "_ProductDetailForm.vue_vue_type_script_setup_true_lang-93e7fda5.js",
-      "_ACurrencyInput.vue_vue_type_script_setup_true_lang-cebbc278.js",
-      "src/main.ts"
-    ]
-  },
-  "src/pages/products/new.vue": {
-    "file": "assets/new-e48a8182.js",
-    "src": "src/pages/products/new.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "_ProductDetailForm.vue_vue_type_script_setup_true_lang-93e7fda5.js",
-      "_vendor-d8963f8a.js",
-      "_ACurrencyInput.vue_vue_type_script_setup_true_lang-cebbc278.js",
-      "_lodash-89c1e3b6.js",
-      "src/main.ts"
-    ]
-  },
-  "src/pages/settings/profile.vue": {
-    "file": "assets/profile-8a45dc0f.js",
-    "src": "src/pages/settings/profile.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "_vendor-d8963f8a.js",
-      "_ProfilePictureUpdater.vue_vue_type_style_index_0_lang-969acf17.js",
-      "src/main.ts",
-      "_lodash-89c1e3b6.js"
-    ]
-  },
-  "_dayjs.min-f760afe9.js": {
-    "file": "assets/dayjs.min-f760afe9.js",
-    "imports": [
-      "_vendor-d8963f8a.js"
-    ]
-  },
   "src/pages/settings/carousel.vue": {
-    "file": "assets/carousel-a8e6147a.js",
+    "file": "assets/carousel-37c1ec24.js",
     "src": "src/pages/settings/carousel.vue",
     "isDynamicEntry": true,
     "imports": [
       "_vendor-d8963f8a.js",
       "_lodash-89c1e3b6.js",
-      "_dayjs.min-f760afe9.js",
-      "src/main.ts"
-    ]
-  },
-  "src/pages/products/index.vue": {
-    "file": "assets/index-fd2cc7bb.js",
-    "src": "src/pages/products/index.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "_ACurrencyInput.vue_vue_type_script_setup_true_lang-cebbc278.js",
-      "_vendor-d8963f8a.js",
-      "_lodash-89c1e3b6.js",
-      "_index-caac9ef2.js",
       "_dayjs.min-f760afe9.js",
       "src/main.ts"
     ]
@@ -92,10 +38,64 @@
       "_vendor-d8963f8a.js"
     ]
   },
+  "src/pages/products/new.vue": {
+    "file": "assets/new-aa136e30.js",
+    "src": "src/pages/products/new.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_ProductDetailForm.vue_vue_type_script_setup_true_lang-38771249.js",
+      "_vendor-d8963f8a.js",
+      "_ACurrencyInput.vue_vue_type_script_setup_true_lang-cebbc278.js",
+      "_lodash-89c1e3b6.js",
+      "src/main.ts"
+    ]
+  },
+  "src/pages/products/[productId].vue": {
+    "file": "assets/_productId_-21ba4cb6.js",
+    "src": "src/pages/products/[productId].vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_vendor-d8963f8a.js",
+      "_lodash-89c1e3b6.js",
+      "_ProductDetailForm.vue_vue_type_script_setup_true_lang-38771249.js",
+      "_ACurrencyInput.vue_vue_type_script_setup_true_lang-cebbc278.js",
+      "src/main.ts"
+    ]
+  },
+  "src/pages/products/index.vue": {
+    "file": "assets/index-cb331bcd.js",
+    "src": "src/pages/products/index.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_ACurrencyInput.vue_vue_type_script_setup_true_lang-cebbc278.js",
+      "_vendor-d8963f8a.js",
+      "_lodash-89c1e3b6.js",
+      "_index-caac9ef2.js",
+      "_dayjs.min-f760afe9.js",
+      "src/main.ts"
+    ]
+  },
+  "_dayjs.min-f760afe9.js": {
+    "file": "assets/dayjs.min-f760afe9.js",
+    "imports": [
+      "_vendor-d8963f8a.js"
+    ]
+  },
   "_ACurrencyInput.vue_vue_type_script_setup_true_lang-cebbc278.js": {
     "file": "assets/ACurrencyInput.vue_vue_type_script_setup_true_lang-cebbc278.js",
     "imports": [
       "_vendor-d8963f8a.js"
+    ]
+  },
+  "src/pages/settings/profile.vue": {
+    "file": "assets/profile-5135033b.js",
+    "src": "src/pages/settings/profile.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_vendor-d8963f8a.js",
+      "_ProfilePictureUpdater.vue_vue_type_style_index_0_lang-2da36b7f.js",
+      "src/main.ts",
+      "_lodash-89c1e3b6.js"
     ]
   },
   "_index-caac9ef2.js": {
@@ -104,8 +104,8 @@
       "_vendor-d8963f8a.js"
     ]
   },
-  "_ProfilePictureUpdater.vue_vue_type_style_index_0_lang-969acf17.js": {
-    "file": "assets/ProfilePictureUpdater.vue_vue_type_style_index_0_lang-969acf17.js",
+  "_ProfilePictureUpdater.vue_vue_type_style_index_0_lang-2da36b7f.js": {
+    "file": "assets/ProfilePictureUpdater.vue_vue_type_style_index_0_lang-2da36b7f.js",
     "imports": [
       "_vendor-d8963f8a.js",
       "src/main.ts"
@@ -121,13 +121,13 @@
     ]
   },
   "src/pages/users/staffs.vue": {
-    "file": "assets/staffs-fe3a5bf2.js",
+    "file": "assets/staffs-88c4af9f.js",
     "src": "src/pages/users/staffs.vue",
     "isDynamicEntry": true,
     "imports": [
       "_vendor-d8963f8a.js",
       "_lodash-89c1e3b6.js",
-      "_ProfilePictureUpdater.vue_vue_type_style_index_0_lang-969acf17.js",
+      "_ProfilePictureUpdater.vue_vue_type_style_index_0_lang-2da36b7f.js",
       "_index-caac9ef2.js",
       "src/main.ts"
     ],
@@ -135,8 +135,8 @@
       "assets/staffs-88307efe.css"
     ]
   },
-  "_ProductDetailForm.vue_vue_type_script_setup_true_lang-93e7fda5.js": {
-    "file": "assets/ProductDetailForm.vue_vue_type_script_setup_true_lang-93e7fda5.js",
+  "_ProductDetailForm.vue_vue_type_script_setup_true_lang-38771249.js": {
+    "file": "assets/ProductDetailForm.vue_vue_type_script_setup_true_lang-38771249.js",
     "imports": [
       "_vendor-d8963f8a.js",
       "_ACurrencyInput.vue_vue_type_script_setup_true_lang-cebbc278.js",
@@ -154,7 +154,7 @@
     ]
   },
   "src/main.ts": {
-    "file": "assets/main-02f7b5b8.js",
+    "file": "assets/main-c71a64e1.js",
     "src": "src/main.ts",
     "isEntry": true,
     "imports": [
@@ -170,7 +170,7 @@
       "src/pages/products/[productId].vue"
     ],
     "css": [
-      "assets/main-438887c9.css"
+      "assets/main-f9c0a4fd.css"
     ]
   }
 }
