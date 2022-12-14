@@ -131,6 +131,11 @@ class ProductController extends CI_Controller{
   }
 
   public function create(){
+    if(!auth()->permissions->contains('crud-product')){
+      response_json(['status' => 'Forbidden'], 403);
+      return;
+    }
+
     $post = get_input_json(TRUE);
 
     $this->form_validation->set_data($post);
@@ -227,6 +232,11 @@ class ProductController extends CI_Controller{
   }
 
   public function update(int $product_id){
+    if(!auth()->permissions->contains('crud-product')){
+      response_json(['status' => 'Forbidden'], 403);
+      return;
+    }
+
     $product = Product::find($product_id);
 
     if(!$product){
@@ -325,6 +335,11 @@ class ProductController extends CI_Controller{
   }
 
   public function destroy(int $product_id){
+    if(!auth()->permissions->contains('crud-product')){
+      response_json(['status' => 'Forbidden'], 403);
+      return;
+    }
+
     $product = Product::with('images')->find($product_id);
 
     if(!$product){

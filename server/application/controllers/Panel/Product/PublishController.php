@@ -6,6 +6,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class PublishController extends CI_Controller{
   public function index(string $verb, int $product_id){
+    if(!auth()->permissions->contains('publish-product')){
+      response_json(['status' => 'Forbidden'], 403);
+      return;
+    }
+
     $product = Product::find($product_id, ['id', 'published']);
     if(!$product){
       response_json(['status' => 'Not Found'], 404);

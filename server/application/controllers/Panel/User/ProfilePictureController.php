@@ -56,6 +56,13 @@ class ProfilePictureController extends CI_Controller{
   }
 
   public function destroy(int $user_id){
+    $auth = auth();
+
+    if($auth->id !== $user_id && $auth->permissions->contains('crud-users')){
+      response_json(['status' => 'Forbidden'], 403);
+      return;
+    }
+    
     $user = User::select('id', 'profile_picture')->find($user_id);
     
     if(!$user){

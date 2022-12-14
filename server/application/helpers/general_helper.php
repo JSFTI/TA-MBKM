@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
 
 if(!function_exists('alpine_json')){
   function alpine_json(mixed $json): string{

@@ -27,4 +27,18 @@ class Template{
 			'description' => 'Page not found.'
 		]);
   }
+
+  public function show_403(){
+    $this->load('403', 'Forbidden Access', [], false, [
+      'robots' => 'noindex',
+			'description' => 'Forbidden.'
+    ]);
+  }
+
+  public function show_401(){
+    $this->load('401', 'Unauthorized', [], false, [
+      'robots' => 'noindex',
+			'description' => 'Unauthorized.'
+    ]);
+  }
 }

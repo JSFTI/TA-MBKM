@@ -10,6 +10,11 @@ class UserController extends CI_Controller{
   use CustomValidator;
 
   public function index(){
+    if(!auth()->permissions->contains('crud-users')){
+      response_json(['status' => 'Forbidden'], 403);
+      return;
+    }
+
     $user = User::query();
     
     $limit = $this->input->get('limit') ?: 10;
@@ -24,6 +29,13 @@ class UserController extends CI_Controller{
   }
 
   public function show(int $user_id){
+    $auth = auth();
+
+    if($auth->id !== $user_id && !$auth->permissions->contains('crud-users')){
+      response_json(['status' => 'Forbidden'], 403);
+      return;
+    }
+
     $user = User::find($user_id);
     if(!$user){
       response_json(['status' => 'Not Found'], 404);
@@ -34,6 +46,13 @@ class UserController extends CI_Controller{
   }
 
   public function edit(int $user_id){
+    $auth = auth();
+
+    if($auth->id !== $user_id && !$auth->permissions->contains('crud-users')){
+      response_json(['status' => 'Forbidden'], 403);
+      return;
+    }
+
     $user = User::find($user_id);
     if(!$user){
       response_json(['status' => 'Not Found'], 404);
@@ -128,6 +147,13 @@ class UserController extends CI_Controller{
   }
 
   public function update(int $user_id){
+    $auth = auth();
+
+    if($auth->id !== $user_id && !$auth->permissions->contains('crud-users')){
+      response_json(['status' => 'Forbidden'], 403);
+      return;
+    }
+    
     $user = User::find($user_id);
     if(!$user){
       response_json(['status' => 'Not Found'], 404);
@@ -206,6 +232,11 @@ class UserController extends CI_Controller{
   }
 
   public function create(){
+    if(!auth()->permissions->contains('crud-users')){
+      response_json(['status' => 'Forbidden'], 403);
+      return;
+    }
+
     $post = get_input_json(TRUE);
 
     $this->form_validation->set_data($post);
@@ -275,6 +306,11 @@ class UserController extends CI_Controller{
   }
 
   public function destroy(int $user_id){
+    if(!auth()->permissions->contains('crud-users')){
+      response_json(['status' => 'Forbidden'], 403);
+      return;
+    }
+    
     $user = User::find($user_id);
     if(!$user){
       response_json(['status' => 'Not Found'], 404);

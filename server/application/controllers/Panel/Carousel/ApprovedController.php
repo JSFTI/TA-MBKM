@@ -8,6 +8,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class ApprovedController extends CI_Controller{
   public function update(int $carousel_id){
+    if(!auth()->permissions->contains('approve-carousel')){
+      response_json(['status' => 'Forbidden'], 403);
+      return;
+    }
+
     $carousel = Carousel::find($carousel_id, ['id', 'approved']);
 
     if(!$carousel){
@@ -24,6 +29,11 @@ class ApprovedController extends CI_Controller{
   }
 
   public function destroy(int $carousel_id){
+    if(!auth()->permissions->contains('approve-carousel')){
+      response_json(['status' => 'Forbidden'], 403);
+      return;
+    }
+
     $carousel = Carousel::find($carousel_id, ['id', 'approved']);
 
     if(!$carousel){
@@ -40,6 +50,11 @@ class ApprovedController extends CI_Controller{
   }
 
   public function updateOrder(){
+    if(!auth()->permissions->contains('approve-carousel')){
+      response_json(['status' => 'Forbidden'], 403);
+      return;
+    }
+    
     $carousels = get_input_json();
 
     DB::connection()->beginTransaction(); 

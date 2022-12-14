@@ -9,6 +9,13 @@ class PasswordController extends CI_Controller{
   use CustomValidator;
 
   public function update(int $user_id){
+    $auth = auth();
+
+    if($auth->id !== $user_id && $auth->permissions->contains('crud-users')){
+      response_json(['status' => 'Forbidden'], 403);
+      return;
+    }
+
     $user = User::find($user_id, ['id', 'password']);
     if(!$user){
       response_json(['status' => 'Not Found'], 404);

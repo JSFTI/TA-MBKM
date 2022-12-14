@@ -4,7 +4,10 @@
     "autoload": {
         "psr-4": {
             "App\\": "application/"
-        }
+        },
+        "files": [
+            "application/helpers/general_helper.php"
+        ]
     },
     "authors": [
         {

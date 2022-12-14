@@ -9,6 +9,11 @@ class ThumbnailController extends CI_Controller{
   use CustomValidator;
 
   public function update(int $product_id){
+    if(!auth()->permissions->contains('publish-product')){
+      response_json(['status' => 'Forbidden'], 403);
+      return;
+    }
+    
     $product = Product::find($product_id, ['id', 'thumbnail_id']);
     if(!$product){
       response_json(['status' => 'Not Found'], 404);

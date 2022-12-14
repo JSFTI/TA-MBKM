@@ -57,6 +57,11 @@ class ImageController extends CI_Controller{
   }
 
   public function edit(int $product_id){
+    if(!auth()->permissions->contains('crud-product')){
+      response_json(['status' => 'Forbidden'], 403);
+      return;
+    }
+
     $product = Product::find($product_id, ['id']);
     
     if(!$product){
@@ -81,6 +86,11 @@ class ImageController extends CI_Controller{
   }
 
   public function destroy(int $image_id){
+    if(!auth()->permissions->contains('crud-product')){
+      response_json(['status' => 'Forbidden'], 403);
+      return;
+    }
+
     $image = ProductImage::find($image_id, ['id', 'filename']);
 
     if(!$image){

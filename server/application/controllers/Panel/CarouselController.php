@@ -12,6 +12,11 @@ class CarouselController extends CI_Controller{
   }
 
   public function create(){
+    if(!auth()->permissions->contains('add-carousel')){
+      response_json(['status' => 'Forbidden'], 403);
+      return;
+    }
+
     $this->load->library('upload', [
       'upload_path' => realpath(STORAGE_PATH . '/public/carousels'),
       'allowed_types' => 'gif|jpg|png|jpeg|webp',
@@ -42,6 +47,11 @@ class CarouselController extends CI_Controller{
   }
 
   public function destroy(int $carousel_id){
+    if(!auth()->permissions->contains('add-carousel')){
+      response_json(['status' => 'Forbidden'], 403);
+      return;
+    }
+    
     $carousel = Carousel::find($carousel_id, ['id', 'filename']);
 
     if(!$carousel){

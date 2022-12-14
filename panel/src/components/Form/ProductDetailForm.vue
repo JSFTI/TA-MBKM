@@ -28,6 +28,7 @@ const initInvalidFeedbacks = {
   stock: '',
   published: '',
   detail: '',
+  tags: '',
 };
 
 const user = useUser();
@@ -133,7 +134,11 @@ if (props.id)
         />
       </div>
       <div class="grid gap-3 md:grid-cols-1 lg:grid-cols-2">
-        <ACurrencyInput v-model="form.price" label="Price" inputmode="numeric" />
+        <ACurrencyInput
+          v-model="form.price" label="Price" inputmode="numeric"
+          :error="!!invalidFeedbacks.price"
+          :error-messages="invalidFeedbacks.price"
+        />
         <div class="flex gap-5 items-center mb-5">
           <VCheckboxBtn
             :model-value="(form.stock !== null)"
@@ -143,16 +148,25 @@ if (props.id)
             v-model="form.stock" type="number" min="0" label="Stock" :disabled="(form.stock === null)"
             hide-details
             hint="Disable if stock is infinite"
+            :error="!!invalidFeedbacks.stock"
+            :error-messages="invalidFeedbacks.stock"
           />
         </div>
       </div>
       <div class="grid gap-3 md:grid-cols-1 lg:grid-cols-2">
-        <VSelect v-model="form.category_id" :items="categories" item-title="name" item-value="id" label="Category" />
+        <VSelect
+          v-model="form.category_id" :items="categories" item-title="name"
+          item-value="id" label="Category"
+          :error="!!invalidFeedbacks.category_id"
+          :error-messages="invalidFeedbacks.category_id"
+        />
         <VAutocomplete
           v-model="form.tags" :items="tags" multiple label="Tags"
           item-title="name" item-value="name" chips closable-chips
           return-object placeholder="Duplicate tags will be truncated"
-          :loading="loading.search" @update:search="searchTag"
+          :loading="loading.search" :error="!!invalidFeedbacks.tags"
+          :error-messages="invalidFeedbacks.tags"
+          @update:search="searchTag"
         >
           <template #chip="{ props: p, item }">
             <VChip
@@ -170,6 +184,8 @@ if (props.id)
       </div>
       <VCheckbox
         v-if="user.role?.name === 'admin'" v-model="form.published" label="Publish"
+        :error="!!invalidFeedbacks.published"
+        :error-messages="invalidFeedbacks.published"
       />
       <AEditor v-model:content="form.detail" />
     </div>

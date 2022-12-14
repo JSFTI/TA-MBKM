@@ -8,6 +8,7 @@
       <div class="text-5xl font-bold">Arkastore</div>
     </h1>
   </a>
+  <?php if(!auth()): ?>
   <form
     class="mt-5 text-left max-w-125 p-5 w-5/6 mx-auto shadow flex flex-col gap-5"
     method="POST"
@@ -46,4 +47,15 @@
       Sign In
     </button>
   </form>
+  <?php else: ?>
+  <div class="shadow mt-5 max-w-125 p-5 w-5/6 mx-auto shadow text-center">
+    <strong class="text-3xl">Already Logged In</strong>
+    <p class="mt-5">
+      You are already logged in with an account.
+      <a href="<?= site_url('logout') ?>" class="text-info underline">
+        Logout?
+      </a>
+    </p>
+  </div>
+  <?php endif; ?>
 </main>

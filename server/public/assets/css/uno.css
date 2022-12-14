@@ -80,7 +80,6 @@
 .max-w-125{max-width:31.25rem;}
 .w-5\/6{width:83.3333333333%;}
 .w-full{width:100%;}
-[h1=""]{height:0.25rem;}
 .flex{display:flex;}
 .inline-flex{display:inline-flex;}
 .flex-col{flex-direction:column;}
@@ -119,6 +118,7 @@
 .text-center{text-align:center;}
 .text-left{text-align:left;}
 .text-2xl{font-size:1.5rem;line-height:2rem;}
+.text-3xl{font-size:1.875rem;line-height:2.25rem;}
 .text-4xl{font-size:2.25rem;line-height:2.5rem;}
 .text-5xl{font-size:3rem;line-height:1;}
 .text-9xl{font-size:8rem;line-height:1;}
@@ -127,7 +127,8 @@
 .font-semibold{font-weight:600;}
 .font-700,
 .font-bold{font-weight:700;}
-.hover\:text-info:hover{--un-text-opacity:1;color:rgba(69,137,214,var(--un-text-opacity));}
+.hover\:text-info:hover,
+.text-info{--un-text-opacity:1;color:rgba(69,137,214,var(--un-text-opacity));}
 .text-gray{--un-text-opacity:1;color:rgba(156,163,175,var(--un-text-opacity));}
 .text-light{--un-text-opacity:1;color:rgba(246,246,246,var(--un-text-opacity));}
 .text-neutral{--un-text-opacity:1;color:rgba(247,248,232,var(--un-text-opacity));}
