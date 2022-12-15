@@ -1,9 +1,8 @@
 <script setup lang="tsx">
 import type { SortingState } from '@tanstack/vue-table';
 import { FlexRender, createColumnHelper, getCoreRowModel, useVueTable } from '@tanstack/vue-table';
-import { useRouteQuery } from '@vueuse/router';
 import dayjs from 'dayjs';
-import { pick } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { useUser } from '~/stores/useUser';
 
 const columnHelper = createColumnHelper<Product>();
@@ -17,11 +16,27 @@ const loading = ref(true);
 const error = ref(false);
 const data = ref<ApiPagination<Product> | null>(null);
 
-const page = useRouteQuery<string>('page', '1');
-const limit = useRouteQuery<string>('limit', '10');
-const search = useRouteQuery<string | null>('search', null);
-const sortBy = useRouteQuery<string | null>('sortBy', null);
-const filters = reactive(pick(router.currentRoute.value.query, ['categories', 'tags', 'price', 'stock']));
+const params = reactive<{
+  page?: number | null
+  limit?: number | null
+  search?: string | null
+  sortBy?: string | null
+  categories?: string[] | null
+  tags?: string[] | null
+  price?: {
+    gte?: number | null
+    lte?: number | null
+  }
+  stock?: {
+    gte?: number | null
+    lte?: number | null
+  } | number | 'infinite'
+  published?: number | null
+}>({
+  page: 1,
+  limit: 10,
+  ...cloneDeep(router.currentRoute.value.query) as any,
+});
 
 const sorting = ref<SortingState>([]);
 
@@ -160,7 +175,7 @@ function getData() {
   error.value = false;
   axios.get<ApiPagination<Product>>('products', {
     params: {
-      ...router.currentRoute.value.query,
+      ...params,
       relations: ['thumbnail'],
     },
   }).then((res) => {
@@ -180,29 +195,24 @@ function updatePublication(product: Product, published: boolean) {
 }
 
 function handleFilter(filter: any) {
-  Object.assign(filters, filter);
-  router.replace({
-    query: {
-      ...router.currentRoute.value.query,
-      ...filter,
-    },
-  });
+  Object.assign(params, filter);
 }
 
 const searchValue = useDebounceFn((v: string) => {
-  search.value = v || null;
+  params.search = v || undefined;
 }, 200);
-
-watch(() => router.currentRoute.value.query, () => {
-  getData();
-}, { deep: true });
 
 watch(() => sorting.value, () => {
   let sortByQuery = '';
   for (const sort of sorting.value)
     sortByQuery += `${(sort.desc ? '-' : '+') + sort.id},`;
 
-  sortBy.value = sortByQuery.slice(0, -1) || null;
+  params.sortBy = sortByQuery.slice(0, -1) || null;
+});
+
+watch(params, () => {
+  router.replace({ query: { ...params } as any });
+  getData();
 });
 
 getData();
@@ -224,13 +234,13 @@ axios.get('categories')
       <div class="flex flex-col md:(items-center flex-row px-4) gap-5 mb-5">
         <div class="flex gap-5 items-center">
           <div class="w-30">
-            <VSelect v-model="limit" class="w-30" :items="[10, 25, 50, 100]" label="Limit" hide-details />
+            <VSelect v-model="params.limit" class="w-30" :items="[10, 25, 50, 100]" label="Limit" hide-details />
           </div>
         </div>
         <div class="flex gap-5 ml-auto">
           <div class="w-100">
             <VTextField
-              :model-value="search"
+              :model-value="params.search"
               label="Search" hide-details
               @update:model-value="searchValue"
             />
@@ -247,7 +257,7 @@ axios.get('categories')
       <div>
         <CollapseTransition>
           <div v-if="showFilters" class="mb-5">
-            <ComplexProductFilter :filters="(filters as any)" @update:filters="handleFilter" />
+            <ComplexProductFilter :filters="(params as any)" @update:filters="handleFilter" />
           </div>
         </CollapseTransition>
         <div class="relative rounded overflow-x-auto w-full">
@@ -317,10 +327,10 @@ axios.get('categories')
       </div>
       <div class="mt-5">
         <VPagination
-          :model-value="+page"
+          :model-value="params.page ?? 0"
           :length="data?.last_page"
           rounded="circle"
-          @update:model-value="(p) => page = p.toString()"
+          @update:model-value="(p) => params.page = p"
         />
       </div>
     </VCardText>

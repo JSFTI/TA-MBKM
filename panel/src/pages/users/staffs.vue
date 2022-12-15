@@ -10,6 +10,7 @@ const user = useUser();
 const showModal = ref<number | null>(null);
 const data = ref<ApiPagination<User> | null>(null);
 const loading = ref(true);
+const error = ref(false);
 const page = useRouteQuery<string>('page', '1');
 const limit = useRouteQuery<string>('limit', '10');
 const search = useRouteQuery<string | null>('search', null);
@@ -48,7 +49,7 @@ const columns = [
 
 const table = useVueTable({
   get data() {
-    return data?.value?.data ?? [];
+    return data.value?.data ?? [];
   },
   columns,
   getCoreRowModel: getCoreRowModel(),
@@ -59,6 +60,9 @@ function getData() {
   axios.get('users', { params: router.currentRoute.value.query })
     .then((res) => {
       data.value = res.data;
+    })
+    .catch(() => {
+      error.value = true;
     })
     .finally(() => {
       loading.value = false;
@@ -118,7 +122,7 @@ watch(() => router.currentRoute.value.query, () => {
           />
         </div>
       </div>
-      <div class="relative rounded">
+      <div class="relative rounded min-h-50">
         <VOverlay :model-value="loading" persistent contained class="items-center justify-center">
           <VProgressCircular size="64" color="primary" indeterminate />
         </VOverlay>
@@ -142,20 +146,29 @@ watch(() => router.currentRoute.value.query, () => {
             </tr>
           </thead>
           <tbody>
-            <template v-if="(table.getRowModel().rows.length > 0)">
-              <tr v-for="row in table.getRowModel().rows" :key="row.id">
-                <td v-for="cell in row.getVisibleCells()" :key="cell.id" class="py-2">
-                  <FlexRender
-                    :render="cell.column.columnDef.cell"
-                    :props="cell.getContext()"
-                  />
-                </td>
-              </tr>
+            <template v-if="!error">
+              <template v-if="(table.getRowModel().rows.length > 0)">
+                <tr v-for="row in table.getRowModel().rows" :key="row.id">
+                  <td v-for="cell in row.getVisibleCells()" :key="cell.id" class="py-2">
+                    <FlexRender
+                      :render="cell.column.columnDef.cell"
+                      :props="cell.getContext()"
+                    />
+                  </td>
+                </tr>
+              </template>
+              <template v-else-if="!loading">
+                <tr>
+                  <td :colspan="columns.length" class="text-center font-bold !text-2xl">
+                    No Data Available
+                  </td>
+                </tr>
+              </template>
             </template>
-            <template v-else-if="!loading">
+            <template v-else>
               <tr>
                 <td :colspan="columns.length" class="text-center font-bold !text-2xl">
-                  No Data Available
+                  Server Error
                 </td>
               </tr>
             </template>

@@ -16,7 +16,7 @@
        * USER AUTHENTICATION IS STILL STORED IN THE SERVER.
        * THIS OBJECT IS NOT USED IN AUTHORIZATION.
        */
-      window.user = JSON.parse(`<?= json_encode($this->session->userdata('user')) ?>`)
+      window.user = JSON.parse(`<?= json_encode(auth()) ?>`)
     </script>
 </head>
 

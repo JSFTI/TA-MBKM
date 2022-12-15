@@ -49,6 +49,7 @@ const router = createRouter({
     const result = qs.stringify(query, {
       arrayFormat: 'brackets',
       encode: false,
+      skipNulls: true,
     });
 
     return result ?? '';
