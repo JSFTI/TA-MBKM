@@ -311,7 +311,7 @@ class UserController extends CI_Controller{
       return;
     }
     
-    $user = User::find($user_id);
+    $user = User::with('role')->find($user_id);
     if(!$user){
       response_json(['status' => 'Not Found'], 404);
       return;
@@ -324,6 +324,17 @@ class UserController extends CI_Controller{
         'status' => 'Bad Request',
         'message' => 'Can\'t delete self.'
       ], '400');
+    }
+
+    if($user->role?->name === 'admin'){
+      $admins = User::whereHas('role', fn($q) => $q->where('name', 'admin'))->count('id');
+
+      if($admins <= 1){
+        response_json([
+          'status' => 'Bad Request',
+          'message' => 'There must be one admin remaining'
+        ], '400');
+      }
     }
     
     $user->delete();
