@@ -19,17 +19,6 @@
     "file": "assets/main-f9c0a4fd.css",
     "src": "src/main.css"
   },
-  "src/pages/settings/profile.vue": {
-    "file": "assets/profile-94c49ec8.js",
-    "src": "src/pages/settings/profile.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "_vendor-4d8d9704.js",
-      "_ProfilePictureUpdater.vue_vue_type_style_index_0_lang-761bdba4.js",
-      "src/main.ts",
-      "_lodash-c57cc56e.js"
-    ]
-  },
   "src/pages/[...all].vue": {
     "file": "assets/_...all_-87a8a93c.js",
     "src": "src/pages/[...all].vue",
@@ -38,8 +27,49 @@
       "_vendor-4d8d9704.js"
     ]
   },
+  "src/pages/products/new.vue": {
+    "file": "assets/new-8aa9d3e8.js",
+    "src": "src/pages/products/new.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_ProductDetailForm.vue_vue_type_script_setup_true_lang-4b01538f.js",
+      "_vendor-4d8d9704.js",
+      "_ACurrencyInput.vue_vue_type_script_setup_true_lang-2e2bd293.js",
+      "_lodash-c57cc56e.js",
+      "src/main.ts"
+    ]
+  },
+  "src/pages/products/[productId].vue": {
+    "file": "assets/_productId_-e72f2588.js",
+    "src": "src/pages/products/[productId].vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_vendor-4d8d9704.js",
+      "_lodash-c57cc56e.js",
+      "_ProductDetailForm.vue_vue_type_script_setup_true_lang-4b01538f.js",
+      "_ACurrencyInput.vue_vue_type_script_setup_true_lang-2e2bd293.js",
+      "src/main.ts"
+    ]
+  },
+  "src/pages/settings/profile.vue": {
+    "file": "assets/profile-28c546ba.js",
+    "src": "src/pages/settings/profile.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_vendor-4d8d9704.js",
+      "_ProfilePictureUpdater.vue_vue_type_style_index_0_lang-a4b37d68.js",
+      "src/main.ts",
+      "_lodash-c57cc56e.js"
+    ]
+  },
+  "_dayjs.min-dc33f0bd.js": {
+    "file": "assets/dayjs.min-dc33f0bd.js",
+    "imports": [
+      "_vendor-4d8d9704.js"
+    ]
+  },
   "src/pages/settings/carousel.vue": {
-    "file": "assets/carousel-11c1c87d.js",
+    "file": "assets/carousel-e6970c27.js",
     "src": "src/pages/settings/carousel.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -49,26 +79,14 @@
       "src/main.ts"
     ]
   },
-  "src/pages/products/new.vue": {
-    "file": "assets/new-c7c11b2f.js",
-    "src": "src/pages/products/new.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "_ProductDetailForm.vue_vue_type_script_setup_true_lang-79d64633.js",
-      "_vendor-4d8d9704.js",
-      "_ACurrencyInput.vue_vue_type_script_setup_true_lang-2e2bd293.js",
-      "_lodash-c57cc56e.js",
-      "src/main.ts"
-    ]
-  },
-  "_dayjs.min-dc33f0bd.js": {
-    "file": "assets/dayjs.min-dc33f0bd.js",
+  "_ACurrencyInput.vue_vue_type_script_setup_true_lang-2e2bd293.js": {
+    "file": "assets/ACurrencyInput.vue_vue_type_script_setup_true_lang-2e2bd293.js",
     "imports": [
       "_vendor-4d8d9704.js"
     ]
   },
   "src/pages/products/index.vue": {
-    "file": "assets/index-611b88cb.js",
+    "file": "assets/index-8e616bc4.js",
     "src": "src/pages/products/index.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -80,43 +98,10 @@
       "src/main.ts"
     ]
   },
-  "src/pages/products/[productId].vue": {
-    "file": "assets/_productId_-fc650979.js",
-    "src": "src/pages/products/[productId].vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "_vendor-4d8d9704.js",
-      "_lodash-c57cc56e.js",
-      "_ProductDetailForm.vue_vue_type_script_setup_true_lang-79d64633.js",
-      "_ACurrencyInput.vue_vue_type_script_setup_true_lang-2e2bd293.js",
-      "src/main.ts"
-    ]
-  },
-  "_ACurrencyInput.vue_vue_type_script_setup_true_lang-2e2bd293.js": {
-    "file": "assets/ACurrencyInput.vue_vue_type_script_setup_true_lang-2e2bd293.js",
-    "imports": [
-      "_vendor-4d8d9704.js"
-    ]
-  },
   "_index-0fb52a08.js": {
     "file": "assets/index-0fb52a08.js",
     "imports": [
       "_vendor-4d8d9704.js"
-    ]
-  },
-  "src/pages/users/staffs.vue": {
-    "file": "assets/staffs-407bd1b0.js",
-    "src": "src/pages/users/staffs.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "_vendor-4d8d9704.js",
-      "_lodash-c57cc56e.js",
-      "_ProfilePictureUpdater.vue_vue_type_style_index_0_lang-761bdba4.js",
-      "_index-0fb52a08.js",
-      "src/main.ts"
-    ],
-    "css": [
-      "assets/staffs-88307efe.css"
     ]
   },
   "_lodash-c57cc56e.js": {
@@ -125,18 +110,8 @@
       "_vendor-4d8d9704.js"
     ]
   },
-  "_ProfilePictureUpdater.vue_vue_type_style_index_0_lang-761bdba4.js": {
-    "file": "assets/ProfilePictureUpdater.vue_vue_type_style_index_0_lang-761bdba4.js",
-    "imports": [
-      "_vendor-4d8d9704.js",
-      "src/main.ts"
-    ],
-    "css": [
-      "assets/ProfilePictureUpdater-e98c3e38.css"
-    ]
-  },
-  "_ProductDetailForm.vue_vue_type_script_setup_true_lang-79d64633.js": {
-    "file": "assets/ProductDetailForm.vue_vue_type_script_setup_true_lang-79d64633.js",
+  "_ProductDetailForm.vue_vue_type_script_setup_true_lang-4b01538f.js": {
+    "file": "assets/ProductDetailForm.vue_vue_type_script_setup_true_lang-4b01538f.js",
     "imports": [
       "_vendor-4d8d9704.js",
       "_ACurrencyInput.vue_vue_type_script_setup_true_lang-2e2bd293.js",
@@ -147,6 +122,31 @@
       "assets/ProductDetailForm-628e642e.css"
     ]
   },
+  "src/pages/users/staffs.vue": {
+    "file": "assets/staffs-02253d3f.js",
+    "src": "src/pages/users/staffs.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_vendor-4d8d9704.js",
+      "_lodash-c57cc56e.js",
+      "_ProfilePictureUpdater.vue_vue_type_style_index_0_lang-a4b37d68.js",
+      "_index-0fb52a08.js",
+      "src/main.ts"
+    ],
+    "css": [
+      "assets/staffs-88307efe.css"
+    ]
+  },
+  "_ProfilePictureUpdater.vue_vue_type_style_index_0_lang-a4b37d68.js": {
+    "file": "assets/ProfilePictureUpdater.vue_vue_type_style_index_0_lang-a4b37d68.js",
+    "imports": [
+      "_vendor-4d8d9704.js",
+      "src/main.ts"
+    ],
+    "css": [
+      "assets/ProfilePictureUpdater-e98c3e38.css"
+    ]
+  },
   "_vendor-4d8d9704.js": {
     "file": "assets/vendor-4d8d9704.js",
     "css": [
@@ -154,7 +154,7 @@
     ]
   },
   "src/main.ts": {
-    "file": "assets/main-ddb67970.js",
+    "file": "assets/main-6eeaa9f0.js",
     "src": "src/main.ts",
     "isEntry": true,
     "imports": [

@@ -1,0 +1,2 @@
+import{_ as c}from"./ProductDetailForm.vue_vue_type_script_setup_true_lang-4b01538f.js";import{_ as n,aj as _,X as s,o as m,t as d,w as t,a as o}from"./vendor-4d8d9704.js";import"./ACurrencyInput.vue_vue_type_script_setup_true_lang-2e2bd293.js";import"./lodash-c57cc56e.js";import"./main-6eeaa9f0.js";const i={};function p(f,l){const e=c,a=_,r=s;return m(),d(r,{title:"New Product"},{default:t(()=>[o(a,null,{default:t(()=>[o(e)]),_:1})]),_:1})}const h=n(i,[["render",p]]);export{h as default};
+//# sourceMappingURL=new-8aa9d3e8.js.map
