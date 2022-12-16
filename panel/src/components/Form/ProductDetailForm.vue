@@ -37,7 +37,9 @@ const router = useRouter();
 const form = reactive({ ...initForm });
 const invalidFeedbacks = reactive({ ...initInvalidFeedbacks });
 const categories = ref<Category[]>([]);
+const categoryStatus = ref<null | string>('loading');
 const tags = ref<Tag[]>([]);
+const tagsStatus = ref<null | string>(null);
 const loading = reactive({
   form: false,
   search: false,
@@ -46,10 +48,16 @@ const loading = reactive({
 axios.get('categories')
   .then((res) => {
     categories.value = res.data;
+    categoryStatus.value = null;
+  })
+  .catch(() => {
+    categoryStatus.value = 'error';
   });
 
 const searchTag = useDebounceFn((search: string) => {
+  tagsStatus.value = 'loading';
   if (search.length === 0) {
+    tagsStatus.value = null;
     tags.value = [];
     return;
   }
@@ -71,6 +79,10 @@ const searchTag = useDebounceFn((search: string) => {
     } else {
       tags.value = tags.value.filter(x => !!x.id);
     }
+
+    tagsStatus.value = null;
+  }).catch(() => {
+    tagsStatus.value = 'error';
   }).finally(() => {
     loading.search = false;
   });
@@ -93,8 +105,12 @@ async function handleSubmit() {
     toast.success('Product created');
     router.push(`/products/${res.data.id}`);
   } catch (e: unknown) {
-    if (e instanceof AxiosError<ApiInvalidFeedback>)
-      Object.assign(invalidFeedbacks, e.response!.data.errors);
+    if (e instanceof AxiosError<ApiInvalidFeedback>) {
+      if (e.response?.status === 422)
+        Object.assign(invalidFeedbacks, e.response.data.errors);
+      else
+        toast.error(e.message);
+    }
   } finally {
     loading.form = false;
   }
@@ -159,6 +175,8 @@ if (props.id)
           item-value="id" label="Category"
           :error="!!invalidFeedbacks.category_id"
           :error-messages="invalidFeedbacks.category_id"
+          :no-data-text="categoryStatus === 'error' ? 'Error fetching data' : 'No data'"
+          :loading="categoryStatus === 'loading'"
         />
         <VAutocomplete
           v-model="form.tags" :items="tags" multiple label="Tags"

@@ -1,4 +1,5 @@
-<script setup lang="ts">
+<script setup lang="tsx">
+import type { AxiosError } from 'axios';
 import { pick } from 'lodash';
 
 const props = defineProps<{
@@ -11,6 +12,7 @@ const state = reactive<{
   thumbnail_id: null,
   images: [],
 });
+const toast = useToast();
 const fileHovering = ref(false);
 
 function fileDragging(e: DragEvent) {
@@ -59,6 +61,18 @@ function addImages(images: FileList) {
   axios.post<ProductImage[]>(`products/${props.id}/images`, formData)
     .then((res) => {
       state.images.push(...res.data);
+    })
+    .catch((res: AxiosError<ApiInvalidFeedback>) => {
+      if (res.response?.status === 422) {
+        if (Array.isArray(res.response.data.errors)) {
+          return toast.error(<div class="ml-5">
+            <ul>
+              { res.response.data.errors.map(x => <li>{x}</li>) }
+            </ul>
+          </div>);
+        }
+      }
+      toast.error(res.message);
     });
 }
 

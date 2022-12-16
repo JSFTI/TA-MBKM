@@ -26,10 +26,14 @@ const emit = defineEmits<{
 const filters = reactive(cloneDeep(props.filters));
 const selectableCategories = ref<Category[]>([]);
 const selectableTags = ref<Tag[]>([]);
+const tagsStatus = ref<null | string>(null);
+const categoryStatus = ref<null | string>('loading');
 
 const searchTags = useDebounceFn((v: string) => {
+  tagsStatus.value = 'loading';
   if (v.length === 0) {
     selectableTags.value = [];
+    tagsStatus.value = null;
     return;
   }
   axios.get<Tag[]>('tags', {
@@ -39,6 +43,9 @@ const searchTags = useDebounceFn((v: string) => {
     },
   }).then((res) => {
     selectableTags.value = res.data.filter(x => !filters.tags?.includes(x.name!));
+    tagsStatus.value = null;
+  }).catch(() => {
+    tagsStatus.value = 'error';
   });
 }, 200);
 
@@ -61,6 +68,10 @@ function handleSubmit() {
 axios.get('categories')
   .then((res) => {
     selectableCategories.value = res.data;
+    categoryStatus.value = null;
+  })
+  .catch(() => {
+    categoryStatus.value = 'error';
   });
 
 const priceMin = computed({
@@ -140,7 +151,8 @@ const filled = computed(() => {
         v-model="filters.categories" class="w-full md:w-1/2"
         multiple :items="selectableCategories"
         closable-chips item-title="name" item-value="name" label="Category"
-        chips clearable hide-details
+        chips clearable hide-details :loading="categoryStatus === 'loading'"
+        :no-data-text="categoryStatus === 'error' ? 'Error fetching data' : 'No data'"
       >
         <template #chip="{ props: p, item }">
           <VChip
@@ -153,7 +165,8 @@ const filled = computed(() => {
         v-model="filters.tags" class="w-full md:w-1/2"
         :items="selectableTags" closable-chips
         multiple item-title="name" item-value="name" clearable
-        label="Tags" chips hide-details @update:search="searchTags"
+        label="Tags" chips hide-details :loading="tagsStatus === 'loading'"
+        :no-data-text="tagsStatus === 'error' ? 'Error fetching data' : 'No Data'" @update:search="searchTags"
       >
         <template #chip="{ props: p, item }">
           <VChip

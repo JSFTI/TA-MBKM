@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Category;
 use App\Models\Tag;
 
 defined('BASEPATH') OR exit('No direct script access allowed');

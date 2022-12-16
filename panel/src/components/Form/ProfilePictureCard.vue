@@ -1,6 +1,8 @@
-<script setup lang="ts">
+<script setup lang="tsx">
+import type { AxiosError } from 'axios';
 import { useUser } from '~/stores/useUser';
 
+const toast = useToast();
 const user = useUser();
 const picture = ref<File | null>(null);
 const original = ref<File | null>(null);
@@ -26,6 +28,18 @@ function handleSaveImage(file: File | null) {
     .then((res) => {
       user.profile_picture = res.data.profile_picture;
       picture.value = file;
+    })
+    .catch((res: AxiosError<ApiInvalidFeedback>) => {
+      if (res.response?.status === 422) {
+        if (Array.isArray(res.response.data.errors)) {
+          return toast.error(<div class="ml-5">
+            <ul>
+              { res.response.data.errors.map(x => <li>{x}</li>) }
+            </ul>
+          </div>);
+        }
+      }
+      toast.error(res.message);
     });
 }
 </script>

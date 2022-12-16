@@ -21,6 +21,7 @@ const initInvalidFeedbacks = {
   repeatPassword: '',
 };
 
+const toast = useToast();
 const loading = ref(false);
 const form = reactive({ ...defaultValues });
 const invalidFeedbacks = reactive({ ...initInvalidFeedbacks });
@@ -29,6 +30,7 @@ const shows = reactive({
   repeatPassword: false,
 });
 const roles = ref<Role[]>([]);
+const rolesStatus = ref<null | string>('loading');
 
 function handleSubmit() {
   loading.value = true;
@@ -38,7 +40,10 @@ function handleSubmit() {
       emit('submitted', res.data);
     })
     .catch((res: AxiosError<ApiInvalidFeedback>) => {
-      Object.assign(invalidFeedbacks, res.response!.data.errors);
+      if (res.response?.status === 422)
+        return Object.assign(invalidFeedbacks, res.response!.data.errors);
+
+      toast.error(res.message);
     })
     .finally(() => {
       loading.value = false;
@@ -48,6 +53,10 @@ function handleSubmit() {
 axios.get<Role[]>('roles')
   .then((res) => {
     roles.value = res.data;
+    rolesStatus.value = null;
+  })
+  .catch(() => {
+    rolesStatus.value = 'error';
   });
 </script>
 
@@ -72,6 +81,8 @@ axios.get<Role[]>('roles')
         label="Role"
         :error="!!invalidFeedbacks.role_id"
         :error-messages="invalidFeedbacks.role_id"
+        :no-data-text="rolesStatus === 'error' ? 'Error fetching data' : 'No data'"
+        :loading="rolesStatus === 'loading'"
       />
       <VTextField
         id="new-password"

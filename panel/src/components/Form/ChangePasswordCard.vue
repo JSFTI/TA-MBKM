@@ -30,7 +30,10 @@ function handleSubmit() {
       Object.assign(form, initialInvalids);
     })
     .catch((res: AxiosError<ApiInvalidFeedback>) => {
-      Object.assign(invalidFeedbacks, res.response!.data.errors);
+      if (res.response?.status === 422)
+        return Object.assign(invalidFeedbacks, res.response!.data.errors);
+
+      toast.error(res.message);
     })
     .finally(() => {
       loading.value = false;

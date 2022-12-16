@@ -57,6 +57,7 @@ const table = useVueTable({
 
 function getData() {
   loading.value = true;
+  error.value = false;
   axios.get('users', { params: router.currentRoute.value.query })
     .then((res) => {
       data.value = res.data;
